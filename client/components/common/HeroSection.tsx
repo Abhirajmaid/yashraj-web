@@ -1,62 +1,63 @@
 import Image from "next/image";
-import { IconBadge } from "./IconBadge";
+import Link from "next/link";
 import { Logo } from "./Logo";
 import { Navigation } from "./Navigation";
 import { PrimaryButton } from "./PrimaryButton";
-
 export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative isolate overflow-hidden bg-[#0F76F4] text-white"
+      className="relative isolate min-h-screen overflow-hidden bg-black text-[#0E0E0E]"
     >
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0F76F4] via-[#0F6AE0] to-[#0E5BC6]" />
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col gap-16 px-6 pb-24 pt-10 sm:pt-12 lg:px-10 xl:px-14">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div className="absolute inset-0">
+        <Image
+          src="/yashrajhero1.jpg"
+          alt="Bridge architecture at dusk"
+          fill
+          priority
+          quality={100}
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+      </div>
+      <header className="relative z-20 px-6 pt-6">
+        <div className="mx-auto flex w-full max-w-6xl items-center gap-6">
           <Logo />
-          <Navigation />
+          <div className="flex flex-1 justify-center">
+            <Navigation />
+          </div>
+          <Link
+            href="/contact"
+            className="rounded-full bg-[#D2FDFF] px-5 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-[#0E0E0E] shadow-[0_10px_24px_rgba(14,14,14,0.18)] transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D2FDFF]"
+          >
+            Contact us
+          </Link>
         </div>
-        <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr),minmax(0,1.15fr)] lg:items-end">
-          <div className="flex flex-col gap-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">
-              Architecture Studio
-            </p>
-            <h1 className="text-5xl font-semibold leading-none tracking-tight sm:text-6xl lg:text-7xl xl:text-[6.5rem]">
-              Altuz Lab
-            </h1>
-            <p className="max-w-lg text-lg leading-relaxed text-white/80">
-              Bring your architectural projects to life with a template that
-              puts your work front and center.
-            </p>
-            <PrimaryButton href="/projects">Get started</PrimaryButton>
-          </div>
-          <div className="relative">
-            <div className="relative mx-auto max-w-[560px] overflow-hidden rounded-[40px] border border-white/20 bg-white/10 p-3 shadow-[0_40px_80px_rgba(15,50,120,0.45)]">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[32px]">
-                <Image
-                  src="/hero-building.svg"
-                  alt="Modern glass building"
-                  fill
-                  priority
-                  className="object-cover"
-                />
-              </div>
-            </div>
-            <IconBadge
-              icon="/globe.svg"
-              alt="Global reach"
-              className="absolute -top-8 left-16"
-            />
-            <IconBadge
-              icon="/window.svg"
-              alt="Project window"
-              className="absolute top-1/2 right-8 -translate-y-1/2"
-            />
-          </div>
+      </header>
+      <div className="relative z-10 flex min-h-screen flex-col items-center px-6 pb-16 pt-[20vh] sm:items-start">
+        <div className="relative isolate text-center text-[#0E0E0E] sm:text-left">
+          <div className="pointer-events-none absolute -inset-x-16 -top-24 h-[45vh] bg-gradient-to-b from-[#D2FDFF]/12 via-transparent to-transparent blur-[110px]" />
+          <h1 className="relative text-5xl font-semibold uppercase tracking-[0.2em] sm:text-[4.75rem] lg:text-[6.5rem]">
+            YASHRAJ
+          </h1>
+        </div>
+        <div className="mt-10 w-full max-w-md space-y-6 text-center text-[#0E0E0E]/80 sm:text-left">
+          <p className="text-base leading-relaxed">
+            Yashraj Constructions delivers iconic bridges and contemporary urban
+            landmarks crafted with engineering excellence and bold design.
+          </p>
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-3 rounded-full bg-[#D2FDFF] px-5 py-2 text-sm font-semibold text-[#0E0E0E] shadow-[0_12px_24px_rgba(14,14,14,0.2)] transition hover:-translate-y-0.5 hover:bg-white"
+          >
+            <span className="tracking-[0.1em]">Get started</span>
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-[#0E0E0E] text-white">
+              ↗
+            </span>
+          </Link>
         </div>
       </div>
-      <div className="pointer-events-none absolute -left-24 top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
-      <div className="pointer-events-none absolute -right-20 bottom-12 h-72 w-72 rounded-full bg-blue-300/20 blur-3xl" />
     </section>
   );
 }
