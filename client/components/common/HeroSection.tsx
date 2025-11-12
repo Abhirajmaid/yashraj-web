@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Navigation } from "./Navigation";
+import { PrimaryButton } from "./PrimaryButton";
 export function HeroSection() {
   return (
     <section
