@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useRef } from "react";
 import { SectionHeader } from "./SectionHeader";
 import { TestimonialCard } from "./TestimonialCard";
 
@@ -38,11 +40,82 @@ const testimonials = [
     imageSrc: "https://i.pravatar.cc/150?img=5",
     imageAlt: "Portrait of Luis Ortega",
   },
+  {
+    title: "Excellence in execution",
+    quote:
+      "The quality of work and professionalism displayed by Yashraj Constructions exceeded all our expectations. They transformed our vision into a stunning reality.",
+    author: "Sarah Chen",
+    role: "CEO, Urban Dynamics",
+    imageSrc: "https://i.pravatar.cc/150?img=47",
+    imageAlt: "Portrait of Sarah Chen",
+  },
+  {
+    title: "Timely delivery",
+    quote:
+      "What impressed us most was their ability to deliver on time without compromising quality. Every milestone was met with precision and excellence.",
+    author: "Rajesh Kumar",
+    role: "Project Manager, Metro Builders",
+    imageSrc: "https://i.pravatar.cc/150?img=33",
+    imageAlt: "Portrait of Rajesh Kumar",
+  },
+  {
+    title: "Innovative solutions",
+    quote:
+      "Yashraj Constructions brought fresh perspectives and innovative solutions to every challenge. Their expertise in modern construction techniques is unmatched.",
+    author: "Emily Johnson",
+    role: "Director, Green Architecture",
+    imageSrc: "https://i.pravatar.cc/150?img=20",
+    imageAlt: "Portrait of Emily Johnson",
+  },
+  {
+    title: "Outstanding partnership",
+    quote:
+      "Working with Yashraj Constructions has been a true partnership. They listened to our needs, provided expert guidance, and delivered beyond our expectations.",
+    author: "Michael Brown",
+    role: "Founder, Tech Spaces Inc",
+    imageSrc: "https://i.pravatar.cc/150?img=51",
+    imageAlt: "Portrait of Michael Brown",
+  },
 ];
 
 export function TestimonialsSection() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const scroll = () => {
+      const firstCard = container.firstElementChild as HTMLElement;
+      if (!firstCard) return;
+
+      const cardWidth = firstCard.offsetWidth;
+      const gap = 24; // gap-6 = 24px
+      const scrollAmount = cardWidth + gap;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+
+      if (container.scrollLeft >= maxScroll - 10) {
+        // Reset to start when reaching the end
+        container.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      } else {
+        // Scroll to next card
+        container.scrollBy({
+          left: scrollAmount,
+          behavior: "smooth",
+        });
+      }
+    };
+
+    const autoScroll = setInterval(scroll, 4000); // Auto-swipe every 4 seconds
+
+    return () => clearInterval(autoScroll);
+  }, []);
+
   return (
-    <section className="relative isolate overflow-hidden bg-[#D2FDFF] py-24 text-[#0E0E0E]">
+    <section className="relative isolate overflow-hidden bg-[#FFD700] py-24 text-[#0E0E0E]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(14,14,14,0.12),transparent_55%)]" />
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-12 px-6 lg:px-10 xl:px-14">
         <SectionHeader
@@ -53,12 +126,33 @@ export function TestimonialsSection() {
           titleClassName="text-[#0E0E0E]"
           descriptionClassName="text-[#0E0E0E]/70 max-w-2xl"
         />
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
           {testimonials.map((testimonial) => (
-            <TestimonialCard key={testimonial.author} {...testimonial} />
+            <div
+              key={testimonial.author}
+              className="flex-shrink-0 snap-start"
+              style={{
+                width: "calc((100% - 72px) / 4)",
+                minWidth: "calc((100% - 72px) / 4)",
+              }}
+            >
+              <TestimonialCard {...testimonial} />
+            </div>
           ))}
         </div>
       </div>
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }

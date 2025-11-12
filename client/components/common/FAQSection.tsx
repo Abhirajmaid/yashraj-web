@@ -10,7 +10,7 @@ export function FAQSection() {
   return (
     <section
       id="faq"
-      className="relative isolate overflow-hidden bg-[#D2FDFF] py-24 text-[#0E0E0E]"
+      className="relative isolate overflow-hidden bg-[#FFD700] py-24 text-[#0E0E0E]"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(14,14,14,0.08),transparent_65%)]" />
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col gap-10 px-6 lg:px-8">

@@ -21,7 +21,7 @@ export function BlogCard({
   tag = "Feature blog",
 }: BlogCardProps) {
   return (
-    <article className="flex h-full flex-col gap-4 rounded-[28px] border border-[#D2FDFF]/30 bg-white/80 p-4 text-[#0E0E0E] shadow-[0_18px_45px_rgba(14,14,14,0.12)] backdrop-blur transition hover:-translate-y-2 hover:shadow-[0_24px_65px_rgba(14,14,14,0.16)]">
+    <article className="flex h-full flex-col gap-4 rounded-[28px] border border-[#FFD700]/30 bg-white/80 p-4 text-[#0E0E0E] shadow-[0_18px_45px_rgba(14,14,14,0.12)] backdrop-blur transition hover:-translate-y-2 hover:shadow-[0_24px_65px_rgba(14,14,14,0.16)]">
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[22px]">
         <Image
           src={imageSrc}

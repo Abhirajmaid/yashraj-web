@@ -24,7 +24,7 @@ export function ProjectCard({
   return (
     <Link
       href={href}
-      className="group relative block overflow-hidden rounded-[28px] shadow-[0_28px_60px_rgba(14,14,14,0.25)] transition-transform hover:-translate-y-2 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D2FDFF]"
+      className="group relative block overflow-hidden rounded-[28px] shadow-[0_28px_60px_rgba(14,14,14,0.25)] transition-transform hover:-translate-y-2 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFD700]"
     >
       <div className="relative isolate aspect-[4/3] w-full">
         <Image
@@ -41,12 +41,12 @@ export function ProjectCard({
             ↗
           </span>
         </div>
-        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 px-6 pb-6 text-[#D2FDFF]">
+        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 px-6 pb-6 text-[#FFD700]">
           <p className="text-lg font-semibold">{title}</p>
-          <div className="text-xs uppercase tracking-[0.25em] text-[#D2FDFF]/70">
+          <div className="text-xs uppercase tracking-[0.25em] text-[#FFD700]/70">
             Completion: {completion}
           </div>
-          <div className="text-sm text-[#D2FDFF]/85">{location}</div>
+          <div className="text-sm text-[#FFD700]/85">{location}</div>
         </div>
       </div>
     </Link>

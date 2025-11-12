@@ -30,7 +30,7 @@ export function SectionHeader({
     <div className={`flex flex-col gap-4 ${alignment} ${className ?? ""}`}>
       {eyebrow ? (
         <p
-          className={`text-xs font-semibold uppercase tracking-[0.35em] text-[#D2FDFF]/75 ${eyebrowClassName ?? ""}`}
+          className={`text-xs font-semibold uppercase tracking-[0.35em] text-[#FFD700]/75 ${eyebrowClassName ?? ""}`}
         >
           {eyebrow}
         </p>

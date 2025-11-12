@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { IconBadge } from "./IconBadge";
 import { PrimaryButton } from "./PrimaryButton";
 import { SectionHeader } from "./SectionHeader";
 import { StatsGrid } from "./StatsGrid";
@@ -44,16 +43,6 @@ export function ShowcaseSection() {
                   />
                 </div>
               </div>
-              <IconBadge
-                icon="/globe.svg"
-                alt="Global reach"
-                className="absolute -top-7 left-20 shadow-[0_15px_28px_rgba(15,23,42,0.22)]"
-              />
-              <IconBadge
-                icon="/window.svg"
-                alt="Project window"
-                className="absolute top-1/2 right-[-26px] -translate-y-1/2 shadow-[0_15px_28px_rgba(15,23,42,0.22)]"
-              />
             </div>
           </div>
         </div>
