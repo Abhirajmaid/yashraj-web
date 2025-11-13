@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { Icon } from "@iconify/react";
 
 type ProjectCardProps = {
   href: string;
@@ -38,7 +39,11 @@ export function ProjectCard({
         <div className="absolute right-5 top-5 flex items-center gap-3">
           {badge}
           <span className="grid h-11 w-11 place-items-center rounded-full bg-[#f21b29] text-xl text-white shadow-[0_12px_24px_rgba(242,27,41,0.32)] transition-transform group-hover:-translate-y-1">
-            ↗
+            <Icon 
+              icon="solar:arrow-right-up-bold" 
+              className="text-xl"
+              style={{ transform: 'rotate(45deg)' }}
+            />
           </span>
         </div>
         <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 px-6 pb-6 text-[#FFD700]">

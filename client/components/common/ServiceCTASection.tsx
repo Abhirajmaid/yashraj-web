@@ -28,7 +28,7 @@ export function ServiceCTASection() {
               <div className="space-y-2">
                 <div className="inline-flex items-center gap-2 rounded-full border border-[#FFD700]/30 bg-[#FFD700]/10 px-3 py-1 backdrop-blur-sm">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#FFD700] animate-pulse" />
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#FFD700]">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#FFD700]">
                     Premium Services
                   </p>
                 </div>
@@ -49,19 +49,19 @@ export function ServiceCTASection() {
             <div className="flex flex-col gap-4">
               {/* Specialty Section */}
               <div className="space-y-2.5 rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FFD700]">
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#FFD700]">
                   Our Specialty
                 </p>
                 <ul className="space-y-2">
                   {[
-                    "ARCHITECTURAL RENOVATIONS",
-                    "LUXURY INTERIOR DESIGN",
-                    "WORKPLACE TRANSFORMATIONS",
-                    "TURNKEY PROJECT DELIVERY",
+                    "Architectural Renovations",
+                    "Luxury Interior Design",
+                    "Workplace Transformations",
+                    "Turnkey Project Delivery",
                   ].map((item, index) => (
                     <li
                       key={index}
-                      className="flex items-center gap-2 text-xs font-medium tracking-[0.1em] text-white/90 transition hover:text-[#FFD700]"
+                      className="flex items-center gap-2 text-xs font-medium tracking-[0.08em] text-white/90 transition hover:text-[#FFD700]"
                     >
                       <div className="h-1 w-1 rounded-full bg-[#FFD700]" />
                       {item}
@@ -71,21 +71,21 @@ export function ServiceCTASection() {
               </div>
 
               {/* CTA Card */}
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#FFD700] to-[#FFE55C] p-5 shadow-[0_20px_50px_rgba(255,215,0,0.3)] transition-all hover:shadow-[0_25px_60px_rgba(255,215,0,0.4)]">
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#FFD700] to-[#FFE55C] p-4 shadow-[0_20px_50px_rgba(255,215,0,0.3)] transition-all hover:shadow-[0_25px_60px_rgba(255,215,0,0.4)]">
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                <div className="relative flex flex-col gap-3">
-                  <p className="text-sm font-bold leading-snug text-[#0E0E0E] lg:text-base">
+                <div className="relative flex items-center justify-between gap-4">
+                  <p className="text-sm font-bold leading-snug text-[#0E0E0E] lg:text-base flex-1">
                     Let's plan a consultation tailored to your vision.
                   </p>
                   <Link
                     href="/contact"
-                    className="group/btn inline-flex w-fit items-center gap-2 rounded-full bg-[#0E0E0E] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[0_12px_30px_rgba(14,14,14,0.4)] transition-all hover:-translate-y-1 hover:bg-[#1a1a1a] hover:shadow-[0_16px_40px_rgba(14,14,14,0.5)] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700]"
+                    className="group/btn flex-shrink-0 inline-flex items-center gap-2 rounded-full bg-[#0E0E0E] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-white shadow-[0_12px_30px_rgba(14,14,14,0.4)] transition-all hover:-translate-y-1 hover:bg-[#1a1a1a] hover:shadow-[0_16px_40px_rgba(14,14,14,0.5)] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700]"
                   >
                     <span>Schedule a Call</span>
                     <Icon
-                      icon="solar:arrow-right-bold"
+                      icon="solar:arrow-right-up-bold"
                       className="text-base transition-transform group-hover/btn:translate-x-1"
-                      style={{ fontSize: "16px" }}
+                      style={{ fontSize: "16px", transform: 'rotate(45deg)' }}
                     />
                   </Link>
                 </div>

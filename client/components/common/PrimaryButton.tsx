@@ -64,9 +64,9 @@ export function PrimaryButton({
           className={`grid ${iconSizeClasses[size]} place-items-center rounded-full transition ${iconVariants[variant]}`}
         >
           <Icon 
-            icon="solar:arrow-right-bold" 
+            icon="solar:arrow-right-up-bold" 
             className="text-lg"
-            style={{ fontSize: '20px' }}
+            style={{ fontSize: '20px', transform: 'rotate(45deg)' }}
           />
         </span>
       ) : null}

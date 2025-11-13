@@ -139,7 +139,7 @@ export function ProjectsSection() {
               <button
                 onClick={() => scroll("prev")}
                 disabled={!canScrollPrev}
-                className="inline-flex items-center gap-3 rounded-full bg-[#FFD700] px-5 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-[#0E0E0E] shadow-[0_12px_28px_rgba(14,14,14,0.22)] transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                className="inline-flex items-center gap-3 rounded-full bg-[#FFD700] px-5 py-3 text-sm font-semibold uppercase tracking-[0.15em] text-[#0E0E0E] shadow-[0_12px_28px_rgba(14,14,14,0.22)] transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
                 <span className="text-xl">←</span>
                 Previous
@@ -147,7 +147,7 @@ export function ProjectsSection() {
               <button
                 onClick={() => scroll("next")}
                 disabled={!canScrollNext}
-                className="inline-flex items-center gap-3 rounded-full bg-[#FFD700] px-5 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-[#0E0E0E] shadow-[0_12px_28px_rgba(14,14,14,0.22)] transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                className="inline-flex items-center gap-3 rounded-full bg-[#FFD700] px-5 py-3 text-sm font-semibold uppercase tracking-[0.15em] text-[#0E0E0E] shadow-[0_12px_28px_rgba(14,14,14,0.22)] transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
                 Next
                 <span className="text-xl">→</span>

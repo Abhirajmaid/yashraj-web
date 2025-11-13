@@ -23,7 +23,7 @@ export function PartnersSection() {
                   className="max-h-20 w-auto object-contain opacity-85 transition group-hover:opacity-100"
                 />
               </div>
-              <p className="text-xl font-semibold uppercase tracking-[0.2em] text-[#FFD700]">
+              <p className="text-xl font-semibold uppercase tracking-[0.1em] text-[#FFD700]">
                 PMC
               </p>
             </div>

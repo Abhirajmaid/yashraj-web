@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Icon } from "@iconify/react";
 
 type BlogCardProps = {
   href: string;
@@ -29,12 +30,12 @@ export function BlogCard({
           fill
           className="object-cover"
         />
-        <span className="absolute left-4 top-4 inline-flex items-center rounded-full bg-white/70 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-[#0E0E0E] backdrop-blur">
+        <span className="absolute left-4 top-4 inline-flex items-center rounded-full bg-white/70 px-3 py-1 text-xs font-medium uppercase tracking-[0.15em] text-[#0E0E0E] backdrop-blur">
           {tag}
         </span>
       </div>
       <div className="flex flex-col gap-3">
-        <time className="text-xs uppercase tracking-[0.25em] text-[#0E0E0E]/60">
+        <time className="text-xs uppercase tracking-[0.15em] text-[#0E0E0E]/60">
           {date}
         </time>
         <h3 className="text-lg font-semibold leading-snug">{title}</h3>
@@ -42,10 +43,14 @@ export function BlogCard({
       </div>
       <Link
         href={href}
-        className="mt-2 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.25em] text-[#f21b29] transition hover:gap-3"
+        className="mt-2 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.15em] text-[#f21b29] transition hover:gap-3"
       >
         Read more
-        <span className="text-sm">↗</span>
+        <Icon 
+          icon="solar:arrow-right-up-bold" 
+          className="text-sm"
+          style={{ transform: 'rotate(45deg)' }}
+        />
       </Link>
     </article>
   );

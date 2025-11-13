@@ -22,13 +22,13 @@ export function ConnectMarquee() {
               {iteration.map((_, idx) => (
                 <span
                   key={`${outerIdx}-${idx}`}
-                  className="flex items-center gap-3 whitespace-nowrap text-xl font-black uppercase tracking-[0.4em] transition group-hover:translate-y-[-1px] lg:text-2xl"
+                  className="flex items-center gap-3 whitespace-nowrap text-xl font-black uppercase tracking-[0.2em] transition group-hover:translate-y-[-1px] lg:text-2xl"
                 >
                   Connect with us
                   <Icon 
-                    icon="solar:arrow-right-bold" 
+                    icon="solar:arrow-right-up-bold" 
                     className="text-2xl lg:text-3xl"
-                    style={{ fontSize: '28px' }}
+                    style={{ fontSize: '28px', transform: 'rotate(45deg)' }}
                   />
                 </span>
               ))}

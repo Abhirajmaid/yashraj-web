@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Icon } from "@iconify/react";
 import { BlogCard } from "./BlogCard";
 import { SectionHeader } from "./SectionHeader";
 
@@ -50,10 +51,14 @@ export function FeatureBlogsSection() {
           />
           <Link
             href="/blog"
-            className="inline-flex items-center gap-3 rounded-full bg-[#0E0E0E] px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-white shadow-[0_18px_40px_rgba(14,14,14,0.2)] transition hover:-translate-y-1 hover:bg-[#1a1a1a] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0E0E0E]"
+            className="inline-flex items-center gap-3 rounded-full bg-[#0E0E0E] px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white shadow-[0_18px_40px_rgba(14,14,14,0.2)] transition hover:-translate-y-1 hover:bg-[#1a1a1a] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0E0E0E]"
           >
             See more
-            <span className="text-base">→</span>
+            <Icon 
+              icon="solar:arrow-right-up-bold" 
+              className="text-base"
+              style={{ transform: 'rotate(45deg)' }}
+            />
           </Link>
         </div>
 

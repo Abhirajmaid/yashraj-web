@@ -29,7 +29,7 @@ export function HeroSection() {
           </div>
           <Link
             href="/contact"
-            className="rounded-full bg-[#FFD700] px-5 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-[#0E0E0E] shadow-[0_10px_24px_rgba(14,14,14,0.18)] transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700]"
+            className="rounded-full bg-[#FFD700] px-5 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-[#0E0E0E] shadow-[0_10px_24px_rgba(14,14,14,0.18)] transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700]"
           >
             Contact us
           </Link>

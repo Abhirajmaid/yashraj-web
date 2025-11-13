@@ -48,14 +48,14 @@ export function Footer() {
               Bringing architectural visions to life with bold design, precise
               engineering, and a commitment to timeless quality.
             </p>
-            <p className="text-xs uppercase tracking-[0.35em] text-[#FFD700]/50">
+            <p className="text-xs uppercase tracking-[0.18em] text-[#FFD700]/50">
               © {new Date().getFullYear()} Yashraj Constructions. All rights reserved.
             </p>
           </div>
           <div className="grid gap-8 sm:grid-cols-3">
             {footerColumns.map((column) => (
               <div key={column.heading} className="space-y-4">
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#FFD700]/70">
+                <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#FFD700]/70">
                   {column.heading}
                 </p>
                 <ul className="space-y-3 text-sm text-[#FFD700]/80">

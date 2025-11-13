@@ -38,7 +38,7 @@ export function TestimonialCard({
       <div className="mt-auto">
         <p className="text-sm font-semibold">{author}</p>
         {role ? (
-          <p className="text-xs uppercase tracking-[0.3em] text-[#0E0E0E]/55">
+          <p className="text-xs uppercase tracking-[0.15em] text-[#0E0E0E]/55">
             {role}
           </p>
         ) : null}
