@@ -1,4 +1,5 @@
 export type BlogPost = {
+  slug: string;
   href: string;
   title: string;
   date: string;
@@ -10,6 +11,7 @@ export type BlogPost = {
 
 export const blogs: BlogPost[] = [
   {
+    slug: "green-space-revolution",
     href: "/blogs/green-space-revolution",
     title: "The Green Space Revolution: Is the 'Living Building' the Future of Cities?",
     date: "October 4, 2024",
@@ -19,6 +21,7 @@ export const blogs: BlogPost[] = [
     tag: "Feature blog",
   },
   {
+    slug: "riverfront-hub",
     href: "/blogs/riverfront-hub",
     title: "Riverfront Hub: Designing multi-use spaces for tomorrow's communities.",
     date: "October 4, 2024",
@@ -28,6 +31,7 @@ export const blogs: BlogPost[] = [
     tag: "Feature blog",
   },
   {
+    slug: "modular-megacity",
     href: "/blogs/modular-megacity",
     title: "Modular Megacity: The rise of adaptable architecture for growing metros.",
     date: "October 4, 2024",
@@ -37,6 +41,7 @@ export const blogs: BlogPost[] = [
     tag: "Feature blog",
   },
   {
+    slug: "concept-to-creation",
     href: "/blogs/concept-to-creation",
     title: "From Concept to Creation: The Architectural Design Process Explained",
     date: "October 4, 2024",
@@ -46,6 +51,7 @@ export const blogs: BlogPost[] = [
     tag: "Feature blog",
   },
   {
+    slug: "sustainable-construction",
     href: "/blogs/sustainable-construction",
     title: "Sustainable Construction: Building for a Better Tomorrow",
     date: "October 4, 2024",
@@ -55,6 +61,7 @@ export const blogs: BlogPost[] = [
     tag: "Feature blog",
   },
   {
+    slug: "urban-planning",
     href: "/blogs/urban-planning",
     title: "Urban Planning in the 21st Century: Balancing Growth and Sustainability",
     date: "October 4, 2024",

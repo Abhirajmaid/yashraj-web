@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Logo } from "./Logo";
-import { Navigation } from "./Navigation";
 import { BlogCarouselCard } from "./BlogCarouselCard";
 import { ConnectMarquee } from "./ConnectMarquee";
 import { Icon } from "@iconify/react";
@@ -58,26 +56,12 @@ export function BlogsHeroSection() {
   return (
     <section
       id="blogs"
+      data-hero-root
       className="relative isolate min-h-screen overflow-hidden bg-[#0E0E0E] text-white"
     >
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0E0E0E] via-[#0E0E0E] to-[#0E0E0E]/95" />
       </div>
-
-      <header className="relative z-20 px-6 pt-6">
-        <div className="mx-auto flex w-full max-w-6xl items-center gap-6">
-          <Logo />
-          <div className="flex flex-1 justify-center">
-            <Navigation />
-          </div>
-          <Link
-            href="/contact"
-            className="rounded-full bg-[#FFD700] px-5 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-[#0E0E0E] shadow-[0_10px_24px_rgba(14,14,14,0.18)] transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700]"
-          >
-            Contact us
-          </Link>
-        </div>
-      </header>
 
       <div className="relative z-10 flex min-h-screen flex-col px-6 pb-16 pt-[15vh]">
         <div className="mx-auto w-full max-w-7xl">
