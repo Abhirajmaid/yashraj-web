@@ -1,19 +1,13 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { SiteHeader } from '@/components/common/SiteHeader';
+import Link from "next/link";
 import { FAQSection } from '@/components/common/FAQSection';
 import { Footer } from '@/components/common/Footer';
 
 export default function ContactPage() {
   return (
     <main className="bg-[#0F76F4] text-[#0E0E0E]">
-      <SiteHeader
-        backgroundClassName="border-b border-[#D2FDFF]/20 bg-[#031B4E]/80 backdrop-blur"
-        contactHref="#contact-form"
-      />
-
-      <section className="relative isolate overflow-hidden">
+      <section className="relative isolate overflow-hidden pt-12 sm:pt-14" data-hero-root>
         <img
           src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80"
           alt="Modern home exterior"

@@ -1,7 +1,6 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { SiteHeader } from '@/components/common/SiteHeader';
+import Link from "next/link";
 import { ServiceCTASection } from '@/components/common/ServiceCTASection';
 import { Footer } from '@/components/common/Footer';
 import { FAQSection } from '@/components/common/FAQSection';
@@ -62,10 +61,8 @@ const serviceFeatures = [
 export default function ServicesPage() {
   return (
     <main className="bg-white text-[#031B4E]">
-      <SiteHeader backgroundClassName="border-b border-[#0F76F4]/20 bg-[#031B4E]/80 backdrop-blur" />
-
       {/* Hero Section with Blue Sky and Concrete Background */}
-      <section className="relative min-h-[80vh] overflow-hidden">
+      <section className="relative min-h-[80vh] overflow-hidden" data-hero-root>
         {/* Blue Sky Background - Upper Half */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#87CEEB] via-[#5BA3D0] to-[#4A90C2]" />
 

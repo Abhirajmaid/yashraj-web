@@ -1,7 +1,6 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { SiteHeader } from '@/components/common/SiteHeader';
+import Link from "next/link";
 import { FAQSection } from '@/components/common/FAQSection';
 import { Footer } from '@/components/common/Footer';
 
@@ -62,9 +61,7 @@ const partnerBadges = ['M', 'D', 'X', 'G', 'S'];
 export default function AboutUsPage() {
   return (
     <main className="bg-white text-[#031B4E]">
-      <SiteHeader backgroundClassName="border-b border-[#0F76F4]/20 bg-[#031B4E]/80 backdrop-blur" />
-
-      <section className="relative overflow-hidden bg-[#031B4E] text-white">
+      <section className="relative overflow-hidden bg-[#031B4E] text-white pt-12 sm:pt-14" data-hero-root>
         {/* Upper Block: Text Left, Image Right */}
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-16 lg:flex-row lg:items-center lg:gap-12">
           <div className="flex-1">
