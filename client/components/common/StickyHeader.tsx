@@ -4,65 +4,116 @@ import { useEffect, useState } from "react";
 
 import { Logo } from "./Logo";
 import { Navigation } from "./Navigation";
-import { PrimaryButton } from "./PrimaryButton";
+import Button from "./Button";
 
 export function StickyHeader() {
-  const [heroPresent, setHeroPresent] = useState(false);
-  const [showBackdrop, setShowBackdrop] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [heroPresent, setHeroPresent] = useState(true); // Start as true to prevent flash
+  const [mobileScrolled, setMobileScrolled] = useState(false);
 
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>("[data-hero-root]");
 
     if (!hero) {
-      setHeroPresent(false);
-      setShowBackdrop(true);
-      return;
+      // Use setTimeout to avoid synchronous setState
+      setTimeout(() => {
+        setHeroPresent(false);
+        setIsScrolled(true);
+        // Don't set mobileScrolled to true initially - let scroll handle it
+      }, 0);
+    } else {
+      setTimeout(() => {
+        setHeroPresent(true);
+      }, 0);
     }
 
-    setHeroPresent(true);
-
-    const updateBackdrop = () => {
-      const { bottom } = hero.getBoundingClientRect();
-      setShowBackdrop(bottom <= 0);
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 50);
+      setMobileScrolled(scrollPosition > 30);
     };
 
-    updateBackdrop();
-    window.addEventListener("scroll", updateBackdrop, { passive: true });
-    window.addEventListener("resize", updateBackdrop);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
 
     return () => {
-      window.removeEventListener("scroll", updateBackdrop);
-      window.removeEventListener("resize", updateBackdrop);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
     <>
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-[100] flex justify-center px-4 pt-4 sm:px-6">
+      {/* Mobile Header - Logo Only */}
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-transparent">
+        {/* White Background on Scroll */}
         <div
-          className={`pointer-events-auto flex w-full max-w-6xl items-center gap-6 rounded-full border px-5 py-3 transition-all duration-500 ${
-            showBackdrop
-              ? "border-white/25 bg-white/60 text-[#0E0E0E] shadow-[0_18px_40px_rgba(14,14,14,0.18)] backdrop-blur-md"
-              : "border-transparent bg-transparent text-white"
+          className={`absolute inset-0 transition-all duration-500 ${
+            mobileScrolled
+              ? "opacity-100 bg-white border-b border-dark/10 shadow-md"
+              : "opacity-0 bg-transparent pointer-events-none"
+          }`}
+        />
+
+        {/* Logo Container - Centered */}
+        <div className="relative z-10 px-4 py-3.5 flex items-center justify-center">
+          <div className={mobileScrolled ? "" : "drop-shadow-lg"}>
+            <Logo />
+          </div>
+        </div>
+      </header>
+
+      {/* Desktop Header */}
+      <header
+        className={`hidden lg:block fixed z-50 transition-all duration-300 ${
+          isScrolled ? "top-6 left-4 right-4" : "top-6 left-0 right-0"
+        }`}
+      >
+        {/* Initial background to prevent color flash - ensures header area is covered */}
+        <div className="absolute inset-0 bg-transparent pointer-events-none" />
+
+        {/* Glass Morphism Background */}
+        <div
+          className={`absolute inset-0 backdrop-blur-xl max-w-7xl mx-auto rounded-3xl transition-all duration-500 ${
+            isScrolled
+              ? "opacity-100 translate-y-0 bg-white border border-dark/10 shadow-2xl shadow-black/20"
+              : "opacity-0 -translate-y-2 bg-transparent pointer-events-none"
           }`}
         >
-          <Logo />
-          <div className="flex flex-1 justify-center">
-            <Navigation variant={showBackdrop ? "dark" : "light"} />
-          </div>
-          <PrimaryButton
-            href="/contact"
-            variant={showBackdrop ? "dark" : "secondary"}
-            size="sm"
-            className="uppercase tracking-[0.12em]"
-          >
-            Contact
-          </PrimaryButton>
+          {/* Glass effect overlay */}
+          <div
+            className={`absolute inset-0 rounded-3xl bg-linear-to-br from-white/30 to-white/10 transition-opacity duration-500 ${
+              isScrolled ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        </div>
+
+        <div
+          className={`mx-auto max-w-7xl relative z-10 transition-all duration-300 ${
+            isScrolled ? "px-6 py-4" : "px-6 py-4"
+          }`}
+        >
+          <nav className="flex items-center justify-between">
+            {/* Logo */}
+            <Logo />
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-8 relative">
+              <Navigation variant={isScrolled ? "dark" : "light"} />
+            </div>
+
+            {/* Contact Button */}
+            <Button
+              link="/contact"
+              type={isScrolled ? "primary" : "secondary"}
+              size="sm"
+              className="uppercase tracking-[0.12em]"
+            >
+              Contact
+            </Button>
+          </nav>
         </div>
       </header>
       {!heroPresent ? <div className="h-[88px]" aria-hidden /> : null}
     </>
   );
 }
-
-

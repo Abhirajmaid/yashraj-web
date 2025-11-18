@@ -1,4 +1,4 @@
-import { FAQEntry } from "@/components/common/faqData";
+import { FAQEntry } from "@/data/faq";
 
 export const blogsFaqItems: FAQEntry[] = [
   {

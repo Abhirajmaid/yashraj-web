@@ -1,14 +1,43 @@
-import { ProjectsHeroSection } from "@/components/common/ProjectsHeroSection";
-import { Project1Section } from "@/components/common/Project1Section";
+import { CommonHeroSection } from "@/components/common/CommonHeroSection";
+import { ConnectMarquee } from "@/components/common/ConnectMarquee";
+import { ProjectPageSection } from "@/components/projects/ProjectPageSection";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { ServiceCTASection } from "@/components/common/ServiceCTASection";
 import { Footer } from "@/components/common/Footer";
 
 export default function ProjectsPage() {
   return (
-    <main className="bg-[#0F76F4]">
-      <ProjectsHeroSection />
-      <Project1Section />
+    <main className="bg-white">
+      <CommonHeroSection
+        id="projects"
+        backgroundImage="/images/projecthero2.jpg"
+        backgroundImageAlt="Projects hero background"
+        title="Our Projects"
+        description="Discover our portfolio of iconic infrastructure projects, from stunning bridges to contemporary urban landmarks, each crafted with engineering excellence and bold design vision."
+        buttons={[
+          {
+            text: "Start Your Project",
+            link: "/contact",
+            type: "secondary",
+            size: "lg",
+            className: "w-full sm:w-auto",
+          },
+          {
+            text: "View Portfolio",
+            link: "#projects-grid",
+            type: "primary",
+            size: "lg",
+            className: "w-full sm:w-auto",
+          },
+        ]}
+        showGradientOverlay={false}
+        scrollIndicatorText="Scroll to explore"
+        backgroundColor="bg-brand-dark"
+        objectPosition="top"
+        maxContentWidth="max-w-4xl"
+      />
+      <ConnectMarquee />
+      <ProjectPageSection />
       <div className="bg-white">
         <div className="pt-16">
           <PartnersSection />
@@ -17,8 +46,8 @@ export default function ProjectsPage() {
           <ServiceCTASection />
         </div>
       </div>
+      <ConnectMarquee />
       <Footer />
     </main>
   );
 }
-

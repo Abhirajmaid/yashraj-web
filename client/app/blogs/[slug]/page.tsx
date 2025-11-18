@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { BlogDetailTemplate } from "@/components/common/BlogDetailTemplate";
+import { BlogDetailTemplate } from "@/components/blogs/BlogDetailTemplate";
 
 import { blogDetails } from "@/data/blogDetails";
 import { blogs } from "@/data/blogs";

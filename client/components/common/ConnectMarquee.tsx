@@ -7,14 +7,14 @@ export function ConnectMarquee() {
   return (
     <section
       aria-live="off"
-      className="relative bg-[#f21b29] text-[#FFD700]"
+      className="relative bg-brand-primary text-white -mt-px"
     >
       <Link
         href="/contact"
-        className="group relative block h-[60px] overflow-hidden focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFD700]"
+        className="group relative block h-[60px] overflow-hidden focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary"
       >
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#f21b29] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#f21b29] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-linear-to-r from-brand-primary to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-linear-to-l from-brand-primary to-transparent" />
 
         <div className="flex h-full w-max animate-marquee items-center group-hover:[animation-play-state:paused]">
           {[items, items].map((iteration, outerIdx) => (
@@ -22,13 +22,14 @@ export function ConnectMarquee() {
               {iteration.map((_, idx) => (
                 <span
                   key={`${outerIdx}-${idx}`}
-                  className="flex items-center gap-3 whitespace-nowrap text-xl font-black uppercase tracking-[0.2em] transition group-hover:translate-y-[-1px] lg:text-2xl"
+                  className="flex items-center gap-3 whitespace-nowrap text-xl font-black uppercase tracking-[0.2em] transition group-hover:-translate-y-px lg:text-2xl"
                 >
                   Connect with us
-                  <Icon 
-                    icon="solar:arrow-right-up-bold" 
-                    className="text-2xl lg:text-3xl"
-                    style={{ fontSize: '28px', transform: 'rotate(45deg)' }}
+                  <Icon
+                    icon="solar:arrow-right-up-linear"
+                    width="24"
+                    height="24"
+                    className="lg:w-6 lg:h-6"
                   />
                 </span>
               ))}
@@ -39,4 +40,3 @@ export function ConnectMarquee() {
     </section>
   );
 }
-

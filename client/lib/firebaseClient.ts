@@ -1,7 +1,6 @@
 'use client';
 
 import { getApp, getApps, initializeApp } from 'firebase/app';
-import { getAnalytics, isSupported } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
@@ -20,15 +19,23 @@ const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
+// Initialize Analytics only in browser and if available
 if (typeof window !== 'undefined') {
-  isSupported()
-    .then((supported) => {
-      if (supported) {
-        getAnalytics(app);
-      }
+  // Dynamically import analytics to avoid SSR issues
+  import('firebase/analytics')
+    .then((analytics) => {
+      analytics.isSupported()
+        .then((supported: boolean) => {
+          if (supported) {
+            analytics.getAnalytics(app);
+          }
+        })
+        .catch(() => {
+          // Analytics not critical; ignore errors in unsupported environments.
+        });
     })
     .catch(() => {
-      // Analytics not critical; ignore errors in unsupported environments.
+      // Firebase Analytics package not available, skip initialization
     });
 }
 

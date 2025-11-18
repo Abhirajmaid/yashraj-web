@@ -1,0 +1,36 @@
+"use client";
+
+import { CommonHeroSection } from "@/components/common/CommonHeroSection";
+
+export function HeroSection() {
+  return (
+    <CommonHeroSection
+      id="home"
+      backgroundImage="/images/hero.jpg"
+      backgroundImageAlt="Bridge architecture at dusk"
+      title="Yashraj Infrastructure"
+      description="Yashraj Constructions delivers iconic bridges and contemporary urban landmarks crafted with engineering excellence and bold design."
+      buttons={[
+        {
+          text: "Explore Projects",
+          link: "/projects",
+          type: "secondary",
+          size: "lg",
+          className: "w-full sm:w-auto",
+        },
+        {
+          text: "Get in Touch",
+          link: "/contact",
+          type: "primary",
+          size: "lg",
+          className: "w-full sm:w-auto",
+        },
+      ]}
+      showGradientOverlay={false}
+      scrollIndicatorText="Scroll down"
+      backgroundColor="bg-black"
+      objectPosition="top"
+      maxContentWidth="max-w-7xl"
+    />
+  );
+}

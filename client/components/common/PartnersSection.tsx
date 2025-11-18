@@ -1,36 +1,107 @@
+"use client";
 import Image from "next/image";
 
 const partnerImages = Array.from({ length: 8 }).map((_, index) => ({
-  src: "/partnerslogo1-removebg-preview.png",
+  src: "/images/partnerslogo.png",
   alt: `Partner logo ${index + 1}`,
   id: `partner-logo-${index}`,
 }));
 
 export function PartnersSection() {
+  // Duplicate logos for seamless infinite scroll
+  const duplicatedLogos = [...partnerImages, ...partnerImages];
+
   return (
-    <section className="relative isolate overflow-hidden bg-[#f21b29] py-16 text-[#FFD700]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,215,0,0.15),transparent_55%),linear-gradient(115deg,rgba(255,255,255,0.05),transparent)]" />
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          {partnerImages.map((partner) => (
-            <div key={partner.id} className="flex flex-col items-center gap-4">
-              <div className="group flex h-36 w-full items-center justify-center rounded-3xl border border-[#FFD700]/25 bg-[#FFD700]/10 transition hover:-translate-y-2 hover:border-[#FFD700]/60 hover:bg-[#FFD700]/20">
-                <Image
-                  src={partner.src}
-                  alt={partner.alt}
-                  width={220}
-                  height={110}
-                  className="max-h-20 w-auto object-contain opacity-85 transition group-hover:opacity-100"
-                />
+    <section className="relative isolate overflow-hidden bg-white py-16">
+      {/* Wave SVG Pattern Background */}
+      <div className="absolute inset-0 z-0 opacity-5">
+        <svg
+          className="h-full w-full"
+          viewBox="0 0 1200 200"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,100 Q300,50 600,100 T1200,100 L1200,200 L0,200 Z"
+            fill="currentColor"
+            className="text-brand-primary"
+          />
+          <path
+            d="M0,120 Q300,80 600,120 T1200,120 L1200,200 L0,200 Z"
+            fill="currentColor"
+            className="text-brand-primary"
+            opacity="0.7"
+          />
+          <path
+            d="M0,140 Q300,100 600,140 T1200,140 L1200,200 L0,200 Z"
+            fill="currentColor"
+            className="text-brand-primary"
+            opacity="0.4"
+          />
+        </svg>
+      </div>
+
+      {/* Inverted Wave at Bottom */}
+      <div className="absolute bottom-0 left-0 right-0 z-0 opacity-5">
+        <svg
+          className="h-24 w-full"
+          viewBox="0 0 1200 100"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,50 Q300,0 600,50 T1200,50 L1200,100 L0,100 Z"
+            fill="currentColor"
+            className="text-brand-primary"
+          />
+        </svg>
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-full">
+        {/* First Row - Moving Left */}
+        <div className="mb-8 overflow-hidden">
+          <div className="flex w-max animate-partners-marquee-left gap-8">
+            {duplicatedLogos.map((partner, index) => (
+              <div
+                key={`${partner.id}-left-${index}`}
+                className="flex shrink-0 flex-col items-center gap-3"
+              >
+                <div className="group flex h-32 w-32 items-center justify-center rounded-2xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:border-brand-primary/30 hover:shadow-md">
+                  <Image
+                    src={partner.src}
+                    alt={partner.alt}
+                    width={120}
+                    height={60}
+                    className="max-h-16 w-auto object-contain opacity-85 transition group-hover:opacity-100"
+                  />
+                </div>
               </div>
-              <p className="text-xl font-semibold uppercase tracking-[0.1em] text-[#FFD700]">
-                PMC
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Second Row - Moving Right */}
+        <div className="overflow-hidden">
+          <div className="flex w-max animate-partners-marquee-right gap-8">
+            {duplicatedLogos.map((partner, index) => (
+              <div
+                key={`${partner.id}-right-${index}`}
+                className="flex shrink-0 flex-col items-center gap-3"
+              >
+                <div className="group flex h-32 w-32 items-center justify-center rounded-2xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:border-brand-primary/30 hover:shadow-md">
+                  <Image
+                    src={partner.src}
+                    alt={partner.alt}
+                    width={120}
+                    height={60}
+                    className="max-h-16 w-auto object-contain opacity-85 transition group-hover:opacity-100"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
-

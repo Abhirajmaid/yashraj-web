@@ -1,13 +1,14 @@
-import { HeroSection } from "@/components/common/HeroSection";
+import { HeroSection } from "@/components/home/HeroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { FAQSection } from "@/components/common/FAQSection";
-import { FeatureBlogsSection } from "@/components/common/FeatureBlogsSection";
+import { FeatureBlogsSection } from "@/components/home/FeatureBlogsSection";
 import { Footer } from "@/components/common/Footer";
+import { MissionVisionSection } from "@/components/home/MissionVisionSection";
 import { PartnersSection } from "@/components/common/PartnersSection";
-import { ProjectsSection } from "@/components/common/ProjectsSection";
+import { ProjectsSection } from "@/components/home/ProjectsSection";
 import { ServiceCTASection } from "@/components/common/ServiceCTASection";
-import { TestimonialsSection } from "@/components/common/TestimonialsSection";
-import { ShowcaseSection } from "@/components/common/ShowcaseSection";
+import { TestimonialsSection } from "@/components/home/TestimonialsSection";
+import { ShowcaseSection } from "@/components/home/ShowcaseSection";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <ConnectMarquee />
       <ProjectsSection />
       <PartnersSection />
+      <MissionVisionSection />
       <TestimonialsSection />
       <FeatureBlogsSection />
       <FAQSection />

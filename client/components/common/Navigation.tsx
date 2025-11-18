@@ -4,6 +4,7 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
+  { label: "Blogs", href: "/blogs" },
   { label: "About Us", href: "/about-us" },
 ];
 
@@ -13,21 +14,23 @@ type NavigationProps = {
 
 export function Navigation({ variant = "light" }: NavigationProps) {
   const baseColor =
-    variant === "dark" ? "text-[#0E0E0E]" : "text-[#FFD700]";
-  const hoverColor =
-    variant === "dark" ? "hover:text-[#f21b29]" : "hover:text-white";
+    variant === "dark" ? "text-brand-dark/80 hover:text-brand-dark" : "text-white hover:text-white";
+  const hoverEffect = "transition-all duration-200 hover:-translate-y-0.5";
 
   return (
-    <nav
-      className={`flex flex-wrap items-center justify-center gap-8 text-sm font-semibold uppercase tracking-[0.12em] ${baseColor}`}
-    >
+    <nav className="flex items-center space-x-8">
       {navLinks.map((link) => (
         <Link
           key={link.href}
           href={link.href}
-          className={`transition ${hoverColor}`}
+          className={`font-medium text-xl ${baseColor} ${hoverEffect} relative flex items-center space-x-1`}
         >
-          {link.label}
+          <span>{link.label}</span>
+          <div
+            className={`absolute bottom-0 left-0 h-0.5 w-0 hover:w-full transition-all duration-300 ${
+              variant === "dark" ? "bg-brand-primary" : "bg-white"
+            }`}
+          />
         </Link>
       ))}
     </nav>

@@ -1,122 +1,254 @@
 "use client";
 
-import Link from "next/link";
-import { FAQSection } from '@/components/common/FAQSection';
-import { Footer } from '@/components/common/Footer';
+import { useState } from "react";
+import { Icon } from "@iconify/react";
+import { CommonHeroSection } from "@/components/common/CommonHeroSection";
+import { SectionHeader } from "@/components/common/SectionHeader";
+import { FAQSection } from "@/components/common/FAQSection";
+import { Footer } from "@/components/common/Footer";
+import Button from "@/components/common/Button";
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    phone: "",
+    message: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    // Simulate form submission
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", company: "", phone: "", message: "" });
+    } catch {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const contactInfo = [
+    {
+      icon: "mdi:map-marker",
+      title: "Address",
+      content: "123 Construction Avenue, Building District, City 12345",
+      link: "#",
+    },
+    {
+      icon: "mdi:phone",
+      title: "Phone",
+      content: "+1 (555) 123-4567",
+      link: "tel:+15551234567",
+    },
+    {
+      icon: "mdi:email",
+      title: "Email",
+      content: "info@yashrajinfrastructure.com",
+      link: "mailto:info@yashrajinfrastructure.com",
+    },
+  ];
+
   return (
-    <main className="bg-[#0F76F4] text-[#0E0E0E]">
-      <section className="relative isolate overflow-hidden pt-12 sm:pt-14" data-hero-root>
-        <img
-          src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80"
-          alt="Modern home exterior"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#031B4E]/80 via-[#0F76F4]/70 to-[#031B4E]/65" />
+    <main className="bg-white text-[#031B4E]">
+      <CommonHeroSection
+        backgroundImage="/images/projecthero2.jpg"
+        backgroundImageAlt="Modern construction site"
+        title="Get in Touch"
+        description="Ready to bring your vision to life? Let's discuss your next project and explore how we can help transform your ideas into reality."
+        showGradientOverlay={false}
+        scrollIndicatorText="Scroll to contact form"
+      />
 
-        <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-6 py-20 lg:flex-row lg:items-start lg:gap-16">
-          <div className="w-full max-w-xl rounded-[3rem] border border-white/30 bg-white/90 p-10 shadow-[0_32px_80px_rgba(5,20,53,0.35)] backdrop-blur-lg" id="contact-form">
-            <h3 className="text-3xl font-semibold text-[#031B4E]">Connect with us</h3>
-            <p className="mt-2 text-sm text-[#031B4E]/70">Share your vision with us.</p>
-
-            <form className="mt-8 space-y-5">
-              <label className="block space-y-2 text-sm text-[#031B4E]/70">
-                <span>Full name</span>
-                <input
-                  type="text"
-                  placeholder="Your name"
-                  className="w-full rounded-xl border border-[#031B4E]/20 bg-white px-4 py-3 text-sm text-[#031B4E] outline-none transition focus:border-[#0F76F4]"
-                />
-              </label>
-
-              <label className="block space-y-2 text-sm text-[#031B4E]/70">
-                <span>Email address</span>
-                <input
-                  type="email"
-                  placeholder="Your mail address"
-                  className="w-full rounded-xl border border-[#031B4E]/20 bg-white px-4 py-3 text-sm text-[#031B4E] outline-none transition focus:border-[#0F76F4]"
-                />
-              </label>
-
-              <label className="block space-y-2 text-sm text-[#031B4E]/70">
-                <span>Company name</span>
-                <input
-                  type="text"
-                  placeholder="Company name"
-                  className="w-full rounded-xl border border-[#031B4E]/20 bg-white px-4 py-3 text-sm text-[#031B4E] outline-none transition focus:border-[#0F76F4]"
-                />
-              </label>
-
-              <label className="block space-y-2 text-sm text-[#031B4E]/70">
-                <span>Project information</span>
-                <textarea
-                  rows={4}
-                  placeholder="Project description"
-                  className="w-full rounded-xl border border-[#031B4E]/20 bg-white px-4 py-3 text-sm text-[#031B4E] outline-none transition focus:border-[#0F76F4]"
-                />
-              </label>
-
-              <button
-                type="submit"
-                className="inline-flex w-full items-center justify-center rounded-full bg-[#0E0E0E] px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-white transition hover:-translate-y-0.5 hover:bg-black"
-              >
-                Submit
-              </button>
-            </form>
+      {/* Contact Form & Info Section */}
+      <section className="relative isolate overflow-hidden bg-white py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 xl:px-14">
+          <div className="mb-8 sm:mb-10 lg:mb-12 text-center">
+            <SectionHeader
+              eyebrow="CONTACT US"
+              title="Let's start a conversation"
+              description="Fill out the form below or reach out to us directly. We're here to help with your infrastructure and construction needs."
+              align="center"
+            />
           </div>
-        </div>
-      </section>
 
-      <div className="bg-white">
-        <FAQSection />
-      </div>
+          <div className="grid gap-8 sm:gap-10 lg:grid-cols-[1.2fr,1fr] lg:gap-16">
+            {/* Contact Form */}
+            <div
+              className="rounded-2xl border border-brand-gray-light/50 bg-white p-4 sm:p-6 lg:p-10 shadow-sm"
+              id="contact-form"
+            >
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Full Name <span className="text-red-500">*</span>
+                    </span>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="John Doe"
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
 
-      <section className="relative isolate overflow-hidden bg-[#f2f2f2]">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <div className="rounded-[2.5rem] border border-black/10 bg-[#121212] text-white shadow-[0_32px_80px_rgba(0,0,0,0.35)]">
-            <div className="relative overflow-hidden rounded-[2.5rem]">
-              <img
-                src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1400&q=80"
-                alt="Cleaning equipment"
-                className="absolute inset-0 h-full w-full object-cover object-center opacity-50"
-              />
-              <div className="relative grid gap-8 rounded-[2.5rem] bg-gradient-to-r from-black/80 via-black/75 to-black/65 px-10 py-12 lg:grid-cols-[2fr,1fr] lg:px-16">
-                <div className="space-y-8">
-                  <div className="space-y-3">
-                    <p className="text-xs uppercase tracking-[0.4em] text-white/60">Services</p>
-                    <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
-                      Cleaning That Works Around You
-                    </h1>
-                    <p className="max-w-md text-sm text-white/70">
-                      Our expert cleaners handle the mess so you can focus on what matters.
-                    </p>
-                  </div>
-
-                  <div className="inline-flex flex-col gap-4 rounded-3xl bg-[#F8D90F] px-6 py-5 text-sm font-medium text-[#0E0E0E] shadow-[0_18px_40px_rgba(246,217,15,0.35)] sm:flex-row sm:items-center sm:justify-between">
-                    <span className="uppercase tracking-[0.2em]">Got a space in need of a refresh?</span>
-                    <Link
-                      href="#contact-form"
-                      className="inline-flex items-center justify-center rounded-full bg-[#031B4E] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-white transition hover:-translate-y-0.5 hover:bg-[#052f78]"
-                    >
-                      Schedule a Call
-                    </Link>
-                  </div>
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Email Address <span className="text-red-500">*</span>
+                    </span>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="john@example.com"
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
                 </div>
 
-                <div className="flex h-full flex-col justify-center gap-3 text-right text-sm uppercase tracking-[0.25em] text-white/70">
-                  <span className="inline-flex items-center justify-end gap-2">
-                    Home cleaning <span className="text-white">•</span>
+                <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Company Name
+                    </span>
+                    <input
+                      type="text"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      placeholder="Company Inc."
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
+
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Phone Number
+                    </span>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+1 (555) 123-4567"
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
+                </div>
+
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-brand-dark">
+                    Project Details <span className="text-red-500">*</span>
                   </span>
-                  <span className="inline-flex items-center justify-end gap-2">
-                    Store cleaning <span className="text-white">•</span>
-                  </span>
-                  <span className="inline-flex items-center justify-end gap-2">
-                    Workspace cleaning <span className="text-white">•</span>
-                  </span>
-                  <span className="inline-flex items-center justify-end gap-2">
-                    Move in / out cleaning <span className="text-white">•</span>
-                  </span>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={6}
+                    placeholder="Tell us about your project, timeline, and any specific requirements..."
+                    className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 resize-none"
+                  />
+                </label>
+
+                {submitStatus === "success" && (
+                  <div className="rounded-xl bg-green-50 border border-green-200 p-3 sm:p-4 text-xs sm:text-sm text-green-800">
+                    Thank you! Your message has been sent. We&apos;ll get back
+                    to you soon.
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="rounded-xl bg-red-50 border border-red-200 p-3 sm:p-4 text-xs sm:text-sm text-red-800">
+                    Something went wrong. Please try again or contact us
+                    directly.
+                  </div>
+                )}
+
+                <Button
+                  type="primary"
+                  size="lg"
+                  htmlType="submit"
+                  disabled={isSubmitting}
+                  className="w-full uppercase tracking-wide"
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </Button>
+              </form>
+            </div>
+
+            {/* Contact Information */}
+            <div className="space-y-4 sm:space-y-6">
+              <div className="rounded-2xl border border-brand-gray-light/50 bg-gradient-to-br from-brand-primary/5 to-transparent p-5 sm:p-6 lg:p-10">
+                <h3 className="mb-4 sm:mb-6 text-lg sm:text-xl font-semibold text-brand-dark">
+                  Contact Information
+                </h3>
+                <div className="space-y-4 sm:space-y-6">
+                  {contactInfo.map((info) => (
+                    <a
+                      key={info.title}
+                      href={info.link}
+                      className="group flex items-start gap-3 sm:gap-4 transition hover:opacity-80"
+                    >
+                      <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl bg-brand-primary text-white transition group-hover:scale-110">
+                        <Icon
+                          icon={info.icon}
+                          className="text-lg sm:text-2xl"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-semibold text-brand-dark">
+                          {info.title}
+                        </h4>
+                        <p className="mt-1 text-xs sm:text-sm text-brand-dark/70">
+                          {info.content}
+                        </p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-brand-gray-light/50 bg-white p-5 sm:p-6 lg:p-10">
+                <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-semibold text-brand-dark">
+                  Business Hours
+                </h3>
+                <div className="space-y-2 text-xs sm:text-sm text-brand-dark/70">
+                  <div className="flex justify-between">
+                    <span>Monday - Friday</span>
+                    <span className="font-medium">9:00 AM - 6:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Saturday</span>
+                    <span className="font-medium">10:00 AM - 4:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Sunday</span>
+                    <span className="font-medium">Closed</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -124,9 +256,12 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <div className="bg-white">
+        <FAQSection />
+      </div>
+
       <Footer />
     </main>
   );
 }
-
-
