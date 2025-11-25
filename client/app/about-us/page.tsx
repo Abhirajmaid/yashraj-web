@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { AboutHeroSection } from "@/components/about-us/AboutHeroSection";
 import { AboutIntroSection } from "@/components/about-us/AboutIntroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
@@ -7,7 +8,20 @@ import { PartnersSection } from "@/components/common/PartnersSection";
 import { PurposeSection } from "@/components/about-us/PurposeSection";
 import { ServiceCTASection } from "@/components/common/ServiceCTASection";
 import { StorySection } from "@/components/about-us/StorySection";
+import { TeamsSection } from "@/components/about-us/TeamsSection";
 import { purposePillars, storyHighlights } from "@/data/aboutUs";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about Yashraj Infrastructure - a premier construction company passionate about creating inspiring, attention-grabbing, and enduring spaces that adapt to innovation. Experience innovative architecture that transforms your vision into reality.",
+  openGraph: {
+    title: "About Us - Yashraj Infrastructure",
+    description:
+      "Learn about our construction company passionate about creating inspiring and enduring spaces that adapt to innovation.",
+    images: ["/images/about.jpg"],
+  },
+};
 
 export default function AboutUsPage() {
   return (
@@ -37,6 +51,8 @@ export default function AboutUsPage() {
       <PurposeSection pillars={purposePillars} />
 
       <StorySection highlights={storyHighlights} />
+
+      <TeamsSection />
 
       <ConnectMarquee />
 

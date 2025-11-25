@@ -1,8 +1,11 @@
 "use client";
 
 import { CommonHeroSection } from "@/components/common/CommonHeroSection";
+import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 export function HeroSection() {
+  const { openModal } = useEnquiryModal();
+
   return (
     <CommonHeroSection
       id="home"
@@ -20,7 +23,7 @@ export function HeroSection() {
         },
         {
           text: "Get in Touch",
-          link: "/contact",
+          onClick: openModal,
           type: "primary",
           size: "lg",
           className: "w-full sm:w-auto",

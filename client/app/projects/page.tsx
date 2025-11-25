@@ -1,9 +1,22 @@
+import type { Metadata } from "next";
 import { CommonHeroSection } from "@/components/common/CommonHeroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { ProjectPageSection } from "@/components/projects/ProjectPageSection";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { ServiceCTASection } from "@/components/common/ServiceCTASection";
 import { Footer } from "@/components/common/Footer";
+
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "Discover our portfolio of iconic infrastructure projects, from stunning bridges to contemporary urban landmarks, each crafted with engineering excellence and bold design vision. Explore Yashraj Infrastructure's completed construction projects.",
+  openGraph: {
+    title: "Our Projects - Yashraj Infrastructure",
+    description:
+      "Discover our portfolio of iconic infrastructure projects, each crafted with engineering excellence and bold design vision.",
+    images: ["/images/projecthero2.jpg"],
+  },
+};
 
 export default function ProjectsPage() {
   return (

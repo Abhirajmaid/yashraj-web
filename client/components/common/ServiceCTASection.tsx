@@ -1,6 +1,10 @@
+"use client";
+
 import Button from "./Button";
+import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 export function ServiceCTASection() {
+  const { openModal } = useEnquiryModal();
   return (
     <section className="relative isolate overflow-hidden bg-white py-16 lg:py-20">
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
@@ -27,7 +31,7 @@ export function ServiceCTASection() {
                   Let&apos;s plan a consultation tailored to your vision.
                 </p>
                 <Button
-                  link="/contact"
+                  onClick={openModal}
                   type="primary"
                   size="lg"
                   className="w-full sm:w-[30%]"

@@ -56,5 +56,21 @@ export const services: Service[] = [
         imageAlt: "Project management service",
         href: "/contact",
     },
+    {
+        title: "Road Construction",
+        description:
+            "Expert road construction services delivering durable, high-quality infrastructure solutions. From highways to local roads, we build with precision and engineering excellence.",
+        image:
+            "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
+        imageAlt: "Road construction service",
+    },
+    {
+        title: "Ready Mix Concrete (RMC)",
+        description:
+            "Quality-assured ready mix concrete solutions for all your construction needs. Delivered on time, ensuring strength, durability, and consistency for your projects.",
+        image:
+            "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
+        imageAlt: "Ready Mix Concrete service",
+    },
 ];
 

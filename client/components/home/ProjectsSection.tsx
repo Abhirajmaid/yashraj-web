@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
+import { Icon } from "@iconify/react";
 import { ProjectCard } from "./ProjectCard";
 import { SectionHeader } from "@/components/common/SectionHeader";
-import Button from "@/components/common/Button";
 
 const projects = [
   {
@@ -252,35 +252,37 @@ export function ProjectsSection() {
               projects each delivered with meticulous planning and
               craftsmanship.
             </p>
-
-            {/* Navigation Buttons */}
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={() => scroll("prev")}
-                disabled={!canScrollPrev}
-                type="secondary"
-                size="lg"
-                hideArrow
-                className="pr-4"
-              >
-                Previous
-              </Button>
-              <Button
-                onClick={() => scroll("next")}
-                disabled={!canScrollNext}
-                type="primary"
-                size="lg"
-                hideArrow
-                className="pr-4"
-              >
-                Next
-              </Button>
-            </div>
           </div>
         </div>
 
         {/* Projects Auto Carousel */}
         <div className="relative">
+          {/* Left Arrow */}
+          <button
+            onClick={() => scroll("prev")}
+            disabled={!canScrollPrev}
+            aria-label="Previous project"
+            className="absolute left-0 top-1/2 z-20 -translate-y-1/2 -translate-x-4 rounded-full bg-white p-3 shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 lg:-translate-x-6 lg:p-4"
+          >
+            <Icon
+              icon="mdi:chevron-left"
+              className="text-2xl text-brand-primary lg:text-3xl"
+            />
+          </button>
+
+          {/* Right Arrow */}
+          <button
+            onClick={() => scroll("next")}
+            disabled={!canScrollNext}
+            aria-label="Next project"
+            className="absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 rounded-full bg-white p-3 shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 lg:translate-x-6 lg:p-4"
+          >
+            <Icon
+              icon="mdi:chevron-right"
+              className="text-2xl text-brand-primary lg:text-3xl"
+            />
+          </button>
+
           <div
             ref={scrollContainerRef}
             className="flex gap-4 overflow-x-auto scrollbar-hide pb-8"

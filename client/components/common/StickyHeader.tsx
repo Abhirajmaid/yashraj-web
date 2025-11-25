@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
 import { Navigation } from "./Navigation";
 import Button from "./Button";
+import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 export function StickyHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [heroPresent, setHeroPresent] = useState(true); // Start as true to prevent flash
   const [mobileScrolled, setMobileScrolled] = useState(false);
+  const { openModal } = useEnquiryModal();
 
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>("[data-hero-root]");
@@ -103,7 +105,7 @@ export function StickyHeader() {
 
             {/* Contact Button */}
             <Button
-              link="/contact"
+              onClick={openModal}
               type={isScrolled ? "primary" : "secondary"}
               size="sm"
               className="uppercase tracking-[0.12em]"

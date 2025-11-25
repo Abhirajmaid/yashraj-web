@@ -60,7 +60,7 @@ export function CommonHeroSection({
           alt={backgroundImageAlt}
           fill
           priority
-          quality={100}
+          quality={75}
           sizes="100vw"
           className={`object-cover h-full w-full ${objectPositionClass}`}
         />

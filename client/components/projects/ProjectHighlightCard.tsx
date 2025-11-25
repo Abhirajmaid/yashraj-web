@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { Project } from "@/data/projects";
 import { GalleryModal } from "./GalleryModal";
+import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 type ProjectHighlightCardProps = {
   project: Project;
@@ -13,6 +14,7 @@ type ProjectHighlightCardProps = {
 export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { openModal } = useEnquiryModal();
 
   // Combine all images for gallery
   const galleryImages = [
@@ -92,17 +94,29 @@ export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
                   <li key={index}>• {essential}</li>
                 ))}
               </ul>
-              {/* View Gallery Button */}
-              <button
-                onClick={() => openGallery(0)}
-                className="mt-4 sm:mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-[#0E0E0E] px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white transition hover:bg-[#0E0E0E]/90"
-              >
-                <Icon
-                  icon="solar:gallery-bold"
-                  className="text-base sm:text-lg"
-                />
-                <span>View Gallery</span>
-              </button>
+              {/* Action Buttons */}
+              <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => openGallery(0)}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#0E0E0E] px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white transition hover:bg-[#0E0E0E]/90"
+                >
+                  <Icon
+                    icon="solar:gallery-bold"
+                    className="text-base sm:text-lg"
+                  />
+                  <span>View Gallery</span>
+                </button>
+                <button
+                  onClick={openModal}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-[#0E0E0E] bg-transparent px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-[#0E0E0E] transition hover:bg-[#0E0E0E] hover:text-white"
+                >
+                  <Icon
+                    icon="mdi:email-outline"
+                    className="text-base sm:text-lg"
+                  />
+                  <span>Enquire</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

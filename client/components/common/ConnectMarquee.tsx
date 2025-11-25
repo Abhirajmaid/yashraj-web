@@ -1,17 +1,20 @@
-import Link from "next/link";
+"use client";
+
 import { Icon } from "@iconify/react";
+import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 export function ConnectMarquee() {
   const items = Array.from({ length: 6 });
+  const { openModal } = useEnquiryModal();
 
   return (
     <section
       aria-live="off"
       className="relative bg-brand-primary text-white -mt-px"
     >
-      <Link
-        href="/contact"
-        className="group relative block h-[60px] overflow-hidden focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary"
+      <button
+        onClick={openModal}
+        className="group relative block w-full h-[60px] overflow-hidden focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary"
       >
         <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-linear-to-r from-brand-primary to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-linear-to-l from-brand-primary to-transparent" />
@@ -36,7 +39,7 @@ export function ConnectMarquee() {
             </div>
           ))}
         </div>
-      </Link>
+      </button>
     </section>
   );
 }
