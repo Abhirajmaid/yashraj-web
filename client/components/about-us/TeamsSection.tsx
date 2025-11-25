@@ -15,7 +15,7 @@ type TeamsSectionProps = {
   eyebrow?: string;
   title?: string;
   description?: string;
-  teamMembers: TeamMember[];
+  teamMembers?: TeamMember[];
 };
 
 const defaultTeamMembers: TeamMember[] = [
