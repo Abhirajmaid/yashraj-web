@@ -1,6 +1,12 @@
+'use client';
+
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { getProjectById, statusLabels, statusTone } from '../data';
+import { useEffect, useState } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebaseClient';
+import { deserializeProjectDoc } from '@/lib/projectsRepository';
+import { ProjectRecord } from '@/types/project';
+import { statusLabels, statusTone } from '../data';
 
 type PageProps = {
   params: { projectId: string };
@@ -8,10 +14,51 @@ type PageProps = {
 
 export default function ProjectDetailPage({ params }: PageProps) {
   const projectId = decodeURIComponent(params.projectId);
-  const project = getProjectById(projectId);
+  const [project, setProject] = useState<ProjectRecord | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!project) {
-    notFound();
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const snapshot = await getDoc(doc(db, 'projects', projectId));
+        if (!snapshot.exists()) {
+          setError('Project not found.');
+        } else {
+          setProject(deserializeProjectDoc(snapshot));
+        }
+      } catch (firebaseError) {
+        setError(firebaseError instanceof Error ? firebaseError.message : 'Failed to load project.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProject();
+  }, [projectId]);
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4 text-white">
+        <p className="text-sm text-white/60">Loading project details…</p>
+      </div>
+    );
+  }
+
+  if (error || !project) {
+    return (
+      <div className="space-y-4 text-white">
+        <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+          {error ?? 'Project not found.'}
+        </p>
+        <Link
+          href="/admin/projects"
+          className="inline-flex items-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-white/70 transition hover:border-white hover:text-white"
+        >
+          ← Back to projects
+        </Link>
+      </div>
+    );
   }
 
   return (
@@ -20,7 +67,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-white/40">Project overview</p>
           <h1 className="text-3xl font-semibold text-white">{project.name}</h1>
-          <p className="text-sm text-white/60">{project.location}</p>
+          <p className="text-sm text-white/60">{project.location || 'Location TBD'}</p>
         </div>
         <Link
           href="/admin/projects"
@@ -32,11 +79,17 @@ export default function ProjectDetailPage({ params }: PageProps) {
 
       <section className="overflow-hidden rounded-xl border border-white/10 bg-[#111111] shadow-sm shadow-black/60">
         <div className="relative h-72 w-full bg-black/20">
-          <img
-            src={project.heroImage}
-            alt={project.name}
-            className="h-full w-full object-cover object-center opacity-90"
-          />
+          {project.featureImages.primary ? (
+            <img
+              src={project.featureImages.primary}
+              alt={project.name}
+              className="h-full w-full object-cover object-center opacity-90"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-sm text-white/40">
+              Primary hero image not uploaded yet.
+            </div>
+          )}
           <span
             className={`absolute left-6 top-6 inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium ${statusTone[project.status]}`}
           >
@@ -51,15 +104,15 @@ export default function ProjectDetailPage({ params }: PageProps) {
               <ul className="grid gap-3 sm:grid-cols-2">
                 <li className="rounded-lg bg-black/30 p-4 text-sm text-white/70">
                   <span className="block text-xs uppercase tracking-wide text-white/40">Category</span>
-                  {project.category}
+                  {project.category || '—'}
                 </li>
                 <li className="rounded-lg bg-black/30 p-4 text-sm text-white/70">
                   <span className="block text-xs uppercase tracking-wide text-white/40">Segment</span>
-                  {project.segment}
+                  {project.segment || '—'}
                 </li>
                 <li className="rounded-lg bg-black/30 p-4 text-sm text-white/70">
                   <span className="block text-xs uppercase tracking-wide text-white/40">Headline pricing</span>
-                  {project.price}
+                  {project.price || '—'}
                 </li>
                 <li className="rounded-lg bg-black/30 p-4 text-sm text-white/70">
                   <span className="block text-xs uppercase tracking-wide text-white/40">Inventory</span>
@@ -70,13 +123,34 @@ export default function ProjectDetailPage({ params }: PageProps) {
 
             <article className="space-y-3">
               <h2 className="text-lg font-semibold text-white">Narrative</h2>
-              <p className="text-sm leading-relaxed text-white/70">{project.overview}</p>
+              <p className="text-sm font-semibold text-white/90">{project.statement || 'Statement pending.'}</p>
+              <p className="text-sm leading-relaxed text-white/70">{project.description || 'Description pending.'}</p>
+              {project.industries.length ? (
+                <div className="flex flex-wrap gap-2">
+                  {project.industries.map((industry) => (
+                    <span
+                      key={industry}
+                      className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-wide text-white/60"
+                    >
+                      {industry}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
             </article>
 
             <article className="space-y-3">
-              <h2 className="text-lg font-semibold text-white">Project highlights</h2>
+              <h2 className="text-lg font-semibold text-white">Project essentials</h2>
               <div className="rounded-lg bg-black/30 p-4 text-sm text-white/70">
-                {project.highlights}
+                {project.essentials.length ? (
+                  <ul className="list-disc space-y-2 pl-4">
+                    {project.essentials.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  project.highlights || 'Essentials pending.'
+                )}
               </div>
             </article>
 
@@ -85,11 +159,11 @@ export default function ProjectDetailPage({ params }: PageProps) {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-lg bg-black/30 p-4 text-sm text-white/70">
                   <span className="block text-xs uppercase tracking-wide text-white/40">Launch window</span>
-                  {project.launchWindow}
+                  {project.launchWindow || '—'}
                 </div>
                 <div className="rounded-lg bg-black/30 p-4 text-sm text-white/70">
                   <span className="block text-xs uppercase tracking-wide text-white/40">Delivery window</span>
-                  {project.deliveryWindow}
+                  {project.deliveryWindow || '—'}
                 </div>
               </div>
             </article>
@@ -98,15 +172,15 @@ export default function ProjectDetailPage({ params }: PageProps) {
           <aside className="space-y-4 text-sm text-white/70">
             <div className="space-y-2 rounded-lg bg-black/30 p-4">
               <span className="text-xs uppercase tracking-wide text-white/40">Builder / developer</span>
-              <p className="text-white">{project.builder}</p>
+              <p className="text-white">{project.builder || '—'}</p>
             </div>
             <div className="space-y-2 rounded-lg bg-black/30 p-4">
               <span className="text-xs uppercase tracking-wide text-white/40">Consultants</span>
-              <p>{project.consultants}</p>
+              <p>{project.consultants || '—'}</p>
             </div>
             <div className="space-y-2 rounded-lg bg-black/30 p-4">
               <span className="text-xs uppercase tracking-wide text-white/40">Financing & schemes</span>
-              <p>{project.financing}</p>
+              <p>{project.financing || '—'}</p>
             </div>
             <div className="space-y-2 rounded-lg bg-black/30 p-4">
               <span className="text-xs uppercase tracking-wide text-white/40">Progress</span>
@@ -134,5 +208,4 @@ export default function ProjectDetailPage({ params }: PageProps) {
     </div>
   );
 }
-
 

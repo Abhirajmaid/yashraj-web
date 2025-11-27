@@ -21,6 +21,7 @@ export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
       alt: project.mainImageAlt,
     },
     ...project.secondaryImages,
+    ...(project.gallery ?? []),
   ];
 
   const openGallery = (index: number = 0) => {
@@ -95,13 +96,14 @@ export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
               {/* View Gallery Button */}
               <button
                 onClick={() => openGallery(0)}
-                className="mt-4 sm:mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-[#0E0E0E] px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white transition hover:bg-[#0E0E0E]/90"
+                disabled={galleryImages.length === 0}
+                className="mt-4 sm:mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-[#0E0E0E] px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white transition hover:bg-[#0E0E0E]/90 disabled:cursor-not-allowed disabled:bg-[#0E0E0E]/40"
               >
                 <Icon
                   icon="solar:gallery-bold"
                   className="text-base sm:text-lg"
                 />
-                <span>View Gallery</span>
+                <span>{galleryImages.length > 0 ? "View Gallery" : "Gallery coming soon"}</span>
               </button>
             </div>
           </div>

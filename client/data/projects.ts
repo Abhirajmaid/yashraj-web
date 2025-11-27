@@ -9,6 +9,10 @@ export type Project = {
         alt: string;
     }[];
     essentials: string[];
+    gallery?: {
+        src: string;
+        alt: string;
+    }[];
 };
 
 export const projects: Project[] = [

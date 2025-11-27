@@ -1,14 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { FormEvent, ReactNode, useMemo, useState } from 'react';
-
-type ProjectStatus = 'draft' | 'active' | 'completed';
+import { FormEvent, ReactNode, useState } from 'react';
+import { createProjectRecord } from '@/lib/projectsRepository';
+import { ProjectRecord, ProjectStatus } from '@/types/project';
 
 type ProjectForm = {
+  code: string;
   name: string;
   category: string;
   segment: string;
+  industries: string;
   status: ProjectStatus;
   price: string;
   inventory: number;
@@ -20,15 +22,33 @@ type ProjectForm = {
   deliveryWindow: string;
   financing: string;
   highlights: string;
-  heroImage: string;
-  gallery: string;
-  overview: string;
+  description: string;
+  statement: string;
+  essentials: string;
+};
+
+type ImageSlot = {
+  id: string;
+  label: string;
+  helper?: string;
+  preview: string | null;
+  fileName: string | null;
+  file: File | null;
+  required?: boolean;
+  storageKey?: 'primary' | 'lifestyle' | 'city';
+};
+
+type SubmittedMediaState = {
+  feature: ImageSlot[];
+  gallery: ImageSlot[];
 };
 
 const emptyForm: ProjectForm = {
+  code: '',
   name: '',
   category: '',
   segment: '',
+  industries: '',
   status: 'draft',
   price: '',
   inventory: 0,
@@ -40,32 +60,270 @@ const emptyForm: ProjectForm = {
   deliveryWindow: '',
   financing: '',
   highlights: '',
-  heroImage: '',
-  gallery: '',
-  overview: '',
+  description: '',
+  statement: '',
+  essentials: '',
 };
+
+const featureImageTemplate: ImageSlot[] = [
+  {
+    id: 'feature-primary',
+    label: 'Primary showcase image',
+    helper: 'Large hero frame on the left',
+    preview: null,
+    fileName: null,
+    file: null,
+    required: true,
+    storageKey: 'primary',
+  },
+  {
+    id: 'feature-lifestyle',
+    label: 'Lifestyle detail image',
+    helper: 'Right column, top slot',
+    preview: null,
+    fileName: null,
+    file: null,
+    required: true,
+    storageKey: 'lifestyle',
+  },
+  {
+    id: 'feature-city',
+    label: 'City / skyline image',
+    helper: 'Right column, bottom slot',
+    preview: null,
+    fileName: null,
+    file: null,
+    required: true,
+    storageKey: 'city',
+  },
+];
+
+const createFeatureSlots = () => featureImageTemplate.map((slot) => ({ ...slot }));
+const makeLocalId = () =>
+  typeof crypto !== 'undefined' && 'randomUUID' in crypto
+    ? crypto.randomUUID().slice(0, 6)
+    : Math.random().toString(36).slice(2, 8);
+
+const createGallerySlot = (index: number): ImageSlot => ({
+  id: `gallery-${index}-${makeLocalId()}`,
+  label: `Gallery image ${index}`,
+  helper: 'Appears inside the View Gallery modal',
+  preview: null,
+  fileName: null,
+  file: null,
+});
+
+const parseListInput = (value: string) =>
+  value
+    .split(/[\n,]/)
+    .map((entry) => entry.trim())
+    .filter(Boolean);
 
 export default function CreateNewProjectPage() {
   const [form, setForm] = useState<ProjectForm>(emptyForm);
-  const [submittedProject, setSubmittedProject] = useState<ProjectForm | null>(null);
+  const [featureImages, setFeatureImages] = useState<ImageSlot[]>(() => createFeatureSlots());
+  const [galleryImages, setGalleryImages] = useState<ImageSlot[]>(() => [createGallerySlot(1)]);
+  const [submittedProject, setSubmittedProject] = useState<ProjectRecord | null>(null);
+  const [submittedMedia, setSubmittedMedia] = useState<SubmittedMediaState | null>(null);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const galleryPreview = useMemo(
-    () =>
-      form.gallery
-        .split('\n')
-        .map((entry) => entry.trim())
-        .filter(Boolean),
-    [form.gallery]
-  );
+  const updateImageSlot = (
+    slotId: string,
+    file: File | null,
+    setter: React.Dispatch<React.SetStateAction<ImageSlot[]>>
+  ) => {
+    setter((current) =>
+      current.map((slot) => {
+        if (slot.id !== slotId) {
+          return slot;
+        }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        if (slot.preview && slot.file) {
+          URL.revokeObjectURL(slot.preview);
+        }
+
+        if (!file) {
+          return { ...slot, preview: null, fileName: null, file: null };
+        }
+
+        return {
+          ...slot,
+          preview: URL.createObjectURL(file),
+          fileName: file.name,
+          file,
+        };
+      })
+    );
+  };
+
+  const handleFeatureImageChange = (slotId: string, file: File | null) => {
+    updateImageSlot(slotId, file, setFeatureImages);
+  };
+
+  const handleGalleryImageChange = (slotId: string, file: File | null) => {
+    updateImageSlot(slotId, file, setGalleryImages);
+  };
+
+  const addGalleryImageSlot = () => {
+    setGalleryImages((current) => [...current, createGallerySlot(current.length + 1)]);
+  };
+
+  const removeGalleryImageSlot = (slotId: string) => {
+    setGalleryImages((current) => {
+      if (current.length === 1) {
+        return current;
+      }
+      const slot = current.find((entry) => entry.id === slotId);
+      if (slot?.preview && slot.file) {
+        URL.revokeObjectURL(slot.preview);
+      }
+      return current.filter((entry) => entry.id !== slotId);
+    });
+  };
+
+  const resetImages = () => {
+    featureImages.forEach((slot) => {
+      if (slot.preview && slot.file) {
+        URL.revokeObjectURL(slot.preview);
+      }
+    });
+    galleryImages.forEach((slot) => {
+      if (slot.preview && slot.file) {
+        URL.revokeObjectURL(slot.preview);
+      }
+    });
+    setFeatureImages(createFeatureSlots());
+    setGalleryImages([createGallerySlot(1)]);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmittedProject(form);
+    if (isSaving) {
+      return;
+    }
+
+    setFormError(null);
+    setSuccessMessage(null);
+
+    const industriesList = parseListInput(form.industries);
+    if (industriesList.length === 0) {
+      setFormError('Add at least one industry / sector before saving the project.');
+      return;
+    }
+
+    const essentialsList = parseListInput(form.essentials);
+    if (essentialsList.length === 0) {
+      setFormError('Add at least one project essential bullet.');
+      return;
+    }
+
+    const missingFeature = featureImages.find((slot) => slot.required && !slot.file);
+    if (missingFeature) {
+      setFormError(`Upload the ${missingFeature.label.toLowerCase()} to continue.`);
+      return;
+    }
+
+    const featureFiles = featureImages.reduce<Record<'primary' | 'lifestyle' | 'city', File>>(
+      (acc, slot) => {
+        if (slot.storageKey && slot.file) {
+          acc[slot.storageKey] = slot.file;
+        }
+        return acc;
+      },
+      {
+        primary: featureImages[0].file as File,
+        lifestyle: featureImages[1].file as File,
+        city: featureImages[2].file as File,
+      }
+    );
+
+    const galleryFiles = galleryImages
+      .map((slot) => slot.file)
+      .filter((file): file is File => Boolean(file));
+
+    setIsSaving(true);
+
+    try {
+      const savedProject = await createProjectRecord({
+        code: form.code || form.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        name: form.name,
+        industries: industriesList,
+        status: form.status,
+        category: form.category,
+        segment: form.segment,
+        price: form.price,
+        inventory: form.inventory,
+        location: form.location,
+        progress: form.progress,
+        builder: form.builder,
+        consultants: form.consultants,
+        launchWindow: form.launchWindow,
+        deliveryWindow: form.deliveryWindow,
+        financing: form.financing,
+        highlights: form.highlights,
+        description: form.description,
+        statement: form.statement,
+        essentials: essentialsList,
+        featureFiles,
+        galleryFiles,
+      });
+
+      setSubmittedProject(savedProject);
+      setSubmittedMedia({
+        feature: [
+          {
+            ...featureImageTemplate[0],
+            id: 'saved-primary',
+            preview: savedProject.featureImages.primary,
+            fileName: 'Primary feature',
+            file: null,
+          },
+          {
+            ...featureImageTemplate[1],
+            id: 'saved-lifestyle',
+            preview: savedProject.featureImages.lifestyle,
+            fileName: 'Lifestyle feature',
+            file: null,
+          },
+          {
+            ...featureImageTemplate[2],
+            id: 'saved-city',
+            preview: savedProject.featureImages.city,
+            fileName: 'City feature',
+            file: null,
+          },
+        ],
+        gallery: savedProject.gallery.map((url, index) => ({
+          id: `saved-gallery-${index}`,
+          label: `Gallery image ${index + 1}`,
+          preview: url,
+          fileName: `Gallery ${index + 1}`,
+          helper: '',
+          file: null,
+        })),
+      });
+      setSuccessMessage('Project saved to Firebase. It now appears on the public projects page.');
+      setIsGalleryOpen(false);
+    } catch (error) {
+      setFormError(
+        error instanceof Error ? error.message : 'Something went wrong while saving the project.'
+      );
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleReset = () => {
     setForm(emptyForm);
     setSubmittedProject(null);
+    setSubmittedMedia(null);
+    setSuccessMessage(null);
+    setFormError(null);
+    setIsGalleryOpen(false);
+    resetImages();
   };
 
   return (
@@ -75,7 +333,7 @@ export default function CreateNewProjectPage() {
           <p className="text-xs uppercase tracking-[0.3em] text-white/40">Create project</p>
           <h1 className="text-3xl font-semibold text-white">New project entry</h1>
           <p className="text-sm text-white/60">
-            Build a complete submission across identity, commercial data, and launch readiness.
+            Upload assets, industries, and essentials to publish in the live showcase.
           </p>
         </div>
 
@@ -96,15 +354,32 @@ export default function CreateNewProjectPage() {
         </div>
       </header>
 
+      {formError ? (
+        <p className="rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+          {formError}
+        </p>
+      ) : null}
+      {successMessage ? (
+        <p className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+          {successMessage}
+        </p>
+      ) : null}
+
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="grid gap-4 lg:grid-cols-2">
-          <Card title="Basic Information" description="Define identity and categorisation.">
+          <Card title="Basic Information" description="Identity, industry alignment, and categorisation.">
             <div className="grid gap-4 sm:grid-cols-2">
+              <Field
+                label="Project code / ID"
+                value={form.code}
+                onChange={(value) => setForm((current) => ({ ...current, code: value }))}
+                placeholder="yr-1099"
+              />
               <Field
                 label="Project name"
                 value={form.name}
                 onChange={(value) => setForm((current) => ({ ...current, name: value }))}
-                placeholder="Aurora Skyline Residences"
+                placeholder="Skyline Towers"
                 required
               />
               <Field
@@ -133,6 +408,14 @@ export default function CreateNewProjectPage() {
                 }
               />
             </div>
+            <TextAreaField
+              label="Industries / sectors (one per line)"
+              value={form.industries}
+              onChange={(value) => setForm((current) => ({ ...current, industries: value }))}
+              placeholder={'Residential\nCommercial\nInfra'}
+              rows={3}
+              required
+            />
           </Card>
 
           <Card title="Pricing & Inventory" description="Commercial snapshot and stock.">
@@ -212,29 +495,91 @@ export default function CreateNewProjectPage() {
                 placeholder="Q4 2027"
               />
             </div>
+          </Card>
+
+          <Card title="Project Story" description="Craft the headline statement and detailed description.">
+            <Field
+              label="Statement"
+              value={form.statement}
+              onChange={(value) => setForm((current) => ({ ...current, statement: value }))}
+              placeholder="Modern residential complex with panoramic city views."
+              required
+            />
             <TextAreaField
-              label="Overview"
-              value={form.overview}
-              onChange={(value) => setForm((current) => ({ ...current, overview: value }))}
-              placeholder="What defines the development, buyer focus, and promise."
-              rows={4}
+              label="Description"
+              value={form.description}
+              onChange={(value) => setForm((current) => ({ ...current, description: value }))}
+              placeholder="Sustainable design featuring green roofs, concierge services, and premium amenities."
+              rows={5}
+              required
             />
           </Card>
 
-          <Card title="Visual Assets" description="Primary hero image and supporting gallery references.">
-            <Field
-              label="Hero image URL"
-              value={form.heroImage}
-              onChange={(value) => setForm((current) => ({ ...current, heroImage: value }))}
-              placeholder="https://"
-            />
+          <Card title="Project Essentials" description="Key features and highlights (one per line).">
             <TextAreaField
-              label="Gallery URLs (one per line)"
-              value={form.gallery}
-              onChange={(value) => setForm((current) => ({ ...current, gallery: value }))}
-              placeholder="https://cdn.example.com/render-01.jpg"
+              label="Essentials"
+              value={form.essentials}
+              onChange={(value) => setForm((current) => ({ ...current, essentials: value }))}
+              placeholder="45-story residential tower with 320 luxury units\nLEED Gold certified building\nState-of-the-art fitness center"
               rows={4}
+              required
             />
+          </Card>
+
+          <Card
+            title="Visual Assets"
+            description="Upload the three feature images plus as many gallery references as needed."
+          >
+            <div className="space-y-6">
+              <section>
+                <p className="text-xs uppercase tracking-wide text-white/40">Feature images (required)</p>
+                <div className="mt-3 grid gap-4 lg:grid-cols-3">
+                  {featureImages.map((slot) => (
+                    <ImageUploadField
+                      key={slot.id}
+                      label={slot.label}
+                      helper={slot.helper}
+                      preview={slot.preview}
+                      fileName={slot.fileName}
+                      required={slot.required}
+                      onChange={(file) => handleFeatureImageChange(slot.id, file)}
+                    />
+                  ))}
+                </div>
+              </section>
+
+              <section className="space-y-3">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-white/40">Project gallery</p>
+                    <p className="text-sm text-white/70">
+                      Add lifestyle, amenity, or work-in-progress images visitors can browse.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={addGalleryImageSlot}
+                    className="inline-flex items-center justify-center rounded-md border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/80 transition hover:border-white hover:text-white"
+                  >
+                    + Add images
+                  </button>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  {galleryImages.map((slot) => (
+                    <ImageUploadField
+                      key={slot.id}
+                      label={slot.label}
+                      helper={slot.helper}
+                      preview={slot.preview}
+                      fileName={slot.fileName}
+                      onChange={(file) => handleGalleryImageChange(slot.id, file)}
+                      onRemove={() => removeGalleryImageSlot(slot.id)}
+                    />
+                  ))}
+                </div>
+              </section>
+            </div>
           </Card>
         </div>
 
@@ -248,20 +593,21 @@ export default function CreateNewProjectPage() {
           </button>
           <button
             type="submit"
-            className="inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-black shadow-sm shadow-black/40 transition hover:bg-white/90"
+            disabled={isSaving}
+            className="inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-black shadow-sm shadow-black/40 transition hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Save draft
+            {isSaving ? 'Saving...' : 'Save project'}
           </button>
         </div>
       </form>
 
-      {submittedProject ? (
+      {submittedProject && submittedMedia ? (
         <section className="space-y-4 rounded-xl border border-white/10 bg-[#111111] p-6 shadow-sm shadow-black/60">
           <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-white">Draft preview</h2>
+              <h2 className="text-lg font-semibold text-white">Project saved successfully</h2>
               <p className="text-xs uppercase tracking-wide text-white/40">
-                Data staged locally until integration with backend workflows.
+                The project has been saved to Firebase and is now visible on the public projects page.
               </p>
             </div>
             <Link
@@ -272,45 +618,93 @@ export default function CreateNewProjectPage() {
             </Link>
           </header>
 
-          <div className="grid gap-4 md:grid-cols-[2fr,1fr]">
-            <div className="space-y-4">
-              <div className="rounded-lg bg-black/30 p-4">
-                <h3 className="text-sm font-semibold text-white">{submittedProject.name}</h3>
-                <p className="text-xs uppercase tracking-wide text-white/40">
-                  {submittedProject.location || 'Location TBD'}
-                </p>
-                <p className="mt-2 text-sm text-white/70">
-                  {submittedProject.overview || 'Overview pending.'}
-                </p>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <PreviewStat label="Category" value={submittedProject.category || '—'} />
-                <PreviewStat label="Segment" value={submittedProject.segment || '—'} />
-                <PreviewStat label="Price" value={submittedProject.price || '—'} />
-                <PreviewStat label="Inventory" value={submittedProject.inventory.toString()} />
-              </div>
+          <div className="grid gap-6 lg:grid-cols-[2fr,1fr]">
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+              {submittedMedia.feature[0]?.preview ? (
+                <img
+                  src={submittedMedia.feature[0].preview as string}
+                  alt={submittedMedia.feature[0].fileName ?? 'Primary project image'}
+                  className="h-full w-full max-h-[360px] object-cover"
+                />
+              ) : (
+                <div className="flex h-[360px] items-center justify-center text-sm text-white/30">
+                  Primary feature image
+                </div>
+              )}
             </div>
 
             <div className="space-y-4">
-              <PreviewStat label="Builder" value={submittedProject.builder || '—'} />
-              <PreviewStat label="Consultants" value={submittedProject.consultants || '—'} />
-              <PreviewStat label="Financing" value={submittedProject.financing || '—'} />
-              <PreviewStat label="Launch window" value={submittedProject.launchWindow || '—'} />
-              <PreviewStat label="Delivery window" value={submittedProject.deliveryWindow || '—'} />
+              <div className="grid gap-4 sm:grid-cols-2">
+                {submittedMedia.feature.slice(1, 3).map((slot) => (
+                  <div
+                    key={slot.id}
+                    className="overflow-hidden rounded-2xl border border-white/10 bg-black/20"
+                  >
+                    {slot.preview ? (
+                      <img
+                        src={slot.preview}
+                        alt={slot.fileName ?? slot.label}
+                        className="h-40 w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-40 items-center justify-center text-xs text-white/30">
+                        {slot.label}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <div className="space-y-2 rounded-2xl bg-black/30 p-4">
+                <p className="text-xs uppercase tracking-wide text-white/40">Project essentials</p>
+                <p className="text-sm font-semibold text-white/90">
+                  {submittedProject.statement || 'Statement pending.'}
+                </p>
+                <p className="text-sm text-white/60">
+                  {submittedProject.description || 'Description pending.'}
+                </p>
+                {submittedProject.essentials.length > 0 ? (
+                  <ul className="mt-2 list-disc space-y-1 pl-4 text-xs text-white/70">
+                    {submittedProject.essentials.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={() => setIsGalleryOpen((previous) => !previous)}
+                  className="mt-3 inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-xs font-semibold uppercase tracking-wide text-black transition hover:bg-white/90"
+                  disabled={submittedMedia.gallery.length === 0}
+                >
+                  {isGalleryOpen ? 'Hide gallery' : 'View gallery'}
+                </button>
+              </div>
             </div>
           </div>
 
-          {galleryPreview.length > 0 ? (
-            <div className="space-y-3">
-              <p className="text-xs uppercase tracking-wide text-white/40">Gallery references</p>
+          {isGalleryOpen && submittedMedia.gallery.length > 0 ? (
+            <div className="space-y-3 rounded-2xl border border-white/10 bg-black/20 p-4">
+              <p className="text-xs uppercase tracking-wide text-white/40">
+                {submittedMedia.gallery.length} gallery image
+                {submittedMedia.gallery.length > 1 ? 's' : ''}
+              </p>
               <div className="grid gap-3 md:grid-cols-3">
-                {galleryPreview.map((url) => (
+                {submittedMedia.gallery.map((slot) => (
                   <div
-                    key={url}
-                    className="overflow-hidden rounded-lg border border-white/10 bg-black/20 shadow-sm shadow-black/40"
+                    key={slot.id}
+                    className="overflow-hidden rounded-xl border border-white/10 bg-black/10"
                   >
-                    <img src={url} alt="" className="h-36 w-full object-cover opacity-90" />
+                    {slot.preview ? (
+                      <img
+                        src={slot.preview}
+                        alt={slot.fileName ?? slot.label}
+                        className="h-32 w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-32 items-center justify-center text-xs text-white/30">
+                        Pending upload
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -364,7 +758,7 @@ function NumberField({ label, value, min, max, step, onChange }: NumberFieldProp
         min={min}
         max={max}
         step={step}
-        onChange={(event) => onChange(Number(event.target.value))}
+        onChange={(event) => onChange(event.target.value === '' ? 0 : Number(event.target.value))}
         className="w-full rounded-md border border-white/10 bg-[#0b0b0b] px-4 py-3 text-sm text-white focus:border-white/40 focus:outline-none"
       />
     </label>
@@ -377,9 +771,17 @@ type TextAreaFieldProps = {
   rows?: number;
   placeholder?: string;
   onChange: (value: string) => void;
+  required?: boolean;
 };
 
-function TextAreaField({ label, value, rows = 3, placeholder, onChange }: TextAreaFieldProps) {
+function TextAreaField({
+  label,
+  value,
+  rows = 3,
+  placeholder,
+  onChange,
+  required,
+}: TextAreaFieldProps) {
   return (
     <label className="block space-y-2 text-sm text-white/80">
       <span className="text-xs uppercase tracking-wide text-white/40">{label}</span>
@@ -388,9 +790,65 @@ function TextAreaField({ label, value, rows = 3, placeholder, onChange }: TextAr
         rows={rows}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
+        required={required}
         className="w-full rounded-md border border-white/10 bg-[#0b0b0b] px-4 py-3 text-sm text-white focus:border-white/40 focus:outline-none"
       />
     </label>
+  );
+}
+
+type ImageUploadFieldProps = {
+  label: string;
+  helper?: string;
+  preview: string | null;
+  fileName: string | null;
+  required?: boolean;
+  onChange: (file: File | null) => void;
+  onRemove?: () => void;
+};
+
+function ImageUploadField({
+  label,
+  helper,
+  preview,
+  fileName,
+  required,
+  onChange,
+  onRemove,
+}: ImageUploadFieldProps) {
+  return (
+    <div className="space-y-3 rounded-lg border border-dashed border-white/20 bg-black/20 p-4">
+      <label className="block space-y-2 text-sm text-white/80">
+        <span className="text-xs uppercase tracking-wide text-white/40">{label}</span>
+        <input
+          type="file"
+          accept="image/*"
+          required={required && !preview}
+          onChange={(event) => onChange(event.target.files?.[0] ?? null)}
+          className="w-full rounded-md border border-white/10 bg-[#0b0b0b] px-4 py-2 text-xs text-white file:mr-4 file:rounded-md file:border-0 file:bg-white file:px-3 file:py-2 file:text-xs file:font-semibold file:text-black focus:border-white/40 focus:outline-none"
+        />
+      </label>
+      {helper ? <p className="text-xs text-white/50">{helper}</p> : null}
+      <div className="overflow-hidden rounded-lg border border-white/10 bg-black/30 text-center">
+        {preview ? (
+          <img src={preview} alt={fileName ?? label} className="h-28 w-full object-cover" />
+        ) : (
+          <div className="flex h-28 items-center justify-center text-xs uppercase tracking-wide text-white/30">
+            No image selected
+          </div>
+        )}
+      </div>
+      {fileName ? <p className="truncate text-xs text-white/60">{fileName}</p> : null}
+      {onRemove ? (
+        <button
+          type="button"
+          onClick={onRemove}
+          className="text-xs font-semibold text-red-400 transition hover:text-red-300"
+        >
+          Remove image
+        </button>
+      ) : null}
+    </div>
   );
 }
 
@@ -437,19 +895,3 @@ function Card({ title, description, children }: CardProps) {
     </div>
   );
 }
-
-type PreviewStatProps = {
-  label: string;
-  value: string;
-};
-
-function PreviewStat({ label, value }: PreviewStatProps) {
-  return (
-    <div className="space-y-2 rounded-lg bg-black/30 p-4 text-sm text-white/70">
-      <span className="block text-xs uppercase tracking-wide text-white/40">{label}</span>
-      <p className="text-white">{value}</p>
-    </div>
-  );
-}
-
-
