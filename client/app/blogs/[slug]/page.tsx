@@ -22,14 +22,23 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
 
   if (!blog) {
     return {
-      title: "Blog | Yashraj",
-      description: "Insights from the Yashraj studio.",
+      title: "Blog",
+      description: "Insights and articles from Yashraj Infrastructure - Construction industry news, tips, and project updates.",
+      openGraph: {
+        title: "Blog - Yashraj Infrastructure",
+        description: "Insights and articles from Yashraj Infrastructure - Construction industry news, tips, and project updates.",
+      },
     };
   }
 
   return {
-    title: `${blog.title} | Yashraj`,
+    title: blog.title,
     description: blog.summary,
+    openGraph: {
+      title: `${blog.title} - Yashraj Infrastructure`,
+      description: blog.summary,
+      type: "article",
+    },
   };
 }
 

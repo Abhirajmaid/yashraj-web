@@ -8,27 +8,11 @@ export type FeatureImageMap = {
 
 export type ProjectRecord = {
   id: string;
-  code: string;
-  name: string;
-  industries: string[];
-  status: ProjectStatus;
-  category: string;
-  segment: string;
-  price: string;
-  inventory: number;
-  location: string;
-  progress: number;
-  builder: string;
-  consultants: string;
-  launchWindow: string;
-  deliveryWindow: string;
-  financing: string;
-  highlights: string;
-  description: string;
-  statement: string;
-  essentials: string[];
-  featureImages: FeatureImageMap;
-  gallery: string[];
+  name: string; // Project title
+  overview: string; // Single line overview description
+  featureImages: FeatureImageMap; // primary (hero), lifestyle (sub1), city (sub2)
+  essentials: string[]; // Array of 3 bullet points
+  gallery: string[]; // Gallery images for View Gallery button
   createdAt?: string | null;
   updatedAt?: string | null;
 };
@@ -36,27 +20,11 @@ export type ProjectRecord = {
 export type ProjectEssentials = string[];
 
 export type CreateProjectPayload = {
-  code: string;
-  name: string;
-  industries: string[];
-  status: ProjectStatus;
-  category: string;
-  segment: string;
-  price: string;
-  inventory: number;
-  location: string;
-  progress: number;
-  builder: string;
-  consultants: string;
-  launchWindow: string;
-  deliveryWindow: string;
-  financing: string;
-  highlights: string;
-  description: string;
-  statement: string;
-  essentials: string[];
-  featureFiles: Record<'primary' | 'lifestyle' | 'city', File>;
-  galleryFiles: File[];
+  name: string; // Project title
+  overview?: string; // Single line overview description
+  essentials?: string[]; // Key bullet points (optional)
+  featureFiles?: Partial<Record<'primary' | 'lifestyle' | 'city', File>>; // Hero image + 2 sub images
+  galleryFiles?: File[]; // Gallery images (optional)
 };
 
 

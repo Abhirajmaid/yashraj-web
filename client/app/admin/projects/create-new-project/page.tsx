@@ -3,28 +3,14 @@
 import Link from 'next/link';
 import { FormEvent, ReactNode, useState } from 'react';
 import { createProjectRecord } from '@/lib/projectsRepository';
-import { ProjectRecord, ProjectStatus } from '@/types/project';
+import { ProjectRecord } from '@/types/project';
 
 type ProjectForm = {
-  code: string;
   name: string;
-  category: string;
-  segment: string;
-  industries: string;
-  status: ProjectStatus;
-  price: string;
-  inventory: number;
-  location: string;
-  progress: number;
-  builder: string;
-  consultants: string;
-  launchWindow: string;
-  deliveryWindow: string;
-  financing: string;
-  highlights: string;
-  description: string;
-  statement: string;
-  essentials: string;
+  overview: string;
+  essential1: string;
+  essential2: string;
+  essential3: string;
 };
 
 type ImageSlot = {
@@ -44,25 +30,11 @@ type SubmittedMediaState = {
 };
 
 const emptyForm: ProjectForm = {
-  code: '',
   name: '',
-  category: '',
-  segment: '',
-  industries: '',
-  status: 'draft',
-  price: '',
-  inventory: 0,
-  location: '',
-  progress: 0,
-  builder: '',
-  consultants: '',
-  launchWindow: '',
-  deliveryWindow: '',
-  financing: '',
-  highlights: '',
-  description: '',
-  statement: '',
-  essentials: '',
+  overview: '',
+  essential1: '',
+  essential2: '',
+  essential3: '',
 };
 
 const featureImageTemplate: ImageSlot[] = [
@@ -73,7 +45,7 @@ const featureImageTemplate: ImageSlot[] = [
     preview: null,
     fileName: null,
     file: null,
-    required: true,
+    required: false,
     storageKey: 'primary',
   },
   {
@@ -83,7 +55,7 @@ const featureImageTemplate: ImageSlot[] = [
     preview: null,
     fileName: null,
     file: null,
-    required: true,
+    required: false,
     storageKey: 'lifestyle',
   },
   {
@@ -93,7 +65,7 @@ const featureImageTemplate: ImageSlot[] = [
     preview: null,
     fileName: null,
     file: null,
-    required: true,
+    required: false,
     storageKey: 'city',
   },
 ];
@@ -112,12 +84,6 @@ const createGallerySlot = (index: number): ImageSlot => ({
   fileName: null,
   file: null,
 });
-
-const parseListInput = (value: string) =>
-  value
-    .split(/[\n,]/)
-    .map((entry) => entry.trim())
-    .filter(Boolean);
 
 export default function CreateNewProjectPage() {
   const [form, setForm] = useState<ProjectForm>(emptyForm);
@@ -208,36 +174,23 @@ export default function CreateNewProjectPage() {
     setFormError(null);
     setSuccessMessage(null);
 
-    const industriesList = parseListInput(form.industries);
-    if (industriesList.length === 0) {
-      setFormError('Add at least one industry / sector before saving the project.');
+    // Validation
+    if (!form.name.trim()) {
+      setFormError('Project name is required.');
       return;
     }
 
-    const essentialsList = parseListInput(form.essentials);
-    if (essentialsList.length === 0) {
-      setFormError('Add at least one project essential bullet.');
-      return;
-    }
-
-    const missingFeature = featureImages.find((slot) => slot.required && !slot.file);
-    if (missingFeature) {
-      setFormError(`Upload the ${missingFeature.label.toLowerCase()} to continue.`);
-      return;
-    }
-
-    const featureFiles = featureImages.reduce<Record<'primary' | 'lifestyle' | 'city', File>>(
+    const essentialsList = [form.essential1, form.essential2, form.essential3]
+      .map((e) => e.trim())
+      .filter(Boolean);
+    const featureFiles = featureImages.reduce<Partial<Record<'primary' | 'lifestyle' | 'city', File>>>(
       (acc, slot) => {
         if (slot.storageKey && slot.file) {
           acc[slot.storageKey] = slot.file;
         }
         return acc;
       },
-      {
-        primary: featureImages[0].file as File,
-        lifestyle: featureImages[1].file as File,
-        city: featureImages[2].file as File,
-      }
+      {}
     );
 
     const galleryFiles = galleryImages
@@ -245,31 +198,32 @@ export default function CreateNewProjectPage() {
       .filter((file): file is File => Boolean(file));
 
     setIsSaving(true);
+    setFormError(null);
+    setSuccessMessage(null);
+
+    // Create a timeout promise to prevent infinite loading
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => {
+        reject(new Error('Save operation timed out after 2 minutes. Please check your internet connection and try again.'));
+      }, 120000); // 2 minutes timeout
+    });
 
     try {
-      const savedProject = await createProjectRecord({
-        code: form.code || form.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        name: form.name,
-        industries: industriesList,
-        status: form.status,
-        category: form.category,
-        segment: form.segment,
-        price: form.price,
-        inventory: form.inventory,
-        location: form.location,
-        progress: form.progress,
-        builder: form.builder,
-        consultants: form.consultants,
-        launchWindow: form.launchWindow,
-        deliveryWindow: form.deliveryWindow,
-        financing: form.financing,
-        highlights: form.highlights,
-        description: form.description,
-        statement: form.statement,
-        essentials: essentialsList,
-        featureFiles,
-        galleryFiles,
-      });
+      console.log('Starting project save...', { projectName: form.name });
+      
+      // Race between the actual save and timeout
+      const savedProject = await Promise.race([
+        createProjectRecord({
+          name: form.name.trim(),
+          overview: form.overview.trim(),
+          essentials: essentialsList,
+          featureFiles,
+          galleryFiles,
+        }),
+        timeoutPromise,
+      ]);
+
+      console.log('Project saved successfully!', { projectId: savedProject.id, projectName: savedProject.name });
 
       setSubmittedProject(savedProject);
       setSubmittedMedia({
@@ -305,13 +259,17 @@ export default function CreateNewProjectPage() {
           file: null,
         })),
       });
-      setSuccessMessage('Project saved to Firebase. It now appears on the public projects page.');
+      setSuccessMessage(`Project "${savedProject.name}" saved successfully! It should now appear on the public projects page.`);
       setIsGalleryOpen(false);
     } catch (error) {
-      setFormError(
-        error instanceof Error ? error.message : 'Something went wrong while saving the project.'
-      );
+      console.error('Error saving project:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Something went wrong while saving the project.';
+      setFormError(errorMessage);
+      
+      // Scroll to top to show error
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } finally {
+      // Always reset saving state, even if there was an error
       setIsSaving(false);
     }
   };
@@ -333,7 +291,7 @@ export default function CreateNewProjectPage() {
           <p className="text-xs uppercase tracking-[0.3em] text-white/40">Create project</p>
           <h1 className="text-3xl font-semibold text-white">New project entry</h1>
           <p className="text-sm text-white/60">
-            Upload assets, industries, and essentials to publish in the live showcase.
+            Add project details and images to publish in the live showcase.
           </p>
         </div>
 
@@ -367,172 +325,54 @@ export default function CreateNewProjectPage() {
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="grid gap-4 lg:grid-cols-2">
-          <Card title="Basic Information" description="Identity, industry alignment, and categorisation.">
-            <div className="grid gap-4 sm:grid-cols-2">
+          <Card title="Project Information" description="Basic project details displayed on the website.">
               <Field
-                label="Project code / ID"
-                value={form.code}
-                onChange={(value) => setForm((current) => ({ ...current, code: value }))}
-                placeholder="yr-1099"
-              />
-              <Field
-                label="Project name"
+              label="Project Name"
                 value={form.name}
                 onChange={(value) => setForm((current) => ({ ...current, name: value }))}
-                placeholder="Skyline Towers"
+              placeholder="Urban retreat in Golden Gate Park"
                 required
               />
-              <Field
-                label="Category"
-                value={form.category}
-                onChange={(value) => setForm((current) => ({ ...current, category: value }))}
-                placeholder="Residential / Commercial"
-                required
-              />
-              <Field
-                label="Segment"
-                value={form.segment}
-                onChange={(value) => setForm((current) => ({ ...current, segment: value }))}
-                placeholder="High-rise / Villas / Transit"
-              />
-              <SelectField
-                label="Status"
-                value={form.status}
-                options={[
-                  { label: 'Draft', value: 'draft' },
-                  { label: 'Active', value: 'active' },
-                  { label: 'Completed', value: 'completed' },
-                ]}
-                onChange={(value) =>
-                  setForm((current) => ({ ...current, status: value as ProjectStatus }))
-                }
-              />
-            </div>
             <TextAreaField
-              label="Industries / sectors (one per line)"
-              value={form.industries}
-              onChange={(value) => setForm((current) => ({ ...current, industries: value }))}
-              placeholder={'Residential\nCommercial\nInfra'}
-              rows={3}
-              required
+              label="Overview (Single line description)"
+              value={form.overview}
+              onChange={(value) => setForm((current) => ({ ...current, overview: value }))}
+              placeholder="Floor-to-ceiling glazing frames uninterrupted park vistas. Configurable conference suites support hybrid teams and live demos."
+              rows={2}
             />
           </Card>
 
-          <Card title="Pricing & Inventory" description="Commercial snapshot and stock.">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field
-                label="Headline pricing"
-                value={form.price}
-                onChange={(value) => setForm((current) => ({ ...current, price: value }))}
-                placeholder="₹2.1 Cr onwards"
-              />
-              <NumberField
-                label="Inventory count"
-                value={form.inventory}
-                onChange={(value) => setForm((current) => ({ ...current, inventory: value }))}
-                min={0}
-              />
-              <NumberField
-                label="Progress (%)"
-                value={form.progress}
-                onChange={(value) => setForm((current) => ({ ...current, progress: value }))}
-                min={0}
-                max={100}
-                step={1}
-              />
-              <Field
-                label="Financing / schemes"
-                value={form.financing}
-                onChange={(value) => setForm((current) => ({ ...current, financing: value }))}
-                placeholder="Payment plans, alliances, offers"
-              />
-            </div>
-          </Card>
-
-          <Card title="Location & Team" description="Where it sits and who is driving it.">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field
-                label="Location"
-                value={form.location}
-                onChange={(value) => setForm((current) => ({ ...current, location: value }))}
-                placeholder="City • Landmark"
-                required
-              />
-              <Field
-                label="Builder / developer"
-                value={form.builder}
-                onChange={(value) => setForm((current) => ({ ...current, builder: value }))}
-                placeholder="Yashraj Constructions"
-                required
-              />
-              <Field
-                label="Consultants"
-                value={form.consultants}
-                onChange={(value) => setForm((current) => ({ ...current, consultants: value }))}
-                placeholder="Architect • Structural • Landscape"
-              />
-              <Field
-                label="Highlights"
-                value={form.highlights}
-                onChange={(value) => setForm((current) => ({ ...current, highlights: value }))}
-                placeholder="Clubhouse • Waterfront promenade"
-              />
-            </div>
-          </Card>
-
-          <Card title="Timeline" description="Milestones for launch and handover.">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field
-                label="Launch window"
-                value={form.launchWindow}
-                onChange={(value) => setForm((current) => ({ ...current, launchWindow: value }))}
-                placeholder="Q3 2025"
-              />
-              <Field
-                label="Delivery window"
-                value={form.deliveryWindow}
-                onChange={(value) => setForm((current) => ({ ...current, deliveryWindow: value }))}
-                placeholder="Q4 2027"
-              />
-            </div>
-          </Card>
-
-          <Card title="Project Story" description="Craft the headline statement and detailed description.">
-            <Field
-              label="Statement"
-              value={form.statement}
-              onChange={(value) => setForm((current) => ({ ...current, statement: value }))}
-              placeholder="Modern residential complex with panoramic city views."
-              required
+          <Card title="Project Essentials" description="Three key features displayed as bullet points.">
+            <TextAreaField
+              label="Essential 1"
+              value={form.essential1}
+              onChange={(value) => setForm((current) => ({ ...current, essential1: value }))}
+              placeholder="6,500 sq.ft workplace with passive cooling, operable skylights, and rainwater-fed biowalls for humidity control."
+              rows={2}
             />
             <TextAreaField
-              label="Description"
-              value={form.description}
-              onChange={(value) => setForm((current) => ({ ...current, description: value }))}
-              placeholder="Sustainable design featuring green roofs, concierge services, and premium amenities."
-              rows={5}
-              required
+              label="Essential 2"
+              value={form.essential2}
+              onChange={(value) => setForm((current) => ({ ...current, essential2: value }))}
+              placeholder="Immersive innovation forum with retractable seating, acoustic fins, and integrated AV for investor previews and press launches."
+              rows={2}
             />
-          </Card>
-
-          <Card title="Project Essentials" description="Key features and highlights (one per line).">
             <TextAreaField
-              label="Essentials"
-              value={form.essentials}
-              onChange={(value) => setForm((current) => ({ ...current, essentials: value }))}
-              placeholder="45-story residential tower with 320 luxury units\nLEED Gold certified building\nState-of-the-art fitness center"
-              rows={4}
-              required
+              label="Essential 3"
+              value={form.essential3}
+              onChange={(value) => setForm((current) => ({ ...current, essential3: value }))}
+              placeholder="Material palette couples reclaimed white oak, recycled terrazzo, and low-iron glass connected to a campus-wide energy dashboard."
+              rows={2}
             />
           </Card>
 
           <Card
             title="Visual Assets"
-            description="Upload the three feature images plus as many gallery references as needed."
+            description="Upload hero image, 2 sub images, and optional gallery images."
           >
             <div className="space-y-6">
               <section>
-                <p className="text-xs uppercase tracking-wide text-white/40">Feature images (required)</p>
+                <p className="text-xs uppercase tracking-wide text-white/40">Feature images (optional)</p>
                 <div className="mt-3 grid gap-4 lg:grid-cols-3">
                   {featureImages.map((slot) => (
                     <ImageUploadField
@@ -596,7 +436,18 @@ export default function CreateNewProjectPage() {
             disabled={isSaving}
             className="inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-black shadow-sm shadow-black/40 transition hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSaving ? 'Saving...' : 'Save project'}
+            {isSaving ? (
+              <span className="flex items-center gap-1">
+                <span>Saving</span>
+                <span className="inline-flex gap-0.5">
+                  <span style={{ animation: 'bounce 1s infinite 0ms' }}>.</span>
+                  <span style={{ animation: 'bounce 1s infinite 200ms' }}>.</span>
+                  <span style={{ animation: 'bounce 1s infinite 400ms' }}>.</span>
+                </span>
+              </span>
+            ) : (
+              'Save project'
+            )}
           </button>
         </div>
       </form>

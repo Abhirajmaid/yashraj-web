@@ -9,7 +9,7 @@ const firebaseConfig = {
   apiKey: 'AIzaSyC7iDeaDSPX9Qz8mGZn3saaNP44u3MbY8E',
   authDomain: 'yashraj-infrastructure.firebaseapp.com',
   projectId: 'yashraj-infrastructure',
-  storageBucket: 'yashraj-infrastructure.firebasestorage.app',
+  storageBucket: 'yashraj-infrastructure.appspot.com',
   messagingSenderId: '698056438215',
   appId: '1:698056438215:web:f26486ea9a0ff75bd6a9e2',
   measurementId: 'G-9N0YLQXPHT',

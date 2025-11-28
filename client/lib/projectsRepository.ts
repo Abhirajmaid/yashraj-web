@@ -1,6 +1,6 @@
 'use client';
 
-import { db, storage } from '@/lib/firebaseClient';
+import { db } from '@/lib/firebaseClient';
 import {
   addDoc,
   collection,
@@ -12,37 +12,20 @@ import {
   DocumentData,
   DocumentSnapshot,
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
   CreateProjectPayload,
   FeatureImageMap,
   ProjectRecord,
-  ProjectStatus,
 } from '@/types/project';
+import { uploadImageToCloudinary } from '@/lib/cloudinary';
 
 export const PROJECTS_COLLECTION = 'projects';
 
 const projectsCollection = collection(db, PROJECTS_COLLECTION);
 
 type FirestoreProjectData = {
-  code?: string;
   name?: string;
-  industries?: string[];
-  status?: ProjectStatus;
-  category?: string;
-  segment?: string;
-  price?: string;
-  inventory?: number;
-  location?: string;
-  progress?: number;
-  builder?: string;
-  consultants?: string;
-  launchWindow?: string;
-  deliveryWindow?: string;
-  financing?: string;
-  highlights?: string;
-  description?: string;
-  statement?: string;
+  overview?: string;
   essentials?: string[];
   featureImages?: Partial<FeatureImageMap>;
   gallery?: string[];
@@ -66,95 +49,131 @@ function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
 
-async function uploadImage(path: string, file: File) {
-  const storageRef = ref(storage, path);
-  await uploadBytes(storageRef, file);
-  return getDownloadURL(storageRef);
-}
-
 export async function createProjectRecord(payload: CreateProjectPayload): Promise<ProjectRecord> {
-  const projectSlug = slugify(payload.code || payload.name || randomId());
+  console.log('[createProjectRecord] Starting project creation...', { projectName: payload.name });
+  
+  try {
+    const projectSlug = slugify(payload.name || randomId());
+    console.log('[createProjectRecord] Generated project slug:', projectSlug);
 
-  const featureUploads = await Promise.all(
-    (Object.entries(payload.featureFiles) as [keyof FeatureImageMap, File][]).map(
-      async ([key, file]) => {
-        const downloadUrl = await uploadImage(
-          `projects/${projectSlug}/feature-${key}-${randomId()}`,
-          file
+    const featureFiles = payload.featureFiles ?? {};
+    let featureUploads: Array<[keyof FeatureImageMap, string]> = [];
+    if (Object.keys(featureFiles).length) {
+      try {
+        console.log('[createProjectRecord] Uploading feature images...', { count: Object.keys(featureFiles).length });
+        featureUploads = await Promise.all(
+          (Object.entries(featureFiles) as [keyof FeatureImageMap, File | undefined][])
+            .filter((entry): entry is [keyof FeatureImageMap, File] => Boolean(entry[1]))
+            .map(async ([key, file]) => {
+              console.log(`[createProjectRecord] Uploading feature image: ${key}`, { fileName: file.name, size: file.size });
+              const uploadResult = await uploadImageToCloudinary(file, {
+                folder: `projects/${projectSlug}/feature`,
+              });
+              console.log(`[createProjectRecord] Feature image uploaded: ${key}`, { url: uploadResult.secureUrl });
+              return [key, uploadResult.secureUrl] as const;
+            })
         );
-
-        return [key, downloadUrl] as const;
+        console.log('[createProjectRecord] Feature image upload complete', { successCount: featureUploads.length });
+      } catch (error) {
+        console.error('[createProjectRecord] Error uploading feature images:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        throw new Error(`Failed to upload feature images: ${errorMessage}`);
       }
-    )
-  );
-
-  const galleryUploads = await Promise.all(
-    payload.galleryFiles.map((file) => uploadImage(`projects/${projectSlug}/gallery-${randomId()}`, file))
-  );
-
-  const featureImages = featureUploads.reduce<FeatureImageMap>(
-    (acc, [key, url]) => ({ ...acc, [key]: url }),
-    {
-      primary: '',
-      lifestyle: '',
-      city: '',
+    } else {
+      console.log('[createProjectRecord] Skipping feature image uploads (none provided)');
     }
-  );
 
-  const nowIso = new Date().toISOString();
+    const galleryFiles = payload.galleryFiles ?? [];
+    let galleryUploads: string[] = [];
+    if (galleryFiles.length) {
+      try {
+        console.log('[createProjectRecord] Uploading gallery images...', { count: galleryFiles.length });
+        galleryUploads = await Promise.all(
+          galleryFiles.map(async (file, index) => {
+            console.log(`[createProjectRecord] Uploading gallery image ${index + 1}`, { fileName: file.name, size: file.size });
+            const uploadResult = await uploadImageToCloudinary(file, {
+              folder: `projects/${projectSlug}/gallery`,
+            });
+            console.log(`[createProjectRecord] Gallery image ${index + 1} uploaded`, { url: uploadResult.secureUrl });
+            return uploadResult.secureUrl;
+          })
+        );
+        console.log('[createProjectRecord] All gallery images uploaded successfully');
+      } catch (error) {
+        console.error('[createProjectRecord] Error uploading gallery images:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        throw new Error(`Failed to upload gallery images: ${errorMessage}`);
+      }
+    } else {
+      console.log('[createProjectRecord] Skipping gallery upload (no images provided)');
+    }
 
-  const docRef = await addDoc(projectsCollection, {
-    code: payload.code,
-    name: payload.name,
-    industries: payload.industries,
-    status: payload.status,
-    category: payload.category,
-    segment: payload.segment,
-    price: payload.price,
-    inventory: payload.inventory,
-    location: payload.location,
-    progress: payload.progress,
-    builder: payload.builder,
-    consultants: payload.consultants,
-    launchWindow: payload.launchWindow,
-    deliveryWindow: payload.deliveryWindow,
-    financing: payload.financing,
-    highlights: payload.highlights,
-    description: payload.description,
-    statement: payload.statement,
-    essentials: payload.essentials,
-    featureImages,
-    gallery: galleryUploads,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
+    const featureImages = featureUploads.reduce<FeatureImageMap>(
+      (acc, [key, url]) => ({ ...acc, [key]: url }),
+      {
+        primary: '',
+        lifestyle: '',
+        city: '',
+      }
+    );
 
-  return {
-    id: docRef.id,
-    code: payload.code,
-    name: payload.name,
-    industries: payload.industries,
-    status: payload.status,
-    category: payload.category,
-    segment: payload.segment,
-    price: payload.price,
-    inventory: payload.inventory,
-    location: payload.location,
-    progress: payload.progress,
-    builder: payload.builder,
-    consultants: payload.consultants,
-    launchWindow: payload.launchWindow,
-    deliveryWindow: payload.deliveryWindow,
-    financing: payload.financing,
-    highlights: payload.highlights,
-    description: payload.description,
-    statement: payload.statement,
-    essentials: payload.essentials,
-    featureImages,
-    gallery: galleryUploads,
-    createdAt: nowIso,
-    updatedAt: nowIso,
-  };
+    const nowIso = new Date().toISOString();
+
+    // Save project document to Firestore
+    let docRef;
+    const overviewValue = payload.overview?.trim() ?? '';
+    const essentialsValue = payload.essentials ?? [];
+
+    try {
+      console.log('[createProjectRecord] Saving project to Firestore...', {
+        name: payload.name,
+        overview: overviewValue,
+        essentialsCount: essentialsValue.length,
+        galleryCount: galleryUploads.length,
+      });
+      
+      docRef = await addDoc(projectsCollection, {
+        name: payload.name,
+        overview: overviewValue,
+        essentials: essentialsValue,
+        featureImages,
+        gallery: galleryUploads,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+      
+      console.log('[createProjectRecord] Project saved to Firestore successfully!', { documentId: docRef.id });
+    } catch (error) {
+      console.error('[createProjectRecord] Error saving to Firestore:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      // Check for permission errors
+      if (errorMessage.includes('permission') || errorMessage.includes('Permission')) {
+        throw new Error(`Firestore permission denied: ${errorMessage}. Please update Firestore security rules to allow writes to the 'projects' collection.`);
+      }
+      throw new Error(`Failed to save project to Firestore: ${errorMessage}`);
+    }
+
+    const projectRecord: ProjectRecord = {
+      id: docRef.id,
+      name: payload.name,
+      overview: overviewValue,
+      essentials: essentialsValue,
+      featureImages,
+      gallery: galleryUploads,
+      createdAt: nowIso,
+      updatedAt: nowIso,
+    };
+
+    console.log('[createProjectRecord] Project record created successfully!', { projectId: projectRecord.id });
+    return projectRecord;
+  } catch (error) {
+    // Re-throw with better context
+    console.error('[createProjectRecord] Fatal error:', error);
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error(`Failed to create project record: ${String(error)}`);
+  }
 }
 
 function convertTimestampToIso(timestamp?: { seconds: number; nanoseconds: number }) {
@@ -173,24 +192,8 @@ export function deserializeProjectDoc(
 
   return {
     id: snapshot.id,
-    code: data?.code ?? '',
     name: data?.name ?? '',
-    industries: data?.industries ?? [],
-    status: data?.status ?? 'draft',
-    category: data?.category ?? '',
-    segment: data?.segment ?? '',
-    price: data?.price ?? '',
-    inventory: data?.inventory ?? 0,
-    location: data?.location ?? '',
-    progress: data?.progress ?? 0,
-    builder: data?.builder ?? '',
-    consultants: data?.consultants ?? '',
-    launchWindow: data?.launchWindow ?? '',
-    deliveryWindow: data?.deliveryWindow ?? '',
-    financing: data?.financing ?? '',
-    highlights: data?.highlights ?? '',
-    description: data?.description ?? '',
-    statement: data?.statement ?? '',
+    overview: data?.overview ?? '',
     essentials: data?.essentials ?? [],
     featureImages: {
       primary: data?.featureImages?.primary ?? '',
@@ -207,22 +210,39 @@ export function listenToProjects(
   onData: (projects: ProjectRecord[]) => void,
   onError: (error: Error) => void
 ) {
-  const projectsQuery = query(projectsCollection, orderBy('createdAt', 'desc'));
+  try {
+    const projectsQuery = query(projectsCollection, orderBy('createdAt', 'desc'));
 
-  return onSnapshot(
-    projectsQuery,
-    (snapshot) => {
-      const mapped = snapshot.docs.map((doc) => deserializeProjectDoc(doc));
-      onData(mapped);
-    },
-    (firebaseError) => {
-      onError(
-        firebaseError instanceof Error
-          ? firebaseError
-          : new Error('Failed to load projects from Firebase.')
-      );
-    }
-  );
+    return onSnapshot(
+      projectsQuery,
+      (snapshot) => {
+        const mapped = snapshot.docs.map((doc) => deserializeProjectDoc(doc));
+        onData(mapped);
+      },
+      (firebaseError) => {
+        const errorMessage = firebaseError instanceof Error ? firebaseError.message : String(firebaseError);
+        
+        // Provide more helpful error messages
+        let userFriendlyMessage = errorMessage;
+        if (errorMessage.includes('permission') || errorMessage.includes('Permission')) {
+          userFriendlyMessage = `Firestore permission denied: ${errorMessage}. Please update Firestore security rules to allow reads from the 'projects' collection.`;
+        } else if (errorMessage.includes('index') || errorMessage.includes('Index')) {
+          userFriendlyMessage = `Firestore index required: ${errorMessage}. Please create a composite index for 'projects' collection on 'createdAt' field in descending order.`;
+        }
+        
+        onError(
+          firebaseError instanceof Error
+            ? new Error(userFriendlyMessage)
+            : new Error(userFriendlyMessage || 'Failed to load projects from Firebase.')
+        );
+      }
+    );
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    onError(new Error(`Failed to set up projects listener: ${errorMessage}`));
+    // Return a no-op unsubscribe function
+    return () => {};
+  }
 }
 
 

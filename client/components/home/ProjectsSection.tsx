@@ -1,105 +1,36 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
+import { Icon } from "@iconify/react";
 import { ProjectCard } from "./ProjectCard";
 import { SectionHeader } from "@/components/common/SectionHeader";
-import Button from "@/components/common/Button";
-
-const projects = [
-  {
-    href: "/projects/skyline-towers",
-    imageSrc: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Skyline towers project",
-    title: `"Skyline Towers"`,
-    completion: "June 2023",
-    location: "Riverside District",
-  },
-  {
-    href: "/projects/riverfront-residences",
-    imageSrc: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Riverfront residences project",
-    title: `"Riverfront Residences"`,
-    completion: "August 2022",
-    location: "Downtown Metropolis",
-  },
-  {
-    href: "/projects/modular-megacity",
-    imageSrc: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Modular megacity project",
-    title: `"Modular Megacity"`,
-    completion: "December 2023",
-    location: "Urban Core",
-  },
-  {
-    href: "/projects/coastal-horizon",
-    imageSrc: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Coastal horizon project",
-    title: `"Coastal Horizon"`,
-    completion: "March 2024",
-    location: "Seaside Boulevard",
-  },
-  {
-    href: "/projects/tech-campus",
-    imageSrc: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Tech campus project",
-    title: `"Tech Campus"`,
-    completion: "January 2024",
-    location: "Innovation District",
-  },
-  {
-    href: "/projects/green-towers",
-    imageSrc: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Green towers project",
-    title: `"Green Towers"`,
-    completion: "May 2023",
-    location: "Eco Park",
-  },
-  {
-    href: "/projects/platinum-heights",
-    imageSrc: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Platinum heights project",
-    title: `"Platinum Heights"`,
-    completion: "September 2023",
-    location: "Business District",
-  },
-  {
-    href: "/projects/ocean-view-villas",
-    imageSrc: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Ocean view villas project",
-    title: `"Ocean View Villas"`,
-    completion: "November 2023",
-    location: "Coastal Area",
-  },
-  {
-    href: "/projects/urban-nexus",
-    imageSrc: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Urban nexus project",
-    title: `"Urban Nexus"`,
-    completion: "April 2024",
-    location: "City Center",
-  },
-  {
-    href: "/projects/elite-residences",
-    imageSrc: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Elite residences project",
-    title: `"Elite Residences"`,
-    completion: "February 2024",
-    location: "Premium Zone",
-  },
-  {
-    href: "/projects/sky-bridge-complex",
-    imageSrc: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Sky bridge complex project",
-    title: `"Sky Bridge Complex"`,
-    completion: "July 2023",
-    location: "Metropolitan Area",
-  },
-];
+import { listenToProjects } from "@/lib/projectsRepository";
+import { ProjectRecord } from "@/types/project";
 
 export function ProjectsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [projects, setProjects] = useState<ProjectRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch projects from Firebase
+  useEffect(() => {
+    const unsubscribe = listenToProjects(
+      (records) => {
+        setProjects(records);
+        setIsLoading(false);
+        setError(null);
+      },
+      (firebaseError) => {
+        setError(firebaseError.message);
+        setIsLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
 
   const updateScrollState = () => {
     if (scrollContainerRef.current) {
@@ -107,7 +38,7 @@ export function ProjectsSection() {
       setCanScrollPrev(container.scrollLeft > 0);
       setCanScrollNext(
         container.scrollLeft <
-          container.scrollWidth - container.clientWidth - 10
+        container.scrollWidth - container.clientWidth - 10
       );
 
       // Calculate active index based on scroll position
@@ -252,35 +183,37 @@ export function ProjectsSection() {
               projects each delivered with meticulous planning and
               craftsmanship.
             </p>
-
-            {/* Navigation Buttons */}
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={() => scroll("prev")}
-                disabled={!canScrollPrev}
-                type="secondary"
-                size="lg"
-                hideArrow
-                className="pr-4"
-              >
-                Previous
-              </Button>
-              <Button
-                onClick={() => scroll("next")}
-                disabled={!canScrollNext}
-                type="primary"
-                size="lg"
-                hideArrow
-                className="pr-4"
-              >
-                Next
-              </Button>
-            </div>
           </div>
         </div>
 
         {/* Projects Auto Carousel */}
         <div className="relative">
+          {/* Left Arrow */}
+          <button
+            onClick={() => scroll("prev")}
+            disabled={!canScrollPrev}
+            aria-label="Previous project"
+            className="absolute left-0 top-1/2 z-20 -translate-y-1/2 -translate-x-4 rounded-full bg-white p-3 shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 lg:-translate-x-6 lg:p-4"
+          >
+            <Icon
+              icon="mdi:chevron-left"
+              className="text-2xl text-brand-primary lg:text-3xl"
+            />
+          </button>
+
+          {/* Right Arrow */}
+          <button
+            onClick={() => scroll("next")}
+            disabled={!canScrollNext}
+            aria-label="Next project"
+            className="absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 rounded-full bg-white p-3 shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 lg:translate-x-6 lg:p-4"
+          >
+            <Icon
+              icon="mdi:chevron-right"
+              className="text-2xl text-brand-primary lg:text-3xl"
+            />
+          </button>
+
           <div
             ref={scrollContainerRef}
             className="flex gap-4 overflow-x-auto scrollbar-hide pb-8"
@@ -290,33 +223,55 @@ export function ProjectsSection() {
             }}
             onScroll={updateScrollState}
           >
-            {projects.map((project, index) => (
-              <div
-                key={project.href}
-                className="shrink-0 project-card-wrapper"
-                data-project-index={index}
-              >
-                <div className="mx-auto w-full" style={{ maxWidth: "700px" }}>
-                  <ProjectCard {...project} />
-                </div>
+            {isLoading ? (
+              <div className="flex w-full items-center justify-center py-20">
+                <p className="text-lg text-dark/60">Loading projects...</p>
               </div>
-            ))}
+            ) : error ? (
+              <div className="flex w-full items-center justify-center py-20">
+                <p className="text-lg text-red-600">Error: {error}</p>
+              </div>
+            ) : projects.length === 0 ? (
+              <div className="flex w-full items-center justify-center py-20">
+                <p className="text-lg text-dark/60">No projects available yet.</p>
+              </div>
+            ) : (
+              projects.map((project, index) => (
+                <div
+                  key={project.id}
+                  className="shrink-0 project-card-wrapper"
+                  data-project-index={index}
+                >
+                  <div className="mx-auto w-full" style={{ maxWidth: "700px" }}>
+                    <ProjectCard
+                      href={`/projects/${project.id}`}
+                      imageSrc={project.featureImages.primary}
+                      imageAlt={project.name}
+                      title={`"${project.name}"`}
+                      completion={project.createdAt ? new Date(project.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Recently'}
+                      location={project.overview.substring(0, 50) + (project.overview.length > 50 ? '...' : '')}
+                    />
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           {/* Scroll indicator */}
-          <div className="mt-8 flex justify-center gap-2">
-            {projects.map((_, index) => (
-              <div
-                key={index}
-                className={`h-1 rounded-full transition-all ${
-                  index === activeIndex
-                    ? "w-12 bg-brand-primary"
-                    : "w-8 bg-brand-primary/30 hover:bg-brand-primary/50"
-                }`}
-                aria-hidden="true"
-              />
-            ))}
-          </div>
+          {!isLoading && !error && projects.length > 0 && (
+            <div className="mt-8 flex justify-center gap-2">
+              {projects.map((_, index) => (
+                <div
+                  key={index}
+                  className={`h-1 rounded-full transition-all ${index === activeIndex
+                      ? "w-12 bg-brand-primary"
+                      : "w-8 bg-brand-primary/30 hover:bg-brand-primary/50"
+                    }`}
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
