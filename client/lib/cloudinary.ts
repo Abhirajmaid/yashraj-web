@@ -69,4 +69,3 @@ export async function uploadImageToCloudinary(
     publicId: payload.public_id as string,
   };
 }
-

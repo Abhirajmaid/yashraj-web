@@ -15,6 +15,22 @@ export type ProjectRecord = {
   gallery: string[]; // Gallery images for View Gallery button
   createdAt?: string | null;
   updatedAt?: string | null;
+  status?: ProjectStatus;
+  location?: string;
+  category?: string;
+  segment?: string;
+  price?: string;
+  inventory?: number | null;
+  statement?: string;
+  description?: string;
+  industries: string[];
+  highlights?: string;
+  launchWindow?: string;
+  deliveryWindow?: string;
+  builder?: string;
+  consultants?: string;
+  financing?: string;
+  progress?: number | null;
 };
 
 export type ProjectEssentials = string[];

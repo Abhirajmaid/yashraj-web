@@ -16,6 +16,7 @@ import {
   CreateProjectPayload,
   FeatureImageMap,
   ProjectRecord,
+  ProjectStatus,
 } from '@/types/project';
 import { uploadImageToCloudinary } from '@/lib/cloudinary';
 
@@ -29,6 +30,22 @@ type FirestoreProjectData = {
   essentials?: string[];
   featureImages?: Partial<FeatureImageMap>;
   gallery?: string[];
+  status?: ProjectStatus;
+  location?: string;
+  category?: string;
+  segment?: string;
+  price?: string;
+  inventory?: number;
+  statement?: string;
+  description?: string;
+  industries?: string[];
+  highlights?: string;
+  launchWindow?: string;
+  deliveryWindow?: string;
+  builder?: string;
+  consultants?: string;
+  financing?: string;
+  progress?: number;
   createdAt?: { seconds: number; nanoseconds: number };
   updatedAt?: { seconds: number; nanoseconds: number };
 };
@@ -162,6 +179,7 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
       gallery: galleryUploads,
       createdAt: nowIso,
       updatedAt: nowIso,
+      industries: [],
     };
 
     console.log('[createProjectRecord] Project record created successfully!', { projectId: projectRecord.id });
@@ -201,6 +219,22 @@ export function deserializeProjectDoc(
       city: data?.featureImages?.city ?? '',
     },
     gallery: data?.gallery ?? [],
+    status: data?.status,
+    location: data?.location,
+    category: data?.category,
+    segment: data?.segment,
+    price: data?.price,
+    inventory: typeof data?.inventory === 'number' ? data?.inventory : null,
+    statement: data?.statement,
+    description: data?.description,
+    industries: data?.industries ?? [],
+    highlights: data?.highlights,
+    launchWindow: data?.launchWindow,
+    deliveryWindow: data?.deliveryWindow,
+    builder: data?.builder,
+    consultants: data?.consultants,
+    financing: data?.financing,
+    progress: typeof data?.progress === 'number' ? data?.progress : null,
     createdAt: convertTimestampToIso(data?.createdAt),
     updatedAt: convertTimestampToIso(data?.updatedAt),
   };

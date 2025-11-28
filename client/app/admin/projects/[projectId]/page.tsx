@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebaseClient';
 import { deserializeProjectDoc } from '@/lib/projectsRepository';
-import { ProjectRecord } from '@/types/project';
+import { ProjectRecord, ProjectStatus } from '@/types/project';
 import { statusLabels, statusTone } from '../data';
 
 type PageProps = {
@@ -61,6 +61,8 @@ export default function ProjectDetailPage({ params }: PageProps) {
     );
   }
 
+  const statusKey: ProjectStatus = project.status ?? 'draft';
+
   return (
     <div className="space-y-8 text-white">
       <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -91,9 +93,9 @@ export default function ProjectDetailPage({ params }: PageProps) {
             </div>
           )}
           <span
-            className={`absolute left-6 top-6 inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium ${statusTone[project.status]}`}
+            className={`absolute left-6 top-6 inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium ${statusTone[statusKey]}`}
           >
-            {statusLabels[project.status]}
+            {statusLabels[statusKey]}
           </span>
         </div>
 
