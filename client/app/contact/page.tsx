@@ -70,10 +70,11 @@ export default function ContactPage() {
   return (
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
-        backgroundImage="/images/projecthero2.jpg"
+        backgroundImage="/images/stairs.jpg"
         backgroundImageAlt="Modern construction site"
         title="Get in Touch"
         description="Ready to bring your vision to life? Let's discuss your next project and explore how we can help transform your ideas into reality."
+        contentAlign="bottom"
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to contact form"
       />

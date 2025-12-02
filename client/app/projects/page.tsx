@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Our Projects - Yashraj Infrastructure",
     description:
       "Discover our portfolio of iconic infrastructure projects, each crafted with engineering excellence and bold design vision.",
-    images: ["/images/projecthero2.jpg"],
+    images: ["/images/golden-gate-bridge-zolotye.jpg"],
   },
 };
 
@@ -23,7 +23,7 @@ export default function ProjectsPage() {
     <main className="bg-white">
       <CommonHeroSection
         id="projects"
-        backgroundImage="/images/projecthero2.jpg"
+        backgroundImage="/images/golden-gate-bridge-zolotye.jpg"
         backgroundImageAlt="Projects hero background"
         title="Our Projects"
         description="Discover our portfolio of iconic infrastructure projects, from stunning bridges to contemporary urban landmarks, each crafted with engineering excellence and bold design vision."

@@ -48,26 +48,6 @@ const featureImageTemplate: ImageSlot[] = [
     required: false,
     storageKey: 'primary',
   },
-  {
-    id: 'feature-lifestyle',
-    label: 'Lifestyle detail image',
-    helper: 'Right column, top slot',
-    preview: null,
-    fileName: null,
-    file: null,
-    required: false,
-    storageKey: 'lifestyle',
-  },
-  {
-    id: 'feature-city',
-    label: 'City / skyline image',
-    helper: 'Right column, bottom slot',
-    preview: null,
-    fileName: null,
-    file: null,
-    required: false,
-    storageKey: 'city',
-  },
 ];
 
 const createFeatureSlots = () => featureImageTemplate.map((slot) => ({ ...slot }));
@@ -88,7 +68,7 @@ const createGallerySlot = (index: number): ImageSlot => ({
 export default function CreateNewProjectPage() {
   const [form, setForm] = useState<ProjectForm>(emptyForm);
   const [featureImages, setFeatureImages] = useState<ImageSlot[]>(() => createFeatureSlots());
-  const [galleryImages, setGalleryImages] = useState<ImageSlot[]>(() => [createGallerySlot(1)]);
+  const [galleryImages, setGalleryImages] = useState<ImageSlot[]>([]);
   const [submittedProject, setSubmittedProject] = useState<ProjectRecord | null>(null);
   const [submittedMedia, setSubmittedMedia] = useState<SubmittedMediaState | null>(null);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
@@ -129,24 +109,32 @@ export default function CreateNewProjectPage() {
     updateImageSlot(slotId, file, setFeatureImages);
   };
 
-  const handleGalleryImageChange = (slotId: string, file: File | null) => {
-    updateImageSlot(slotId, file, setGalleryImages);
-  };
-
-  const addGalleryImageSlot = () => {
-    setGalleryImages((current) => [...current, createGallerySlot(current.length + 1)]);
-  };
-
-  const removeGalleryImageSlot = (slotId: string) => {
+  const handleGalleryFilesChange = (files: FileList | null) => {
     setGalleryImages((current) => {
-      if (current.length === 1) {
-        return current;
+      // Clean up existing previews
+      current.forEach((slot) => {
+        if (slot.preview && slot.file) {
+          URL.revokeObjectURL(slot.preview);
+        }
+      });
+
+      if (!files || files.length === 0) {
+        return [];
       }
-      const slot = current.find((entry) => entry.id === slotId);
-      if (slot?.preview && slot.file) {
-        URL.revokeObjectURL(slot.preview);
-      }
-      return current.filter((entry) => entry.id !== slotId);
+
+      const next: ImageSlot[] = [];
+      Array.from(files).forEach((file, index) => {
+        next.push({
+          id: `gallery-${index}-${makeLocalId()}`,
+          label: `Gallery image ${index + 1}`,
+          helper: 'Appears inside the View Gallery modal',
+          preview: URL.createObjectURL(file),
+          fileName: file.name,
+          file,
+        });
+      });
+
+      return next;
     });
   };
 
@@ -162,7 +150,7 @@ export default function CreateNewProjectPage() {
       }
     });
     setFeatureImages(createFeatureSlots());
-    setGalleryImages([createGallerySlot(1)]);
+    setGalleryImages([]);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -183,6 +171,7 @@ export default function CreateNewProjectPage() {
     const essentialsList = [form.essential1, form.essential2, form.essential3]
       .map((e) => e.trim())
       .filter(Boolean);
+
     const featureFiles = featureImages.reduce<Partial<Record<'primary' | 'lifestyle' | 'city', File>>>(
       (acc, slot) => {
         if (slot.storageKey && slot.file) {
@@ -324,7 +313,7 @@ export default function CreateNewProjectPage() {
       ) : null}
 
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="space-y-6">
           <Card title="Project Information" description="Basic project details displayed on the website.">
               <Field
               label="Project Name"
@@ -368,12 +357,12 @@ export default function CreateNewProjectPage() {
 
           <Card
             title="Visual Assets"
-            description="Upload hero image, 2 sub images, and optional gallery images."
+            description="Upload a primary hero image and gallery images."
           >
             <div className="space-y-6">
               <section>
-                <p className="text-xs uppercase tracking-wide text-white/40">Feature images (optional)</p>
-                <div className="mt-3 grid gap-4 lg:grid-cols-3">
+                <p className="text-xs uppercase tracking-wide text-white/40">Primary feature image</p>
+                <div className="mt-3 grid gap-4 lg:grid-cols-1">
                   {featureImages.map((slot) => (
                     <ImageUploadField
                       key={slot.id}
@@ -396,28 +385,46 @@ export default function CreateNewProjectPage() {
                       Add lifestyle, amenity, or work-in-progress images visitors can browse.
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={addGalleryImageSlot}
-                    className="inline-flex items-center justify-center rounded-md border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/80 transition hover:border-white hover:text-white"
-                  >
-                    + Add images
-                  </button>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  {galleryImages.map((slot) => (
-                    <ImageUploadField
-                      key={slot.id}
-                      label={slot.label}
-                      helper={slot.helper}
-                      preview={slot.preview}
-                      fileName={slot.fileName}
-                      onChange={(file) => handleGalleryImageChange(slot.id, file)}
-                      onRemove={() => removeGalleryImageSlot(slot.id)}
-                    />
-                  ))}
-                </div>
+                <label className="block space-y-2 text-sm text-white/80">
+                  <span className="text-xs uppercase tracking-wide text-white/40">Gallery images</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(event) => handleGalleryFilesChange(event.target.files)}
+                    className="w-full rounded-md border border-white/10 bg-[#0b0b0b] px-4 py-2 text-xs text-white file:mr-4 file:rounded-md file:border-0 file:bg-white file:px-3 file:py-2 file:text-xs file:font-semibold file:text-black focus:border-white/40 focus:outline-none"
+                  />
+                </label>
+
+                {galleryImages.length > 0 ? (
+                  <div className="grid gap-4 md:grid-cols-3">
+                    {galleryImages.map((slot) => (
+                      <div
+                        key={slot.id}
+                        className="space-y-2 rounded-lg border border-white/10 bg-black/30 p-3"
+                      >
+                        <div className="overflow-hidden rounded-md border border-white/10 bg-black/30 text-center">
+                          {slot.preview ? (
+                            <img
+                              src={slot.preview}
+                              alt={slot.fileName ?? slot.label}
+                              className="h-28 w-full object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-28 items-center justify-center text-xs uppercase tracking-wide text-white/30">
+                              No image
+                            </div>
+                          )}
+                        </div>
+                        {slot.fileName ? (
+                          <p className="truncate text-xs text-white/60">{slot.fileName}</p>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
               </section>
             </div>
           </Card>

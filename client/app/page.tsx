@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "Yashraj Infrastructure - Leading Construction Company",
     description:
       "Your trusted partner for premium construction and infrastructure projects. Discover our innovative building solutions and exceptional project portfolio.",
-    images: ["/images/hero.jpg"],
+    images: ["/images/fuji bridge.jpg"],
   },
 };
 

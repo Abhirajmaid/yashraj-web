@@ -125,7 +125,7 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
       console.log('[createProjectRecord] Skipping gallery upload (no images provided)');
     }
 
-    const featureImages = featureUploads.reduce<FeatureImageMap>(
+    let featureImages = featureUploads.reduce<FeatureImageMap>(
       (acc, [key, url]) => ({ ...acc, [key]: url }),
       {
         primary: '',
@@ -133,6 +133,15 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
         city: '',
       }
     );
+
+    // If lifestyle / city images weren't uploaded explicitly, fall back to the
+    // first two gallery images so the project detail page has rich visuals.
+    if (!featureImages.lifestyle && galleryUploads[0]) {
+      featureImages = { ...featureImages, lifestyle: galleryUploads[0] };
+    }
+    if (!featureImages.city && galleryUploads[1]) {
+      featureImages = { ...featureImages, city: galleryUploads[1] };
+    }
 
     const nowIso = new Date().toISOString();
 

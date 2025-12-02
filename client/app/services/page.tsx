@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Our Services - Yashraj Infrastructure",
     description:
       "Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence.",
-    images: ["/images/projecthero2.jpg"],
+    images: ["/images/proxy-image.jpg"],
   },
 };
 
@@ -24,9 +24,9 @@ export default function ServicesPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="services"
-        backgroundImage="/images/projecthero2.jpg"
+        backgroundImage="/images/hongkong_new.png"
         backgroundImageAlt="Services hero background"
-        title="Yashraj's Services"
+        title="Services"
         description="Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence."
         buttons={[
           {

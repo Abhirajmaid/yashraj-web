@@ -24,6 +24,7 @@ type CommonHeroSectionProps = {
   backgroundColor?: string;
   objectPosition?: "center" | "top" | "bottom";
   maxContentWidth?: string;
+  contentAlign?: "center" | "bottom";
 };
 
 export function CommonHeroSection({
@@ -38,6 +39,7 @@ export function CommonHeroSection({
   backgroundColor = "bg-brand-dark",
   objectPosition = "center",
   maxContentWidth = "max-w-4xl",
+  contentAlign = "center",
 }: CommonHeroSectionProps) {
   const objectPositionClass =
     objectPosition === "top"
@@ -84,7 +86,11 @@ export function CommonHeroSection({
       {/* Content Overlay */}
       <div className="relative z-10 h-full flex flex-col">
         {/* Main Content - Left Aligned */}
-        <div className="flex-1 flex items-center">
+        <div
+          className={`flex-1 flex ${
+            contentAlign === "bottom" ? "items-end pb-16 sm:pb-20" : "items-center"
+          }`}
+        >
           <div className="max-w-7xl mx-auto w-full px-6 lg:px-8 pt-20 lg:pt-24 pb-20">
             <div className={maxContentWidth}>
               {/* Main Headline */}

@@ -15,6 +15,11 @@ const navLinks = [
 export function BottomNavbar() {
   const pathname = usePathname();
 
+  // Hide bottom navigation on all admin routes
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
       {/* Glass Morphism Background */}
