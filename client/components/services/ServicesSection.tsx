@@ -14,35 +14,34 @@ export function ServicesSection({
   title = "Our services",
   description = "At Yashraj, we design unique architectural solutions that bring your vision to life.",
 }: ServicesSectionProps) {
-  return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* Left Section: Title and Introduction - 1/3 of the page */}
-          <div className="space-y-6 lg:col-span-4">
-            <p className="text-xs uppercase tracking-[0.35em] text-gray-400">
-              {eyebrow}
-            </p>
-            <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-              {title}
-            </h2>
-            <p className="text-base leading-relaxed text-gray-700">
-              {description}
-            </p>
-          </div>
+  const featured = services.slice(0, 3);
 
-          {/* Right Section: Service Cards Grid (1 column on mobile, 2 columns on larger screens) - 2/3 of the page */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:col-span-8">
-            {services.map((service) => (
-              <ServiceCard
-                key={service.title}
-                title={service.title}
-                description={service.description}
-                image={service.image}
-                imageAlt={service.imageAlt}
-              />
-            ))}
-          </div>
+  return (
+    <section className="relative bg-white py-20">
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-brand-light/40 via-white to-white" />
+
+      <div className="relative mx-auto max-w-7xl px-6">
+        <div className="max-w-3xl space-y-4">
+          <p className="text-xs uppercase tracking-[0.35em] text-brand-gray">{eyebrow}</p>
+          <h2 className="text-4xl font-bold tracking-tight text-text-dark sm:text-5xl">
+            {title}
+          </h2>
+          <p className="text-base leading-relaxed text-brand-foreground/80">
+            {description}
+          </p>
+        </div>
+
+        <div className="mt-12 space-y-8">
+          {featured.map((service, index) => (
+            <ServiceCard
+              key={service.title}
+              title={service.title}
+              description={service.description}
+              image={service.image}
+              imageAlt={service.imageAlt}
+              index={index}
+            />
+          ))}
         </div>
       </div>
     </section>

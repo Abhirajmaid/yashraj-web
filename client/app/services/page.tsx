@@ -24,26 +24,10 @@ export default function ServicesPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="services"
-        backgroundImage="/images/projecthero2.jpg"
+        backgroundImage="/images/servicesimage.jpg"
         backgroundImageAlt="Services hero background"
-        title="Yashraj's Services"
+        title="Services"
         description="Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence."
-        buttons={[
-          {
-            text: "Get Started",
-            link: "/contact",
-            type: "secondary",
-            size: "lg",
-            className: "w-full sm:w-auto",
-          },
-          {
-            text: "View Projects",
-            link: "/projects",
-            type: "primary",
-            size: "lg",
-            className: "w-full sm:w-auto",
-          },
-        ]}
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to explore"
         backgroundColor="bg-brand-dark"

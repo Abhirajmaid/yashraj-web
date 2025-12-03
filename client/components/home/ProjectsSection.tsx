@@ -100,6 +100,26 @@ export function ProjectsSection() {
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [projects, setProjects] = useState<ProjectRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch projects from Firebase
+  useEffect(() => {
+    const unsubscribe = listenToProjects(
+      (records) => {
+        setProjects(records);
+        setIsLoading(false);
+        setError(null);
+      },
+      (firebaseError) => {
+        setError(firebaseError.message);
+        setIsLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
 
   const updateScrollState = () => {
     if (scrollContainerRef.current) {
@@ -107,7 +127,7 @@ export function ProjectsSection() {
       setCanScrollPrev(container.scrollLeft > 0);
       setCanScrollNext(
         container.scrollLeft <
-          container.scrollWidth - container.clientWidth - 10
+        container.scrollWidth - container.clientWidth - 10
       );
 
       // Calculate active index based on scroll position
@@ -292,33 +312,55 @@ export function ProjectsSection() {
             }}
             onScroll={updateScrollState}
           >
-            {projects.map((project, index) => (
-              <div
-                key={project.href}
-                className="shrink-0 project-card-wrapper"
-                data-project-index={index}
-              >
-                <div className="mx-auto w-full" style={{ maxWidth: "700px" }}>
-                  <ProjectCard {...project} />
-                </div>
+            {isLoading ? (
+              <div className="flex w-full items-center justify-center py-20">
+                <p className="text-lg text-dark/60">Loading projects...</p>
               </div>
-            ))}
+            ) : error ? (
+              <div className="flex w-full items-center justify-center py-20">
+                <p className="text-lg text-red-600">Error: {error}</p>
+              </div>
+            ) : projects.length === 0 ? (
+              <div className="flex w-full items-center justify-center py-20">
+                <p className="text-lg text-dark/60">No projects available yet.</p>
+              </div>
+            ) : (
+              projects.map((project, index) => (
+                <div
+                  key={project.id}
+                  className="shrink-0 project-card-wrapper"
+                  data-project-index={index}
+                >
+                  <div className="mx-auto w-full" style={{ maxWidth: "700px" }}>
+                    <ProjectCard
+                      href={`/projects/${project.id}`}
+                      imageSrc={project.featureImages.primary}
+                      imageAlt={project.name}
+                      title={`"${project.name}"`}
+                      completion={project.createdAt ? new Date(project.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Recently'}
+                      location={project.overview.substring(0, 50) + (project.overview.length > 50 ? '...' : '')}
+                    />
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           {/* Scroll indicator */}
-          <div className="mt-8 flex justify-center gap-2">
-            {projects.map((_, index) => (
-              <div
-                key={index}
-                className={`h-1 rounded-full transition-all ${
-                  index === activeIndex
-                    ? "w-12 bg-brand-primary"
-                    : "w-8 bg-brand-primary/30 hover:bg-brand-primary/50"
-                }`}
-                aria-hidden="true"
-              />
-            ))}
-          </div>
+          {!isLoading && !error && projects.length > 0 && (
+            <div className="mt-8 flex justify-center gap-2">
+              {projects.map((_, index) => (
+                <div
+                  key={index}
+                  className={`h-1 rounded-full transition-all ${index === activeIndex
+                      ? "w-12 bg-brand-primary"
+                      : "w-8 bg-brand-primary/30 hover:bg-brand-primary/50"
+                    }`}
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
