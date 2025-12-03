@@ -39,23 +39,18 @@ export default function AboutUsPage() {
         buttonText="Our services"
         buttonLink="/services"
       />
-
+      {/* 
       <AboutIntroSection
         title="Experience innovative architecture that transforms your"
         highlightedText="vision into reality."
-      />
-
-      <PartnersSection />
+      /> */}
 
       <PurposeSection pillars={purposePillars} />
 
       <StorySection highlights={storyHighlights} />
 
       <TeamsSection />
-
-      <ConnectMarquee />
-
-      <ConnectMarquee />
+      <PartnersSection />
 
       <ServiceCTASection />
 

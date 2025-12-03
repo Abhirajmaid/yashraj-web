@@ -53,7 +53,7 @@ export default function ProjectsPage() {
           <ServiceCTASection />
         </div>
       </div>
-      <ConnectMarquee />
+
       <Footer />
     </main>
   );

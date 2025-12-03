@@ -31,16 +31,13 @@ export default function Home() {
       <HeroSection />
       <ShowcaseSection />
       <ConnectMarquee />
-      <ClientCaseStudiesSection />
-      <ServicesHighlightSection />
-      <ProjectsSection />
+      <MissionVisionSection />
       <ServicesHighlightSection />
       <ClientCaseStudiesSection />
       <PartnersSection />
-      <MissionVisionSection />
+      <ProjectsSection />
       <TestimonialsSection />
       <FeatureBlogsSection />
-      <FAQSection />
       <ServiceCTASection />
       <Footer />
     </main>

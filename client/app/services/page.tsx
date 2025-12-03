@@ -27,6 +27,7 @@ export default function ServicesPage() {
         backgroundImage="/images/servicesimage.jpg"
         backgroundImageAlt="Services hero background"
         title="Services"
+        flipHorizontal={true}
         description="Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence."
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to explore"
@@ -36,7 +37,6 @@ export default function ServicesPage() {
       />
       <ConnectMarquee />
       <ServicesSection services={services} />
-      <ConnectMarquee />
       <div className="bg-white">
         <FAQSection />
       </div>

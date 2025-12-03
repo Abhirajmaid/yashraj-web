@@ -113,7 +113,8 @@ export function StickyHeader() {
 
             {/* Contact Button */}
             <Button
-              onClick={openModal}
+              // onClick={openModal}
+              link="/contact"
               type={isScrolled ? "primary" : "secondary"}
               size="sm"
               className="uppercase tracking-[0.12em]"

@@ -12,6 +12,7 @@ export function HeroSection() {
       backgroundImage="/images/homeimage.png"
       backgroundImageAlt="Curved red bridge with mountain in background"
       title="Yashraj Infrastructure"
+      flipHorizontal={true}
       description="Yashraj Constructions delivers iconic bridges and contemporary urban landmarks crafted with engineering excellence and bold design."
       buttons={[
         {

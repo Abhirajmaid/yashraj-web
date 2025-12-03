@@ -20,9 +20,9 @@ export default function BlogsPage() {
   return (
     <main className="bg-white text-[#031B4E]">
       <BlogsHeroSection />
-      <ConnectMarquee />
+
       <BlogsSection />
-      <ConnectMarquee />
+
       <div className="bg-white">
         <ServiceCTASection />
       </div>

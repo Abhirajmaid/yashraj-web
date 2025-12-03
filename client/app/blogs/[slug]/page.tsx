@@ -23,10 +23,12 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
   if (!blog) {
     return {
       title: "Blog",
-      description: "Insights and articles from Yashraj Infrastructure - Construction industry news, tips, and project updates.",
+      description:
+        "Insights and articles from Yashraj Infrastructure - Construction industry news, tips, and project updates.",
       openGraph: {
         title: "Blog - Yashraj Infrastructure",
-        description: "Insights and articles from Yashraj Infrastructure - Construction industry news, tips, and project updates.",
+        description:
+          "Insights and articles from Yashraj Infrastructure - Construction industry news, tips, and project updates.",
       },
     };
   }
@@ -50,9 +52,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     notFound();
   }
 
-  const relatedBlogs = blogs.filter((item) => item.slug !== blog.slug).slice(0, 3);
+  const relatedBlogs = blogs
+    .filter((item) => item.slug !== blog.slug)
+    .slice(0, 3);
 
   return <BlogDetailTemplate blog={blog} relatedBlogs={relatedBlogs} />;
 }
-
-

@@ -26,10 +26,12 @@ export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
           },
         ]
       : []),
-    ...((project.secondaryImages ?? []).filter((img) => Boolean(img?.src)) as NonNullable<
-      Project["secondaryImages"]
-    >),
-    ...((project.gallery ?? []).filter((img) => Boolean(img?.src)) as NonNullable<Project["gallery"]>),
+    ...((project.secondaryImages ?? []).filter((img) =>
+      Boolean(img?.src)
+    ) as NonNullable<Project["secondaryImages"]>),
+    ...((project.gallery ?? []).filter((img) =>
+      Boolean(img?.src)
+    ) as NonNullable<Project["gallery"]>),
   ];
 
   const openGallery = (index: number = 0) => {
@@ -125,7 +127,9 @@ export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
                     className="text-base sm:text-lg"
                   />
                   <span>
-                    {galleryImages.length > 0 ? "View Gallery" : "Gallery coming soon"}
+                    {galleryImages.length > 0
+                      ? "View Gallery"
+                      : "Gallery coming soon"}
                   </span>
                 </button>
                 <button

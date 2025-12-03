@@ -66,7 +66,9 @@ export function CommonHeroSection({
           priority
           quality={75}
           sizes="100vw"
-          className={`object-cover h-full w-full ${objectPositionClass} ${flipHorizontal ? "scale-x-[-1]" : ""}`}
+          className={`object-cover h-full w-full ${objectPositionClass} ${
+            flipHorizontal ? "scale-x-[-1]" : ""
+          }`}
         />
 
         {/* Grid Overlay */}
@@ -93,16 +95,22 @@ export function CommonHeroSection({
             contentAlign === "bottom" || contentAlign === "bottom-left"
               ? "items-end pb-16 sm:pb-20"
               : "items-center"
-          } ${contentAlign === "bottom-left" ? "justify-start" : "justify-center"}`}
+          } ${
+            contentAlign === "bottom-left" ? "justify-start" : "justify-center"
+          }`}
         >
-          <div className={`max-w-7xl w-full px-6 lg:px-8 pt-20 lg:pt-24 pb-20 ${
-            contentAlign === "bottom-left" ? "" : "mx-auto"
-          }`}>
-            <div className={`${maxContentWidth} ${
-              contentAlign === "bottom-left" 
-                ? "bg-black/40 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-10 border border-white/10" 
-                : ""
-            }`}>
+          <div
+            className={`max-w-7xl w-full px-6 lg:px-8 pt-20 lg:pt-24 pb-20 ${
+              contentAlign === "bottom-left" ? "" : "mx-auto"
+            }`}
+          >
+            <div
+              className={`${maxContentWidth} ${
+                contentAlign === "bottom-left"
+                  ? "bg-black/40 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-10 border border-white/10"
+                  : ""
+              }`}
+            >
               {/* Main Headline */}
               <h1 className="text-5xl lg:text-6xl xl:text-8xl font-medium text-white leading-[1.1] mb-6">
                 {title}
