@@ -3,6 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { ProjectCard } from "./ProjectCard";
 import { SectionHeader } from "@/components/common/SectionHeader";
+import { ProjectRecord } from "@/types/project";
+import { listenToProjects } from "@/lib/projectsRepository";
 
 const projects = [
   {
