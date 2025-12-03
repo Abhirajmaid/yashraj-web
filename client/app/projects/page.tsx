@@ -35,19 +35,13 @@ export default function ProjectsPage() {
             size: "lg",
             className: "w-full sm:w-auto",
           },
-          {
-            text: "View Portfolio",
-            link: "#projects-grid",
-            type: "primary",
-            size: "lg",
-            className: "w-full sm:w-auto",
-          },
         ]}
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to explore"
         backgroundColor="bg-brand-dark"
         objectPosition="top"
         maxContentWidth="max-w-4xl"
+        flipHorizontal={true}
       />
       <ConnectMarquee />
       <ProjectPageSection />

@@ -24,7 +24,8 @@ type CommonHeroSectionProps = {
   backgroundColor?: string;
   objectPosition?: "center" | "top" | "bottom";
   maxContentWidth?: string;
-  contentAlign?: "center" | "bottom";
+  contentAlign?: "center" | "bottom" | "bottom-left";
+  flipHorizontal?: boolean;
 };
 
 export function CommonHeroSection({
@@ -40,6 +41,7 @@ export function CommonHeroSection({
   objectPosition = "center",
   maxContentWidth = "max-w-4xl",
   contentAlign = "center",
+  flipHorizontal = false,
 }: CommonHeroSectionProps) {
   const objectPositionClass =
     objectPosition === "top"
@@ -64,7 +66,7 @@ export function CommonHeroSection({
           priority
           quality={75}
           sizes="100vw"
-          className={`object-cover h-full w-full ${objectPositionClass}`}
+          className={`object-cover h-full w-full ${objectPositionClass} ${flipHorizontal ? "scale-x-[-1]" : ""}`}
         />
 
         {/* Grid Overlay */}
@@ -88,11 +90,19 @@ export function CommonHeroSection({
         {/* Main Content - Left Aligned */}
         <div
           className={`flex-1 flex ${
-            contentAlign === "bottom" ? "items-end pb-16 sm:pb-20" : "items-center"
-          }`}
+            contentAlign === "bottom" || contentAlign === "bottom-left"
+              ? "items-end pb-16 sm:pb-20"
+              : "items-center"
+          } ${contentAlign === "bottom-left" ? "justify-start" : "justify-center"}`}
         >
-          <div className="max-w-7xl mx-auto w-full px-6 lg:px-8 pt-20 lg:pt-24 pb-20">
-            <div className={maxContentWidth}>
+          <div className={`max-w-7xl w-full px-6 lg:px-8 pt-20 lg:pt-24 pb-20 ${
+            contentAlign === "bottom-left" ? "" : "mx-auto"
+          }`}>
+            <div className={`${maxContentWidth} ${
+              contentAlign === "bottom-left" 
+                ? "bg-black/40 backdrop-blur-sm rounded-2xl p-6 sm:p-8 lg:p-10 border border-white/10" 
+                : ""
+            }`}>
               {/* Main Headline */}
               <h1 className="text-5xl lg:text-6xl xl:text-8xl font-medium text-white leading-[1.1] mb-6">
                 {title}

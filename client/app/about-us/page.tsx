@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { AboutHeroSection } from "@/components/about-us/AboutHeroSection";
 import { AboutIntroSection } from "@/components/about-us/AboutIntroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
-import { FAQSection } from "@/components/common/FAQSection";
 import { Footer } from "@/components/common/Footer";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { PurposeSection } from "@/components/about-us/PurposeSection";
@@ -55,10 +54,6 @@ export default function AboutUsPage() {
       <TeamsSection />
 
       <ConnectMarquee />
-
-      <div className="bg-white">
-        <FAQSection />
-      </div>
 
       <ServiceCTASection />
 

@@ -72,7 +72,7 @@ export const metadata: Metadata = {
       "Premier construction company specializing in infrastructure development, architectural excellence, and innovative building solutions.",
     images: [
       {
-        url: "/images/fuji bridge.jpg",
+        url: "/images/homeimage.png",
         width: 1200,
         height: 630,
         alt: "Yashraj Infrastructure - Construction Company",
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
     title: "Yashraj Infrastructure - Leading Construction Company",
     description:
       "Premier construction company specializing in infrastructure development and innovative building solutions.",
-    images: ["/images/fuji bridge.jpg"],
+    images: ["/images/homeimage.png"],
     creator: "@yashrajinfrastructure",
   },
   alternates: {

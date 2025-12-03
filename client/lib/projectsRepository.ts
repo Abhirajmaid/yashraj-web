@@ -11,12 +11,17 @@ import {
   QueryDocumentSnapshot,
   DocumentData,
   DocumentSnapshot,
+  doc,
+  updateDoc,
+  deleteDoc,
+  getDoc,
 } from 'firebase/firestore';
 import {
   CreateProjectPayload,
   FeatureImageMap,
   ProjectRecord,
   ProjectStatus,
+  UpdateProjectPayload,
 } from '@/types/project';
 import { uploadImageToCloudinary } from '@/lib/cloudinary';
 
@@ -201,6 +206,109 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
     }
     throw new Error(`Failed to create project record: ${String(error)}`);
   }
+}
+
+export async function updateProjectRecord(
+  projectId: string,
+  payload: UpdateProjectPayload
+): Promise<ProjectRecord> {
+  console.log('[updateProjectRecord] Updating project...', { projectId });
+
+  const docRef = doc(db, PROJECTS_COLLECTION, projectId);
+  let featureImages: FeatureImageMap = { ...payload.currentFeatureImages };
+
+  const featureEntries = Object.entries(payload.featureFiles ?? {}).filter(
+    (entry): entry is [keyof FeatureImageMap, File] => Boolean(entry[1])
+  );
+
+  if (featureEntries.length) {
+    try {
+      console.log('[updateProjectRecord] Uploading updated feature images...', { count: featureEntries.length });
+      const uploads = await Promise.all(
+        featureEntries.map(async ([key, file]) => {
+          const uploadResult = await uploadImageToCloudinary(file, {
+            folder: `projects/${projectId}/feature`,
+          });
+          return [key, uploadResult.secureUrl] as const;
+        })
+      );
+      featureImages = uploads.reduce<FeatureImageMap>(
+        (acc, [key, url]) => ({ ...acc, [key]: url }),
+        featureImages
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Failed to update feature images: ${message}`);
+    }
+  }
+
+  let galleryImages = payload.currentGallery ?? [];
+  if (payload.galleryFiles?.length) {
+    try {
+      console.log('[updateProjectRecord] Uploading replacement gallery images...', {
+        count: payload.galleryFiles.length,
+      });
+      galleryImages = await Promise.all(
+        payload.galleryFiles.map(async (file, index) => {
+          const uploadResult = await uploadImageToCloudinary(file, {
+            folder: `projects/${projectId}/gallery`,
+          });
+          console.log('[updateProjectRecord] Gallery image uploaded', { index: index + 1 });
+          return uploadResult.secureUrl;
+        })
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Failed to update gallery images: ${message}`);
+    }
+  }
+
+  const updateData: Record<string, unknown> = {
+    updatedAt: serverTimestamp(),
+  };
+
+  if (typeof payload.name === 'string') {
+    updateData.name = payload.name.trim();
+  }
+
+  if (typeof payload.overview === 'string') {
+    updateData.overview = payload.overview.trim();
+  }
+
+  if (payload.essentials) {
+    updateData.essentials = payload.essentials;
+  }
+
+  updateData.featureImages = featureImages;
+  updateData.gallery = galleryImages;
+
+  await updateDoc(docRef, updateData);
+  const updatedSnapshot = await getDoc(docRef);
+  console.log('[updateProjectRecord] Project updated successfully');
+
+  return deserializeProjectDoc(updatedSnapshot);
+}
+
+export async function deleteProjectRecord(projectId: string): Promise<void> {
+  console.log('[deleteProjectRecord] Deleting project…', { projectId });
+  await deleteDoc(doc(db, PROJECTS_COLLECTION, projectId));
+  console.log('[deleteProjectRecord] Project deleted');
+}
+
+export async function getProjectRecord(
+  projectId: string | string[]
+): Promise<ProjectRecord | null> {
+  const id = Array.isArray(projectId) ? projectId[0] : projectId;
+  if (!id) {
+    return null;
+  }
+
+  const docRef = doc(db, PROJECTS_COLLECTION, id);
+  const snapshot = await getDoc(docRef);
+  if (!snapshot.exists()) {
+    return null;
+  }
+  return deserializeProjectDoc(snapshot);
 }
 
 function convertTimestampToIso(timestamp?: { seconds: number; nanoseconds: number }) {

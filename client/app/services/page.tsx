@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Our Services - Yashraj Infrastructure",
     description:
       "Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence.",
-    images: ["/images/proxy-image.jpg"],
+        images: ["/images/servicesimage.jpg"],
   },
 };
 
@@ -24,26 +24,10 @@ export default function ServicesPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="services"
-        backgroundImage="/images/hongkong_new.png"
+        backgroundImage="/images/servicesimage.jpg"
         backgroundImageAlt="Services hero background"
         title="Services"
         description="Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence."
-        buttons={[
-          {
-            text: "Get Started",
-            link: "/contact",
-            type: "secondary",
-            size: "lg",
-            className: "w-full sm:w-auto",
-          },
-          {
-            text: "View Projects",
-            link: "/projects",
-            type: "primary",
-            size: "lg",
-            className: "w-full sm:w-auto",
-          },
-        ]}
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to explore"
         backgroundColor="bg-brand-dark"

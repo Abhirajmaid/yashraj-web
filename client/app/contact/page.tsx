@@ -74,7 +74,7 @@ export default function ContactPage() {
         backgroundImageAlt="Modern construction site"
         title="Get in Touch"
         description="Ready to bring your vision to life? Let's discuss your next project and explore how we can help transform your ideas into reality."
-        contentAlign="bottom"
+        contentAlign="bottom-left"
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to contact form"
       />

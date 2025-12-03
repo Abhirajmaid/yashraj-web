@@ -43,5 +43,15 @@ export type CreateProjectPayload = {
   galleryFiles?: File[]; // Gallery images (optional)
 };
 
+export type UpdateProjectPayload = {
+  name?: string;
+  overview?: string;
+  essentials?: string[];
+  featureFiles?: Partial<Record<'primary' | 'lifestyle' | 'city', File>>;
+  galleryFiles?: File[];
+  currentFeatureImages: FeatureImageMap;
+  currentGallery: string[];
+};
+
 
 

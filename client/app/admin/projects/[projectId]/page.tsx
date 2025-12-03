@@ -2,9 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebaseClient';
-import { deserializeProjectDoc } from '@/lib/projectsRepository';
+import { getProjectRecord } from '@/lib/projectsRepository';
 import { ProjectRecord, ProjectStatus } from '@/types/project';
 import { statusLabels, statusTone } from '../data';
 
@@ -13,7 +11,7 @@ type PageProps = {
 };
 
 export default function ProjectDetailPage({ params }: PageProps) {
-  const projectId = decodeURIComponent(params.projectId);
+  const projectId = params.projectId;
   const [project, setProject] = useState<ProjectRecord | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,11 +19,13 @@ export default function ProjectDetailPage({ params }: PageProps) {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const snapshot = await getDoc(doc(db, 'projects', projectId));
-        if (!snapshot.exists()) {
+        const record = await getProjectRecord(projectId);
+        if (!record) {
           setError('Project not found.');
+          setProject(null);
         } else {
-          setProject(deserializeProjectDoc(snapshot));
+          setProject(record);
+          setError(null);
         }
       } catch (firebaseError) {
         setError(firebaseError instanceof Error ? firebaseError.message : 'Failed to load project.');

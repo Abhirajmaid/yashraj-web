@@ -99,12 +99,26 @@ export default function AdminProjectsPage() {
                     {row.createdAt ? new Date(row.createdAt).toLocaleDateString() : '—'}
                   </td>
                   <td className="px-4 py-3">
-                    <Link
-                      href={`/admin/projects/${row.id}`}
-                      className="inline-flex items-center rounded-md bg-blue-900/40 px-3 py-1 text-xs font-medium text-blue-100 transition hover:bg-blue-800/40"
-                    >
-                      View details
-                    </Link>
+                    <div className="flex flex-wrap gap-2">
+                      <Link
+                        href={`/admin/projects/${row.id}`}
+                        className="inline-flex items-center rounded-md bg-blue-900/40 px-3 py-1 text-xs font-medium text-blue-100 transition hover:bg-blue-800/40"
+                      >
+                        View
+                      </Link>
+                      <Link
+                        href={`/admin/projects/${row.id}/edit`}
+                        className="inline-flex items-center rounded-md bg-amber-800/40 px-3 py-1 text-xs font-medium text-amber-100 transition hover:bg-amber-700/50"
+                      >
+                        Edit
+                      </Link>
+                      <Link
+                        href={`/admin/projects/${row.id}/delete`}
+                        className="inline-flex items-center rounded-md bg-red-900/40 px-3 py-1 text-xs font-medium text-red-100 transition hover:bg-red-800/50"
+                      >
+                        Delete
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}
