@@ -55,6 +55,8 @@ export default function AboutUsPage() {
 
       <ConnectMarquee />
 
+      <ConnectMarquee />
+
       <ServiceCTASection />
 
       <Footer />

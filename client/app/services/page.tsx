@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Our Services - Yashraj Infrastructure",
     description:
       "Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence.",
-        images: ["/images/servicesimage.jpg"],
+    images: ["/images/projecthero2.jpg"],
   },
 };
 

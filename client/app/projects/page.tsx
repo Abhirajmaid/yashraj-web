@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Our Projects - Yashraj Infrastructure",
     description:
       "Discover our portfolio of iconic infrastructure projects, each crafted with engineering excellence and bold design vision.",
-    images: ["/images/golden-gate-bridge-zolotye.jpg"],
+    images: ["/images/projecthero2.jpg"],
   },
 };
 

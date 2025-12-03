@@ -3,8 +3,97 @@ import { useRef, useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { ProjectCard } from "./ProjectCard";
 import { SectionHeader } from "@/components/common/SectionHeader";
-import { listenToProjects } from "@/lib/projectsRepository";
-import { ProjectRecord } from "@/types/project";
+
+const projects = [
+  {
+    href: "/projects/skyline-towers",
+    imageSrc: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Skyline towers project",
+    title: `"Skyline Towers"`,
+    completion: "June 2023",
+    location: "Riverside District",
+  },
+  {
+    href: "/projects/riverfront-residences",
+    imageSrc: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Riverfront residences project",
+    title: `"Riverfront Residences"`,
+    completion: "August 2022",
+    location: "Downtown Metropolis",
+  },
+  {
+    href: "/projects/modular-megacity",
+    imageSrc: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Modular megacity project",
+    title: `"Modular Megacity"`,
+    completion: "December 2023",
+    location: "Urban Core",
+  },
+  {
+    href: "/projects/coastal-horizon",
+    imageSrc: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Coastal horizon project",
+    title: `"Coastal Horizon"`,
+    completion: "March 2024",
+    location: "Seaside Boulevard",
+  },
+  {
+    href: "/projects/tech-campus",
+    imageSrc: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Tech campus project",
+    title: `"Tech Campus"`,
+    completion: "January 2024",
+    location: "Innovation District",
+  },
+  {
+    href: "/projects/green-towers",
+    imageSrc: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Green towers project",
+    title: `"Green Towers"`,
+    completion: "May 2023",
+    location: "Eco Park",
+  },
+  {
+    href: "/projects/platinum-heights",
+    imageSrc: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Platinum heights project",
+    title: `"Platinum Heights"`,
+    completion: "September 2023",
+    location: "Business District",
+  },
+  {
+    href: "/projects/ocean-view-villas",
+    imageSrc: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Ocean view villas project",
+    title: `"Ocean View Villas"`,
+    completion: "November 2023",
+    location: "Coastal Area",
+  },
+  {
+    href: "/projects/urban-nexus",
+    imageSrc: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Urban nexus project",
+    title: `"Urban Nexus"`,
+    completion: "April 2024",
+    location: "City Center",
+  },
+  {
+    href: "/projects/elite-residences",
+    imageSrc: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Elite residences project",
+    title: `"Elite Residences"`,
+    completion: "February 2024",
+    location: "Premium Zone",
+  },
+  {
+    href: "/projects/sky-bridge-complex",
+    imageSrc: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Sky bridge complex project",
+    title: `"Sky Bridge Complex"`,
+    completion: "July 2023",
+    location: "Metropolitan Area",
+  },
+];
 
 export function ProjectsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
