@@ -9,8 +9,8 @@ export function HeroSection() {
   return (
     <CommonHeroSection
       id="home"
-      backgroundImage="/images/hero.jpg"
-      backgroundImageAlt="Bridge architecture at dusk"
+      backgroundImage="/images/homeimage.png"
+      backgroundImageAlt="Curved red bridge with mountain in background"
       title="Yashraj Infrastructure"
       description="Yashraj Constructions delivers iconic bridges and contemporary urban landmarks crafted with engineering excellence and bold design."
       buttons={[

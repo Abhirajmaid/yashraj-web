@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 import { Logo } from "./Logo";
 import { Navigation } from "./Navigation";
@@ -8,6 +9,13 @@ import Button from "./Button";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 export function StickyHeader() {
+  const pathname = usePathname();
+
+  // Hide marketing navigation on all admin routes
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [heroPresent, setHeroPresent] = useState(true); // Start as true to prevent flash
   const [mobileScrolled, setMobileScrolled] = useState(false);

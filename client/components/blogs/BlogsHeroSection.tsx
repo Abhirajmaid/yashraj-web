@@ -44,7 +44,7 @@ export function BlogsHeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0 h-full w-full z-0">
         <Image
-          src="/images/projecthero2.jpg"
+          src="/images/blogsimage.jpg"
           alt="Blogs hero background"
           fill
           priority
