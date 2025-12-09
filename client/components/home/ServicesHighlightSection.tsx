@@ -34,7 +34,7 @@ export function ServicesHighlightSection() {
               <div className="relative h-64 w-full overflow-hidden sm:h-80">
                 <Image
                   src={service.image}
-                  alt={service.imageAlt}
+                  alt={service.imageAlt || service.title || "Service image"}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
