@@ -21,7 +21,7 @@ export function ShowcaseSection() {
               description="From bespoke residences to large-scale infrastructure, Yashraj Constructions delivers projects that harmonize aesthetic brilliance with structural integrity. Our multidisciplinary teams collaborate closely with clients to reimagine skylines, elevate communities, and create spaces that stand the test of time."
             />
             <Button
-              link="#learn-more"
+              link="/services"
               type="primary"
               size="sm"
               className="gap-3 self-start pl-3 text-sm shadow-[0_20px_40px_rgba(14,14,14,0.18)] hover:-translate-y-0.5 hover:shadow-[0_30px_50px_rgba(14,14,14,0.22)]"

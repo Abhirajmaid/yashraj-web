@@ -29,13 +29,19 @@ export function ProjectCard({
     >
       {/* Image Container */}
       <div className="relative isolate aspect-4/3 w-full overflow-hidden">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-          priority
-        />
+        {imageSrc && imageSrc.trim() !== "" ? (
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            priority
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-brand-gray-light/20">
+            <Icon icon="solar:gallery-bold" className="text-4xl text-brand-gray" />
+          </div>
+        )}
 
         {/* Gradient Overlay - Dark only at bottom */}
         <div className="absolute inset-0 bg-linear-to-t from-brand-dark/70 via-transparent to-transparent" />

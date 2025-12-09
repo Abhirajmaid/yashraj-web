@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import Button from "@/components/common/Button";
 
 type ServiceCardProps = {
   title: string;
@@ -9,6 +10,7 @@ type ServiceCardProps = {
   image: string;
   imageAlt?: string;
   index: number;
+  link?: string;
 };
 
 export function ServiceCard({
@@ -17,6 +19,7 @@ export function ServiceCard({
   image,
   imageAlt,
   index,
+  link,
 }: ServiceCardProps) {
   const isReversed = index % 2 === 1;
   const serviceNumber = String(index + 1).padStart(2, "0");
@@ -92,6 +95,19 @@ export function ServiceCard({
             Quality & safety first
           </span>
         </div>
+
+        {link && (
+          <div className="mt-4">
+            <Button
+              link={link}
+              type="primary"
+              size="md"
+              className="w-full sm:w-auto"
+            >
+              Learn More
+            </Button>
+          </div>
+        )}
       </div>
     </article>
   );

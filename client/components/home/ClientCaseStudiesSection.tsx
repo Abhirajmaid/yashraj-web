@@ -6,7 +6,8 @@ import { ClientCaseStudyCard } from "./ClientCaseStudyCard";
 
 const caseStudies = [
   {
-    clientLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
+    clientLogo:
+      "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
     clientLogoAlt: "TechCorp Logo",
     clientName: "TechCorp Industries",
     projectTitle: "Corporate Headquarters",
@@ -37,7 +38,8 @@ const caseStudies = [
     ],
   },
   {
-    clientLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
+    clientLogo:
+      "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
     clientLogoAlt: "Urban Development Logo",
     clientName: "Urban Development Group",
     projectTitle: "Residential Complex",
@@ -64,7 +66,8 @@ const caseStudies = [
     ],
   },
   {
-    clientLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
+    clientLogo:
+      "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
     clientLogoAlt: "Infra Solutions Logo",
     clientName: "Infra Solutions Ltd",
     projectTitle: "Highway Infrastructure",
@@ -91,7 +94,8 @@ const caseStudies = [
     ],
   },
   {
-    clientLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
+    clientLogo:
+      "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
     clientLogoAlt: "GreenBuild Logo",
     clientName: "GreenBuild Constructions",
     projectTitle: "Sustainable Office Park",
@@ -195,7 +199,7 @@ export function ClientCaseStudiesSection() {
         <div className="mb-12 sm:mb-16">
           <SectionHeader
             eyebrow="CLIENT CASE STUDIES"
-            title="Success Stories from Our Clients"
+            title="Our Success Stories"
             description="Discover how we've helped leading companies achieve their construction and infrastructure goals through innovative solutions and exceptional execution."
             align="center"
             eyebrowClassName="text-primary"
@@ -247,7 +251,10 @@ export function ClientCaseStudiesSection() {
                 className="shrink-0 w-full snap-start case-study-card-wrapper"
                 data-case-index={index}
               >
-                <div className="w-full h-full px-4 sm:px-6" style={{ minHeight: "400px" }}>
+                <div
+                  className="w-full h-full px-4 sm:px-6"
+                  style={{ minHeight: "400px" }}
+                >
                   <ClientCaseStudyCard {...caseStudy} />
                 </div>
               </div>
@@ -275,7 +282,7 @@ export function ClientCaseStudiesSection() {
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-        
+
         .case-study-card-wrapper {
           width: 100%;
           min-width: 100%;
@@ -284,4 +291,3 @@ export function ClientCaseStudiesSection() {
     </section>
   );
 }
-

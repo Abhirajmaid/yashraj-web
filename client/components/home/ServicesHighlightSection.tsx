@@ -1,25 +1,9 @@
 import Image from "next/image";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import Button from "@/components/common/Button";
+import { getServicesForHomePage } from "@/data/services";
 
-const services = [
-  {
-    title: "Road Construction",
-    description:
-      "Expert road construction services delivering durable, high-quality infrastructure solutions. From highways to local roads, we build with precision and engineering excellence.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Road construction project",
-    link: "/services#road-construction",
-  },
-  {
-    title: "RMC",
-    description:
-      "Ready Mix Concrete (RMC) solutions for all your construction needs. Quality-assured concrete delivered on time, ensuring strength, durability, and consistency for your projects.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Ready Mix Concrete plant",
-    link: "/services#rmc",
-  },
-];
+const services = getServicesForHomePage();
 
 export function ServicesHighlightSection() {
   return (
@@ -40,11 +24,11 @@ export function ServicesHighlightSection() {
           />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {services.map((service) => (
             <div
               key={service.title}
-              className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_4px_20px_rgba(var(--color-dark-rgb),0.08)]"
+              className="group relative flex flex-col overflow-hidden rounded-xl sm:rounded-2xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[0_4px_20px_rgba(var(--color-dark-rgb),0.08)]"
             >
               {/* Image */}
               <div className="relative h-64 w-full overflow-hidden sm:h-80">
@@ -59,18 +43,18 @@ export function ServicesHighlightSection() {
               </div>
 
               {/* Content */}
-              <div className="p-6 sm:p-8">
+              <div className="flex flex-col flex-grow p-6 sm:p-8">
                 <h3 className="mb-3 text-2xl font-semibold text-brand-dark sm:text-3xl">
                   {service.title}
                 </h3>
-                <p className="mb-6 text-sm leading-relaxed text-brand-dark/70 sm:text-base">
+                <p className="mb-6 text-sm leading-relaxed text-brand-dark/70 sm:text-base flex-grow">
                   {service.description}
                 </p>
                 <Button
                   link={service.link}
                   type="primary"
                   size="md"
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto mt-auto"
                 >
                   Learn More
                 </Button>

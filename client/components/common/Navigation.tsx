@@ -7,7 +7,8 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "Who we are", href: "/about-us" },
   { label: "What we Do", href: "/services" },
-  { label: "Success Stories", href: "/projects" },
+  { label: "Projects", href: "/projects" },
+  { label: "Aggregates", href: "/aggregates" },
   { label: "Blogs", href: "/blogs" },
 ];
 
@@ -19,13 +20,18 @@ export function Navigation({ variant = "light" }: NavigationProps) {
   const pathname = usePathname();
 
   const baseColor =
-    variant === "dark" ? "text-brand-dark/80 hover:text-brand-dark" : "text-white hover:text-white";
+    variant === "dark"
+      ? "text-brand-dark/80 hover:text-brand-dark"
+      : "text-white hover:text-white";
   const hoverEffect = "transition-all duration-200 hover:-translate-y-0.5";
 
   return (
     <nav className="flex items-center space-x-8">
       {navLinks.map((link) => {
-        const isActive = link.href === "/" ? pathname === "/" : pathname?.startsWith(link.href);
+        const isActive =
+          link.href === "/"
+            ? pathname === "/"
+            : pathname?.startsWith(link.href);
 
         return (
           <Link

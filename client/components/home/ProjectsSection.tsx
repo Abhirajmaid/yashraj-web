@@ -327,24 +327,26 @@ export function ProjectsSection() {
                 <p className="text-lg text-dark/60">No projects available yet.</p>
               </div>
             ) : (
-              projects.map((project, index) => (
-                <div
-                  key={project.id}
-                  className="shrink-0 project-card-wrapper"
-                  data-project-index={index}
-                >
-                  <div className="mx-auto w-full" style={{ maxWidth: "700px" }}>
-                    <ProjectCard
-                      href={`/projects/${project.id}`}
-                      imageSrc={project.featureImages.primary}
-                      imageAlt={project.name}
-                      title={`"${project.name}"`}
-                      completion={project.createdAt ? new Date(project.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Recently'}
-                      location={project.overview.substring(0, 50) + (project.overview.length > 50 ? '...' : '')}
-                    />
+              projects
+                .filter((project) => project.featureImages?.primary && project.featureImages.primary.trim() !== "")
+                .map((project, index) => (
+                  <div
+                    key={project.id}
+                    className="shrink-0 project-card-wrapper"
+                    data-project-index={index}
+                  >
+                    <div className="mx-auto w-full" style={{ maxWidth: "700px" }}>
+                      <ProjectCard
+                        href={`/projects/${project.id}`}
+                        imageSrc={project.featureImages.primary}
+                        imageAlt={project.name || "Project"}
+                        title={`"${project.name || "Untitled Project"}"`}
+                        completion={project.createdAt ? new Date(project.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Recently'}
+                        location={project.overview ? (project.overview.substring(0, 50) + (project.overview.length > 50 ? '...' : '')) : 'Location not specified'}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))
+                ))
             )}
           </div>
 

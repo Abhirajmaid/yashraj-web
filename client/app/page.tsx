@@ -33,11 +33,11 @@ export default function Home() {
       <ConnectMarquee />
       <MissionVisionSection />
       <ServicesHighlightSection />
-      <ClientCaseStudiesSection />
       <PartnersSection />
+      <ClientCaseStudiesSection />
       <ProjectsSection />
       <TestimonialsSection />
-      <FeatureBlogsSection />
+      {/* <FeatureBlogsSection /> */}
       <ServiceCTASection />
       <Footer />
     </main>

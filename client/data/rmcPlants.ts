@@ -1,0 +1,209 @@
+export type RMCPlant = {
+  id: string;
+  name: string;
+  location: string;
+  address: string;
+  capacity: string; // e.g., "60 m³/hr"
+  contact: {
+    phone?: string;
+    email?: string;
+    manager?: string;
+  };
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  operationalHours?: string;
+  specialties?: string[];
+};
+
+export const rmcPlants: RMCPlant[] = [
+  {
+    id: "plant-tanooja",
+    name: "Yashraj RMC Plant - Tanooja",
+    location: "Tanooja",
+    address: "Tanooja Industrial Area, Maharashtra",
+    capacity: "80 m³/hr",
+    contact: {
+      phone: "+91-22-1234-5678",
+      email: "tanooja@yashrajrmc.com",
+      manager: "Rajesh Kumar",
+    },
+    coordinates: {
+      lat: 19.0760,
+      lng: 72.8777,
+    },
+    operationalHours: "6:00 AM - 10:00 PM (Mon-Sat)",
+    specialties: ["High-strength concrete", "Self-compacting concrete", "Fiber-reinforced concrete", "Standard concrete"],
+  },
+];
+
+export type DeliveryLocation = {
+  id: string;
+  name: string;
+  description?: string;
+  radius?: string;
+};
+
+export const deliveryLocations: DeliveryLocation[] = [
+  {
+    id: "mumbai",
+    name: "Mumbai & Navi Mumbai",
+    description: "Complete coverage across Mumbai Metropolitan Region",
+    radius: "50 km radius",
+  },
+  {
+    id: "pune",
+    name: "Pune",
+    description: "Serving Pune city and surrounding industrial areas",
+    radius: "40 km radius",
+  },
+  {
+    id: "thane",
+    name: "Thane",
+    description: "Thane district and nearby regions",
+    radius: "35 km radius",
+  },
+  {
+    id: "nashik",
+    name: "Nashik",
+    description: "Nashik city and industrial zones",
+    radius: "45 km radius",
+  },
+  {
+    id: "aurangabad",
+    name: "Aurangabad",
+    description: "Aurangabad and surrounding areas",
+    radius: "40 km radius",
+  },
+];
+
+export type RMCProduct = {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  features?: string[];
+  applications?: string[];
+};
+
+export const rmcProducts: RMCProduct[] = [
+  {
+    id: "standard-rmc",
+    name: "Standard Ready Mix Concrete",
+    description: "High-quality standard ready mix concrete suitable for general construction purposes. Manufactured with precision and consistency to meet standard construction requirements.",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Standard Ready Mix Concrete",
+    features: ["Consistent quality", "Easy to use", "Cost-effective", "Fast delivery"],
+    applications: ["Residential buildings", "Commercial structures", "Roads and pavements", "Foundations"],
+  },
+  {
+    id: "high-strength",
+    name: "High-Strength Concrete",
+    description: "Premium high-strength concrete designed for structures requiring superior durability and load-bearing capacity. Ideal for high-rise buildings and heavy-duty applications.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "High-Strength Concrete",
+    features: ["Superior strength", "Enhanced durability", "Reduced permeability", "Long-lasting"],
+    applications: ["High-rise buildings", "Bridges", "Industrial structures", "Heavy foundations"],
+  },
+  {
+    id: "self-compacting",
+    name: "Self-Compacting Concrete (SCC)",
+    description: "Advanced self-compacting concrete that flows and settles into place without the need for vibration. Perfect for complex formwork and congested reinforcement areas.",
+    image: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Self-Compacting Concrete",
+    features: ["No vibration needed", "Smooth finish", "Reduced labor", "Better workability"],
+    applications: ["Complex structures", "Precast elements", "Thin sections", "Dense reinforcement"],
+  },
+  {
+    id: "pumpable",
+    name: "Pumpable Concrete",
+    description: "Specialty concrete mix designed for easy pumping through pipelines to elevated or hard-to-reach construction sites. Maintains workability during transportation.",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Pumpable Concrete",
+    features: ["Easy pumping", "Maintains workability", "Reduced segregation", "Time-saving"],
+    applications: ["High-rise construction", "Underground structures", "Remote locations", "Large-scale projects"],
+  },
+  {
+    id: "fiber-reinforced",
+    name: "Fiber-Reinforced Concrete",
+    description: "Concrete enhanced with synthetic or steel fibers to improve tensile strength, reduce cracking, and enhance durability. Perfect for industrial floors and pavements.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Fiber-Reinforced Concrete",
+    features: ["Crack resistance", "Improved toughness", "Better impact resistance", "Enhanced durability"],
+    applications: ["Industrial floors", "Pavements", "Airport runways", "Parking structures"],
+  },
+  {
+    id: "lightweight",
+    name: "Lightweight Concrete",
+    description: "Lightweight concrete with reduced density while maintaining structural integrity. Ideal for reducing dead load in structures and improving thermal insulation.",
+    image: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Lightweight Concrete",
+    features: ["Reduced weight", "Better insulation", "Easier handling", "Lower structural load"],
+    applications: ["Roof slabs", "Precast panels", "Partition walls", "Insulation layers"],
+  },
+];
+
+export const rmcFeatures = [
+  {
+    title: "Quality Assurance",
+    description: "ISO certified production with rigorous quality control at every stage",
+    icon: "solar:medal-ribbons-star-bold",
+  },
+  {
+    title: "On-Time Delivery",
+    description: "Reliable delivery schedules with GPS-tracked transit vehicles",
+    icon: "solar:delivery-bold",
+  },
+  {
+    title: "Custom Mix Designs",
+    description: "Tailored concrete mixes to meet specific project requirements",
+    icon: "solar:settings-bold",
+  },
+  {
+    title: "24/7 Support",
+    description: "Round-the-clock customer support and emergency services",
+    icon: "solar:phone-calling-bold",
+  },
+  {
+    title: "Environmentally Conscious",
+    description: "Sustainable production practices with recycled materials",
+    icon: "solar:leaf-bold",
+  },
+  {
+    title: "Competitive Pricing",
+    description: "Cost-effective solutions without compromising on quality",
+    icon: "solar:wallet-money-bold",
+  },
+];
+
+export const rmcGrades = [
+  { grade: "M10", strength: "10 N/mm²", use: "Non-structural applications" },
+  { grade: "M15", strength: "15 N/mm²", use: "Plain cement concrete" },
+  { grade: "M20", strength: "20 N/mm²", use: "Reinforced concrete (general)" },
+  { grade: "M25", strength: "25 N/mm²", use: "Reinforced concrete (standard)" },
+  { grade: "M30", strength: "30 N/mm²", use: "High-strength applications" },
+  { grade: "M35", strength: "35 N/mm²", use: "Heavy-duty structures" },
+  { grade: "M40", strength: "40 N/mm²", use: "Commercial buildings" },
+  { grade: "M45", strength: "45 N/mm²", use: "Industrial structures" },
+  { grade: "M50", strength: "50 N/mm²", use: "High-rise buildings" },
+];
+
+export const rmcDescription = {
+  title: "What is Ready Mix Concrete (RMC)?",
+  content: [
+    "Ready Mix Concrete (RMC) is a factory-made concrete that is manufactured in a batching plant according to a set recipe and then delivered to the construction site in a transit mixer truck. Unlike traditional on-site concrete mixing, RMC ensures consistent quality, precise mix proportions, and eliminates the need for on-site storage of raw materials.",
+    "RMC is produced under controlled conditions using advanced batching systems, ensuring uniform quality and strength. The concrete is mixed in a central plant and transported to construction sites in specialized transit mixer trucks that keep the concrete in a workable state during transit.",
+    "This modern approach to concrete production offers numerous advantages including better quality control, reduced wastage, faster construction, and environmental benefits through optimized material usage and reduced site pollution.",
+  ],
+  benefits: [
+    "Consistent quality and strength",
+    "Reduced construction time",
+    "Better quality control",
+    "Environmental benefits",
+    "Cost-effective for large projects",
+    "No on-site storage required",
+  ],
+};
+

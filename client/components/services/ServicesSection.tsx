@@ -22,7 +22,9 @@ export function ServicesSection({
 
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="max-w-3xl space-y-4">
-          <p className="text-xs uppercase tracking-[0.35em] text-brand-gray">{eyebrow}</p>
+          <p className="text-xs uppercase tracking-[0.35em] text-brand-gray">
+            {eyebrow}
+          </p>
           <h2 className="text-4xl font-bold tracking-tight text-text-dark sm:text-5xl">
             {title}
           </h2>
@@ -40,6 +42,7 @@ export function ServicesSection({
               image={service.image}
               imageAlt={service.imageAlt}
               index={index}
+              link={service.link}
             />
           ))}
         </div>
