@@ -72,14 +72,14 @@ export function ProjectPageSection() {
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
-  const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
-  const endIndex = startIndex + PROJECTS_PER_PAGE;
-  const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
-
-  // Update live projects when paginated projects change
+  
+  // Update live projects when filtered projects or current page changes
   useEffect(() => {
+    const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
+    const endIndex = startIndex + PROJECTS_PER_PAGE;
+    const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
     setLiveProjects(paginatedProjects.map(mapRecordToHighlight));
-  }, [paginatedProjects]);
+  }, [filteredProjects, currentPage]);
 
   const highlightProjects = useMemo(() => liveProjects, [liveProjects]);
 

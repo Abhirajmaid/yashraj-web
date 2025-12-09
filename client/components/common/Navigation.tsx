@@ -26,7 +26,7 @@ export function Navigation({ variant = "light" }: NavigationProps) {
   const hoverEffect = "transition-all duration-200 hover:-translate-y-0.5";
 
   return (
-    <nav className="flex items-center space-x-8">
+    <nav className="flex items-center space-x-8" style={{ pointerEvents: "auto" }}>
       {navLinks.map((link) => {
         const isActive =
           link.href === "/"
@@ -38,6 +38,7 @@ export function Navigation({ variant = "light" }: NavigationProps) {
             key={link.href}
             href={link.href}
             className={`group font-medium text-xl ${baseColor} ${hoverEffect} relative flex items-center space-x-1`}
+            style={{ pointerEvents: "auto" }}
           >
             <span>{link.label}</span>
             <div

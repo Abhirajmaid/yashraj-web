@@ -60,7 +60,8 @@ export function ProjectFilters({ projects, onFilterChange }: ProjectFiltersProps
     });
 
     onFilterChange(filtered);
-  }, [projects, searchTerm, selectedStatus, selectedCategory, selectedLocation, onFilterChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projects, searchTerm, selectedStatus, selectedCategory, selectedLocation]);
 
   const clearFilters = () => {
     setSearchTerm("");

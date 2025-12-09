@@ -54,7 +54,7 @@ export function StickyHeader() {
   return (
     <>
       {/* Mobile Header - Logo Only */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-transparent">
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-[100] bg-transparent" style={{ pointerEvents: "auto" }}>
         {/* White Background on Scroll */}
         <div
           className={`absolute inset-0 transition-all duration-500 ${
@@ -74,9 +74,10 @@ export function StickyHeader() {
 
       {/* Desktop Header */}
       <header
-        className={`hidden lg:block fixed z-50 transition-all duration-300 ${
+        className={`hidden lg:block fixed z-[100] transition-all duration-300 ${
           isScrolled ? "top-6 left-4 right-4" : "top-6 left-0 right-0"
         }`}
+        style={{ pointerEvents: "auto" }}
       >
         {/* Initial background to prevent color flash - ensures header area is covered */}
         <div className="absolute inset-0 bg-transparent pointer-events-none" />
@@ -107,7 +108,7 @@ export function StickyHeader() {
             <Logo />
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-8 relative">
+            <div className="hidden lg:flex items-center space-x-8 relative z-10" style={{ pointerEvents: "auto" }}>
               <Navigation variant={isScrolled ? "dark" : "light"} />
             </div>
 

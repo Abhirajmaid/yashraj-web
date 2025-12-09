@@ -55,7 +55,7 @@ export function CommonHeroSection({
       id={id}
       data-hero-root
       className={`relative h-screen overflow-hidden ${backgroundColor}`}
-      style={{ height: "100vh", zIndex: 1 }}
+      style={{ height: "100vh", zIndex: 1, pointerEvents: "auto" }}
     >
       {/* Background Image */}
       <div className="absolute inset-0 h-full w-full z-0">
