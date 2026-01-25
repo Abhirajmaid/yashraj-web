@@ -213,6 +213,8 @@ export default function CreateNewProjectPage() {
       .map((slot) => slot.file)
       .filter((file): file is File => Boolean(file));
 
+    const progressNum = form.progress.trim() === '' ? undefined : Math.min(100, Math.max(0, parseInt(form.progress, 10) || 0));
+
     setIsSaving(true);
     setFormError(null);
     setSuccessMessage(null);
