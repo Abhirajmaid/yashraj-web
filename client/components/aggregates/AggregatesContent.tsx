@@ -19,6 +19,39 @@ export function AggregatesContent() {
 
   return (
     <>
+      {/* Products Overview: Bitumen Mixes & RMC */}
+      <section className="relative bg-gradient-to-br from-white via-brand-light/5 to-transparent py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+          <SectionHeader
+            eyebrow="OUR PRODUCTS"
+            title="Bitumen Mixes & Ready-Mix Concrete"
+            description="We are manufacturers and suppliers of aggregates, concrete and bitumen mixes, offering complete solutions in the infrastructure sector."
+            align="center"
+            eyebrowClassName="text-brand-primary"
+          />
+          <div className="mt-12 grid gap-8 md:grid-cols-2">
+            <div className="rounded-2xl border border-brand-gray-light/50 bg-white p-6 shadow-sm lg:p-8">
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10">
+                <Icon icon="solar:road-bold" className="text-2xl text-brand-primary" />
+              </div>
+              <h3 className="mb-2 text-xl font-semibold text-brand-dark">Bitumen Mixes</h3>
+              <p className="text-sm leading-relaxed text-brand-dark/70">
+                Quality-assured bitumen mixes for road construction, resurfacing, and maintenance. Supplied to government and private projects across Maharashtra.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-brand-gray-light/50 bg-white p-6 shadow-sm lg:p-8">
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10">
+                <Icon icon="solar:box-bold" className="text-2xl text-brand-primary" />
+              </div>
+              <h3 className="mb-2 text-xl font-semibold text-brand-dark">Ready-Mix Concrete (RMC)</h3>
+              <p className="text-sm leading-relaxed text-brand-dark/70">
+                Quality-assured ready mix concrete from our plants. Precise mix designs, consistent strength, and on-time delivery for infrastructure and building projects.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What is RMC Section */}
       <section className="relative bg-gradient-to-br from-white via-brand-light/5 to-transparent py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
@@ -127,8 +160,8 @@ export function AggregatesContent() {
                     </div>
                     <div className="flex items-start gap-3">
                       <Icon
-                        icon="solar:factory-bold"
-                        className="mt-0.5 text-lg text-brand-primary"
+                        icon="solar:chart-2-bold"
+                        className="mt-0.5 shrink-0 text-lg text-brand-primary"
                       />
                       <div>
                         <p className="text-sm font-medium text-brand-dark">
@@ -228,20 +261,31 @@ export function AggregatesContent() {
                     </div>
                   </div>
                   {plant.coordinates && (
-                    <div className="relative h-48 w-full overflow-hidden rounded-lg border border-brand-gray-light/50 bg-brand-light/20">
+                    <div className="space-y-2">
+                      <div className="relative h-48 w-full overflow-hidden rounded-lg border border-brand-gray-light/50 bg-brand-light/20">
+                        <iframe
+                          src={`https://www.google.com/maps?q=${plant.coordinates.lat},${plant.coordinates.lng}&z=15&output=embed`}
+                          width="100%"
+                          height="100%"
+                          style={{ border: 0 }}
+                          allowFullScreen
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          title={`Map: ${plant.name}`}
+                          className="absolute inset-0 h-full w-full"
+                        />
+                      </div>
                       <a
                         href={`https://www.google.com/maps?q=${plant.coordinates.lat},${plant.coordinates.lng}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex h-full items-center justify-center gap-2 transition hover:bg-brand-light/30"
+                        className="flex items-center justify-center gap-2 rounded-lg border border-brand-gray-light/50 bg-brand-light/20 py-2.5 text-sm font-medium text-brand-dark transition hover:bg-brand-light/30 hover:text-brand-primary"
                       >
                         <Icon
                           icon="solar:map-point-bold"
-                          className="text-2xl text-brand-primary"
+                          className="text-lg text-brand-primary"
                         />
-                        <span className="text-sm font-medium text-brand-dark">
-                          View on Google Maps
-                        </span>
+                        View on Google Maps
                       </a>
                     </div>
                   )}

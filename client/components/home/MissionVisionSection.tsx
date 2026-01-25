@@ -1,23 +1,17 @@
 import { SectionHeader } from "@/components/common/SectionHeader";
 
-const missionVisionPurpose = [
+const missionVision = [
   {
     number: "01",
-    title: "Mission",
+    title: "Vision",
     description:
-      "To deliver exceptional construction and infrastructure solutions that exceed client expectations through innovation, quality craftsmanship, and unwavering commitment to excellence.",
+      "To create durable, high-quality infrastructure that strengthens public trust, enhances cities, and positions Yashraj Infrastructure among India's most respected contracting companies.",
   },
   {
     number: "02",
-    title: "Vision",
+    title: "Mission",
     description:
-      "To be the leading construction company recognized for transforming visions into reality, creating sustainable infrastructure that shapes communities and stands the test of time.",
-  },
-  {
-    number: "03",
-    title: "Purpose",
-    description:
-      "Focused on creativity and precision, we turn ideas into lasting designs that harmonize aesthetic brilliance with structural integrity.",
+      "To deliver superior infrastructure solutions through disciplined execution, uncompromising quality standards, and ethical business practices, ensuring timely, safe, and sustainable development for our clients and communities.",
   },
 ];
 
@@ -31,7 +25,7 @@ export function MissionVisionSection() {
         <div className="mb-12 sm:mb-16">
           <SectionHeader
             eyebrow="OUR FOUNDATION"
-            title="Mission, Vision & Purpose"
+            title="Mission & Vision"
             description="The core principles that guide our work and define our commitment to excellence."
             align="center"
             eyebrowClassName="text-primary"
@@ -40,8 +34,8 @@ export function MissionVisionSection() {
           />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {missionVisionPurpose.map((item, index) => (
+        <div className="grid gap-6 md:grid-cols-2">
+          {missionVision.map((item, index) => (
             <div
               key={item.title}
               className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-brand-gray-light/50 bg-white p-6 sm:p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_4px_20px_rgba(var(--color-dark-rgb),0.08)]"

@@ -6,116 +6,28 @@ import { ClientCaseStudyCard } from "./ClientCaseStudyCard";
 
 const caseStudies = [
   {
-    clientLogo:
-      "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
-    clientLogoAlt: "TechCorp Logo",
-    clientName: "TechCorp Industries",
-    projectTitle: "Corporate Headquarters",
-    description:
-      "Delivered a state-of-the-art corporate headquarters featuring modern architecture, sustainable design, and cutting-edge infrastructure. The project included 15 floors of office space, parking facilities, and recreational areas.",
-    projectLocation: "Business District, Mumbai",
-    images: [
-      {
-        src: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=800&q=80",
-        alt: "TechCorp headquarters building",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
-        alt: "Modern office interior",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=800&q=80",
-        alt: "Building facade",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
-        alt: "Architectural details",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
-        alt: "Building exterior",
-      },
-    ],
+    clientName: "Navi Mumbai Municipal Corporation (NMMC)",
+    projectTitle: "Airoli T-Junction",
+    projectLocation: "Airoli, Navi Mumbai",
+    challenge:
+      "Severe traffic congestion and frequent water logging due to inadequate drainage and damaged pavement at a critical junction.",
+    solution:
+      "Upgradation of storm water drains and culvert, widening and concretisation of side shoulders, and replacement of damaged concrete pavement panels to improve traffic flow and drainage efficiency.",
+    results:
+      "Smooth and uninterrupted traffic movement with complete elimination of water logging at the junction.",
+    images: [] as Array<{ src: string; alt: string }>,
   },
   {
-    clientLogo:
-      "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
-    clientLogoAlt: "Urban Development Logo",
-    clientName: "Urban Development Group",
-    projectTitle: "Residential Complex",
-    description:
-      "Constructed a premium residential complex with 200+ units, featuring modern amenities, landscaped gardens, and sustainable building practices. The project was completed ahead of schedule with zero safety incidents.",
-    projectLocation: "Suburban Area, Delhi",
-    images: [
-      {
-        src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
-        alt: "Residential complex exterior",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
-        alt: "Apartment building",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
-        alt: "Residential units",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
-        alt: "Building structure",
-      },
-    ],
-  },
-  {
-    clientLogo:
-      "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
-    clientLogoAlt: "Infra Solutions Logo",
-    clientName: "Infra Solutions Ltd",
-    projectTitle: "Highway Infrastructure",
-    description:
-      "Executed a major highway construction project spanning 50 kilometers, including bridges, tunnels, and modern road infrastructure. The project improved connectivity and reduced travel time by 40%.",
-    projectLocation: "National Highway, Bangalore",
-    images: [
-      {
-        src: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
-        alt: "Highway construction",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80",
-        alt: "Road infrastructure",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
-        alt: "Bridge construction",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=800&q=80",
-        alt: "Completed highway",
-      },
-    ],
-  },
-  {
-    clientLogo:
-      "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80",
-    clientLogoAlt: "GreenBuild Logo",
-    clientName: "GreenBuild Constructions",
-    projectTitle: "Sustainable Office Park",
-    description:
-      "Developed an eco-friendly office park with LEED certification, featuring solar panels, rainwater harvesting, and green building materials. The project sets new standards for sustainable construction in the region.",
-    projectLocation: "Eco Park, Pune",
-    images: [
-      {
-        src: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=800&q=80",
-        alt: "Sustainable building",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
-        alt: "Green architecture",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
-        alt: "Eco-friendly design",
-      },
-    ],
+    clientName: "S.M. Avtade Pvt. Ltd.",
+    projectTitle: "Truck Lay-Byes at Mumbai–Pune Expressway",
+    projectLocation: "Mumbai–Pune Expressway",
+    challenge:
+      "Frequent truck breakdowns and overheating during long journeys, leading to traffic congestion and safety risks on the expressway.",
+    solution:
+      "Construction of two dedicated truck lay-by bays to provide safe resting and emergency stopping zones for heavy vehicles.",
+    results:
+      "Significant reduction in vehicle breakdown incidents and smoother traffic flow with decreased congestion on the expressway.",
+    images: [] as Array<{ src: string; alt: string }>,
   },
 ];
 
@@ -190,9 +102,9 @@ export function ClientCaseStudiesSection() {
   };
 
   return (
-    <section className="relative isolate overflow-hidden bg-white text-brand-dark">
+    <section id="case-studies" className="relative isolate overflow-hidden bg-white text-brand-dark">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-br from-brand-primary/5 via-transparent to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-16 sm:py-20 lg:px-10 xl:px-14">
         {/* Header Section */}
@@ -200,7 +112,7 @@ export function ClientCaseStudiesSection() {
           <SectionHeader
             eyebrow="CLIENT CASE STUDIES"
             title="Our Success Stories"
-            description="Discover how we've helped leading companies achieve their construction and infrastructure goals through innovative solutions and exceptional execution."
+            description="Discover how we've helped government and private clients achieve their infrastructure goals through innovative solutions and exceptional execution."
             align="center"
             eyebrowClassName="text-primary"
             titleClassName="text-brand-dark"

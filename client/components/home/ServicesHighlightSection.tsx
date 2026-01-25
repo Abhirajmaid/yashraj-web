@@ -15,8 +15,8 @@ export function ServicesHighlightSection() {
         <div className="mb-12 sm:mb-16">
           <SectionHeader
             eyebrow="OUR SERVICES"
-            title="Specialized Construction Solutions"
-            description="Comprehensive construction services tailored to meet your infrastructure needs with quality and precision."
+            title="What We Do"
+            description="Construction & execution, operation & maintenance, and buildings & industrial—delivered with precision, reliability, and quality."
             align="center"
             eyebrowClassName="text-primary"
             titleClassName="text-brand-dark"

@@ -1,23 +1,21 @@
 import type { Metadata } from "next";
 import { AboutHeroSection } from "@/components/about-us/AboutHeroSection";
-import { AboutIntroSection } from "@/components/about-us/AboutIntroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { Footer } from "@/components/common/Footer";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { PurposeSection } from "@/components/about-us/PurposeSection";
 import { ServiceCTASection } from "@/components/common/ServiceCTASection";
 import { StorySection } from "@/components/about-us/StorySection";
-import { TeamsSection } from "@/components/about-us/TeamsSection";
-import { purposePillars, storyHighlights } from "@/data/aboutUs";
+import { purposePillars, storyHighlights, aboutNarrative } from "@/data/aboutUs";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Yashraj Infrastructure - a premier construction company passionate about creating inspiring, attention-grabbing, and enduring spaces that adapt to innovation. Experience innovative architecture that transforms your vision into reality.",
+    "At Yashraj Infrastructure, we turn vision into lasting impact. Based in Navi Mumbai, we deliver high-quality infrastructure projects across Maharashtra—roads, bridges, flyovers, STP, piling, and industrial buildings—with precision, durability, and innovation.",
   openGraph: {
     title: "About Us - Yashraj Infrastructure",
     description:
-      "Learn about our construction company passionate about creating inspiring and enduring spaces that adapt to innovation.",
+      "Based in Navi Mumbai, we deliver infrastructure across Maharashtra. Family-led, rooted in quality and long-term value creation.",
     images: ["/images/about.jpg"],
   },
 };
@@ -26,30 +24,46 @@ export default function AboutUsPage() {
   return (
     <main className="bg-white text-[#031B4E]">
       <AboutHeroSection
-        title="Designing spaces, bringing ideas to life"
+        title="At Yashraj Infrastructure, we turn vision into lasting impact."
         upperImage={{
           src: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80",
-          alt: "Modern architectural building with angular roof structure",
+          alt: "Infrastructure and construction",
         }}
         lowerImage={{
           src: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80",
-          alt: "Contemporary building with wave-like roofline",
+          alt: "Infrastructure project",
         }}
-        description="We are passionate about creating inspiring, attention-grabbing, and enduring spaces that adapt to innovation."
+        description="Based in Navi Mumbai, we deliver high-quality infrastructure projects across Maharashtra, earning the trust of government departments and stakeholders alike. Our portfolio spans highways, flyovers, beautification, sewage treatment plants, piling, industrial and commercial buildings—and we are manufacturers and suppliers of aggregates, concrete and bitumen mixes."
         buttonText="Our services"
         buttonLink="/services"
       />
-      {/* 
-      <AboutIntroSection
-        title="Experience innovative architecture that transforms your"
-        highlightedText="vision into reality."
-      /> */}
 
-      <PurposeSection pillars={purposePillars} />
+      {/* Who We Are narrative */}
+      <section className="relative bg-white py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+          <h2 className="mb-8 text-2xl font-semibold text-brand-dark sm:text-3xl">Who we are</h2>
+          <div className="space-y-6 text-base leading-relaxed text-brand-dark/80">
+            {aboutNarrative.split("\n\n").map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <StorySection highlights={storyHighlights} />
+      <PurposeSection
+        eyebrow="OUR PURPOSE"
+        title="Our Purpose"
+        description="Focused on building infrastructure that lasts, we combine expertise, innovation, and commitment to serve communities across Maharashtra."
+        pillars={purposePillars}
+      />
 
-      <TeamsSection />
+      <StorySection
+        eyebrow="OUR STORY"
+        title="Our Story"
+        description="From our founding in 2008 to today—a family-led enterprise built on hard work, ethical leadership, and technical strength."
+        highlights={storyHighlights}
+      />
+
       <PartnersSection />
 
       <ServiceCTASection />

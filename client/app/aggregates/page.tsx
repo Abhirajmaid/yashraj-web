@@ -6,13 +6,13 @@ import { ServiceCTASection } from "@/components/common/ServiceCTASection";
 import { Footer } from "@/components/common/Footer";
 
 export const metadata: Metadata = {
-  title: "Aggregates - Ready Mix Concrete (RMC)",
+  title: "Products - Bitumen Mixes & Ready-Mix Concrete (RMC)",
   description:
-    "Discover Yashraj Infrastructure's Ready Mix Concrete (RMC) solutions. Explore our state-of-the-art plants, locations, and comprehensive RMC services for all your construction needs.",
+    "Yashraj Infrastructure manufactures and supplies Bitumen Mixes and Ready-Mix Concrete (RMC). Quality-assured materials from our plants for infrastructure and construction across Maharashtra.",
   openGraph: {
-    title: "Aggregates - RMC Services | Yashraj Infrastructure",
+    title: "Products - Bitumen Mixes & RMC | Yashraj Infrastructure",
     description:
-      "Quality-assured Ready Mix Concrete from strategically located plants. Expert RMC solutions for construction projects of all scales.",
+      "Bitumen mixes and Ready-Mix Concrete. Quality-assured materials for infrastructure and construction.",
     images: ["/images/projecthero2.jpg"],
   },
 };
@@ -21,12 +21,12 @@ export default function AggregatesPage() {
   return (
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
-        id="aggregates"
+        id="products"
         backgroundImage="/images/servicesimage.jpg"
-        backgroundImageAlt="Aggregates and RMC hero background"
-        title="Aggregates"
+        backgroundImageAlt="Products – Bitumen Mixes and Ready-Mix Concrete"
+        title="Products"
         flipHorizontal={true}
-        description="Quality-assured Ready Mix Concrete (RMC) solutions from strategically located plants. Delivering strength, durability, and consistency for your construction projects."
+        description="Bitumen mixes and Ready-Mix Concrete (RMC). Quality-assured materials from our plants—delivering strength, durability, and consistency for your infrastructure and construction projects."
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to explore"
         backgroundColor="bg-brand-dark"

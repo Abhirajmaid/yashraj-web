@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { Project } from "@/data/projects";
-import { GalleryModal } from "./GalleryModal";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 type ProjectHighlightCardProps = {
@@ -12,32 +11,7 @@ type ProjectHighlightCardProps = {
 };
 
 export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
-  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { openModal } = useEnquiryModal();
-
-  // Combine all images for gallery
-  const galleryImages = [
-    ...(project.mainImage
-      ? [
-          {
-            src: project.mainImage,
-            alt: project.mainImageAlt ?? project.title,
-          },
-        ]
-      : []),
-    ...((project.secondaryImages ?? []).filter((img) =>
-      Boolean(img?.src)
-    ) as NonNullable<Project["secondaryImages"]>),
-    ...((project.gallery ?? []).filter((img) =>
-      Boolean(img?.src)
-    ) as NonNullable<Project["gallery"]>),
-  ];
-
-  const openGallery = (index: number = 0) => {
-    setCurrentImageIndex(index);
-    setIsGalleryOpen(true);
-  };
 
   return (
     <>
@@ -117,21 +91,13 @@ export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
               </ul>
               {/* Action Buttons */}
               <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={() => openGallery(0)}
-                  disabled={galleryImages.length === 0}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#0E0E0E] px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white transition hover:bg-[#0E0E0E]/90 disabled:cursor-not-allowed disabled:bg-[#0E0E0E]/40"
+                <Link
+                  href={`/projects/${project.id}`}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand-primary px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white transition hover:bg-brand-primary/90"
                 >
-                  <Icon
-                    icon="solar:gallery-bold"
-                    className="text-base sm:text-lg"
-                  />
-                  <span>
-                    {galleryImages.length > 0
-                      ? "View Gallery"
-                      : "Gallery coming soon"}
-                  </span>
-                </button>
+                 
+                  <span>Learn more</span>
+                </Link>
                 <button
                   onClick={openModal}
                   className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-[#0E0E0E] bg-transparent px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-[#0E0E0E] transition hover:bg-[#0E0E0E] hover:text-white"
@@ -147,16 +113,6 @@ export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
           </div>
         </div>
       </div>
-
-      {/* Gallery Modal */}
-      <GalleryModal
-        isOpen={isGalleryOpen}
-        onClose={() => setIsGalleryOpen(false)}
-        images={galleryImages}
-        title={project.title}
-        currentIndex={currentImageIndex}
-        onNavigate={setCurrentImageIndex}
-      />
     </>
   );
 }

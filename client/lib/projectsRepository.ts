@@ -163,7 +163,7 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
         galleryCount: galleryUploads.length,
       });
       
-      docRef = await addDoc(projectsCollection, {
+      const docData: Record<string, unknown> = {
         name: payload.name,
         overview: overviewValue,
         essentials: essentialsValue,
@@ -171,7 +171,16 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
         gallery: galleryUploads,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
-      });
+      };
+      if (payload.category != null && payload.category !== '') docData.category = payload.category;
+      if (payload.launchWindow != null && payload.launchWindow.trim() !== '') docData.launchWindow = payload.launchWindow.trim();
+      if (payload.deliveryWindow != null && payload.deliveryWindow.trim() !== '') docData.deliveryWindow = payload.deliveryWindow.trim();
+      if (payload.builder != null && payload.builder.trim() !== '') docData.builder = payload.builder.trim();
+      if (payload.consultants != null && payload.consultants.trim() !== '') docData.consultants = payload.consultants.trim();
+      if (payload.financing != null && payload.financing.trim() !== '') docData.financing = payload.financing.trim();
+      if (payload.progress != null && typeof payload.progress === 'number' && !Number.isNaN(payload.progress)) docData.progress = payload.progress;
+
+      docRef = await addDoc(projectsCollection, docData);
       
       console.log('[createProjectRecord] Project saved to Firestore successfully!', { documentId: docRef.id });
     } catch (error) {
@@ -194,6 +203,13 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
       createdAt: nowIso,
       updatedAt: nowIso,
       industries: [],
+      category: payload.category || undefined,
+      launchWindow: payload.launchWindow?.trim() || undefined,
+      deliveryWindow: payload.deliveryWindow?.trim() || undefined,
+      builder: payload.builder?.trim() || undefined,
+      consultants: payload.consultants?.trim() || undefined,
+      financing: payload.financing?.trim() || undefined,
+      progress: payload.progress != null && typeof payload.progress === 'number' && !Number.isNaN(payload.progress) ? payload.progress : null,
     };
 
     console.log('[createProjectRecord] Project record created successfully!', { projectId: projectRecord.id });
@@ -281,6 +297,14 @@ export async function updateProjectRecord(
 
   updateData.featureImages = featureImages;
   updateData.gallery = galleryImages;
+
+  if (payload.category !== undefined) updateData.category = payload.category || null;
+  if (payload.launchWindow !== undefined) updateData.launchWindow = payload.launchWindow?.trim() || null;
+  if (payload.deliveryWindow !== undefined) updateData.deliveryWindow = payload.deliveryWindow?.trim() || null;
+  if (payload.builder !== undefined) updateData.builder = payload.builder?.trim() || null;
+  if (payload.consultants !== undefined) updateData.consultants = payload.consultants?.trim() || null;
+  if (payload.financing !== undefined) updateData.financing = payload.financing?.trim() || null;
+  if (payload.progress !== undefined) updateData.progress = payload.progress != null && typeof payload.progress === 'number' && !Number.isNaN(payload.progress) ? payload.progress : null;
 
   await updateDoc(docRef, updateData);
   const updatedSnapshot = await getDoc(docRef);

@@ -17,8 +17,8 @@ export function ShowcaseSection() {
         <div className="grid gap-14 lg:grid-cols-2 lg:items-start lg:gap-16">
           <div className="flex flex-col gap-8">
             <SectionHeader
-              title="Experience innovative architecture that transforms your vision into reality with enduring craftsmanship"
-              description="From bespoke residences to large-scale infrastructure, Yashraj Constructions delivers projects that harmonize aesthetic brilliance with structural integrity. Our multidisciplinary teams collaborate closely with clients to reimagine skylines, elevate communities, and create spaces that stand the test of time."
+              title="Building Beyond Horizons — infrastructure that lasts, connects, and inspires"
+              description="Yashraj Infrastructure is a trusted government partner based in Navi Mumbai, delivering infrastructure projects across Maharashtra since 2005. We combine decades of experience with innovative technologies—from roads and bridges to bitumen mixes and ready-mix concrete—offering complete solutions in the infrastructure sector."
             />
             <Button
               link="/services"

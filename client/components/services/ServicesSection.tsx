@@ -10,9 +10,9 @@ type ServicesSectionProps = {
 
 export function ServicesSection({
   services,
-  eyebrow = "SERVICE INCLUDED",
-  title = "Our services",
-  description = "At Yashraj, we design unique architectural solutions that bring your vision to life.",
+  eyebrow = "WHAT WE DO",
+  title = "Our Services",
+  description = "Construction & execution, operation & maintenance, and buildings & industrial—delivered with precision, reliability, and quality across Maharashtra.",
 }: ServicesSectionProps) {
   const featured = services.slice(0, 3);
 

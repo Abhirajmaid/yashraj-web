@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 type FieldProps = {
   label: string;
@@ -12,14 +12,14 @@ type FieldProps = {
 
 export function Field({ label, value, placeholder, onChange, required }: FieldProps) {
   return (
-    <label className="block space-y-2 text-sm text-white/80">
-      <span className="text-xs uppercase tracking-wide text-white/40">{label}</span>
+    <label className="block space-y-2 text-sm text-gray-700">
+      <span className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</span>
       <input
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-md border border-white/10 bg-[#0b0b0b] px-4 py-3 text-sm text-white focus:border-white/40 focus:outline-none"
+        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
       />
     </label>
   );
@@ -43,16 +43,96 @@ export function TextAreaField({
   required,
 }: TextAreaFieldProps) {
   return (
-    <label className="block space-y-2 text-sm text-white/80">
-      <span className="text-xs uppercase tracking-wide text-white/40">{label}</span>
+    <label className="block space-y-2 text-sm text-gray-700">
+      <span className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</span>
       <textarea
         value={value}
         rows={rows}
         placeholder={placeholder}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="w-full rounded-md border border-white/10 bg-[#0b0b0b] px-4 py-3 text-sm text-white focus:border-white/40 focus:outline-none"
+        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
       />
+    </label>
+  );
+}
+
+type SelectFieldProps = {
+  label: string;
+  value: string;
+  options: Array<{ value: string; label: string }>;
+  placeholder?: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+};
+
+export function SelectField({
+  label,
+  value,
+  options,
+  placeholder,
+  onChange,
+  required,
+}: SelectFieldProps) {
+  return (
+    <label className="block space-y-2 text-sm text-gray-700">
+      <span className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required}
+        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
+      >
+        {placeholder ? (
+          <option value="">{placeholder}</option>
+        ) : null}
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+type NumberFieldProps = {
+  label: string;
+  value: string;
+  placeholder?: string;
+  min?: number;
+  max?: number;
+  suffix?: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+};
+
+export function NumberField({
+  label,
+  value,
+  placeholder,
+  min,
+  max,
+  suffix,
+  onChange,
+  required,
+}: NumberFieldProps) {
+  return (
+    <label className="block space-y-2 text-sm text-gray-700">
+      <span className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</span>
+      <div className="flex items-center gap-2">
+        <input
+          type="number"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          min={min}
+          max={max}
+          required={required}
+          className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
+        />
+        {suffix ? <span className="shrink-0 text-sm text-gray-500">{suffix}</span> : null}
+      </div>
     </label>
   );
 }
@@ -77,33 +157,33 @@ export function ImageUploadField({
   onRemove,
 }: ImageUploadFieldProps) {
   return (
-    <div className="space-y-3 rounded-lg border border-dashed border-white/20 bg-black/20 p-4">
-      <label className="block space-y-2 text-sm text-white/80">
-        <span className="text-xs uppercase tracking-wide text-white/40">{label}</span>
+    <div className="space-y-3 rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4">
+      <label className="block space-y-2 text-sm text-gray-700">
+        <span className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</span>
         <input
           type="file"
           accept="image/*"
           required={required && !preview}
-          onChange={(event) => onChange(event.target.files?.[0] ?? null)}
-          className="w-full rounded-md border border-white/10 bg-[#0b0b0b] px-4 py-2 text-xs text-white file:mr-4 file:rounded-md file:border-0 file:bg-white file:px-3 file:py-2 file:text-xs file:font-semibold file:text-black focus:border-white/40 focus:outline-none"
+          onChange={(e) => onChange(e.target.files?.[0] ?? null)}
+          className="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 file:mr-4 file:rounded-md file:border-0 file:bg-brand-primary file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
         />
       </label>
-      {helper ? <p className="text-xs text-white/50">{helper}</p> : null}
-      <div className="overflow-hidden rounded-lg border border-white/10 bg-black/30 text-center">
+      {helper ? <p className="text-xs text-gray-500">{helper}</p> : null}
+      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white text-center">
         {preview ? (
           <img src={preview} alt={fileName ?? label} className="h-28 w-full object-cover" />
         ) : (
-          <div className="flex h-28 items-center justify-center text-xs uppercase tracking-wide text-white/30">
+          <div className="flex h-28 items-center justify-center text-xs uppercase tracking-wide text-gray-400">
             No image selected
           </div>
         )}
       </div>
-      {fileName ? <p className="truncate text-xs text-white/60">{fileName}</p> : null}
+      {fileName ? <p className="truncate text-xs text-gray-600">{fileName}</p> : null}
       {onRemove ? (
         <button
           type="button"
           onClick={onRemove}
-          className="text-xs font-semibold text-red-400 transition hover:text-red-300"
+          className="text-xs font-semibold text-brand-primary transition hover:text-brand-primary/80"
         >
           Remove image
         </button>
@@ -120,14 +200,12 @@ type CardProps = {
 
 export function Card({ title, description, children }: CardProps) {
   return (
-    <div className="space-y-4 rounded-md border border-white/10 bg-black/30 p-4">
+    <div className="space-y-4 rounded-xl border-0 bg-white p-6 shadow-md">
       <div>
-        <h3 className="text-sm font-semibold text-white">{title}</h3>
-        <p className="text-xs text-white/40">{description}</p>
+        <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+        <p className="text-xs text-gray-500">{description}</p>
       </div>
       {children}
     </div>
   );
 }
-
-

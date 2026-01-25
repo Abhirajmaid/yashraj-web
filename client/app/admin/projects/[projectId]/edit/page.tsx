@@ -1,13 +1,25 @@
 'use client';
 
 import Link from 'next/link';
-import { FormEvent, useEffect, useState } from 'react';
+import { use, type FormEvent, useEffect, useState } from 'react';
 import { getProjectRecord, updateProjectRecord } from '@/lib/projectsRepository';
 import { ProjectRecord } from '@/types/project';
-import { Card, Field, ImageUploadField, TextAreaField } from '@/components/admin/ProjectFormFields';
+import { Card, Field, ImageUploadField, NumberField, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
+
+const CATEGORY_OPTIONS = [
+  { value: '', label: '—' },
+  { value: 'Infrastructure', label: 'Infrastructure' },
+  { value: 'Roads & Bridges', label: 'Roads & Bridges' },
+  { value: 'Buildings & Industrial', label: 'Buildings & Industrial' },
+  { value: 'Commercial', label: 'Commercial' },
+  { value: 'Residential', label: 'Residential' },
+  { value: 'Industrial', label: 'Industrial' },
+  { value: 'Renovation', label: 'Renovation' },
+  { value: 'Other', label: 'Other' },
+];
 
 type PageProps = {
-  params: { projectId: string };
+  params: Promise<{ projectId: string }>;
 };
 
 type ProjectForm = {
@@ -16,6 +28,13 @@ type ProjectForm = {
   essential1: string;
   essential2: string;
   essential3: string;
+  category: string;
+  launchWindow: string;
+  deliveryWindow: string;
+  builder: string;
+  consultants: string;
+  financing: string;
+  progress: string;
 };
 
 type GallerySlot = {
@@ -30,6 +49,13 @@ const emptyForm: ProjectForm = {
   essential1: '',
   essential2: '',
   essential3: '',
+  category: '',
+  launchWindow: '',
+  deliveryWindow: '',
+  builder: '',
+  consultants: '',
+  financing: '',
+  progress: '',
 };
 
 const makeLocalId = () =>
@@ -38,7 +64,7 @@ const makeLocalId = () =>
     : Math.random().toString(36).slice(2, 8);
 
 export default function EditProjectPage({ params }: PageProps) {
-  const projectId = params.projectId;
+  const { projectId } = use(params);
 
   const [project, setProject] = useState<ProjectRecord | null>(null);
   const [form, setForm] = useState<ProjectForm>(emptyForm);
@@ -69,6 +95,13 @@ export default function EditProjectPage({ params }: PageProps) {
           essential1: record.essentials?.[0] ?? '',
           essential2: record.essentials?.[1] ?? '',
           essential3: record.essentials?.[2] ?? '',
+          category: record.category ?? '',
+          launchWindow: record.launchWindow ?? '',
+          deliveryWindow: record.deliveryWindow ?? '',
+          builder: record.builder ?? '',
+          consultants: record.consultants ?? '',
+          financing: record.financing ?? '',
+          progress: record.progress != null ? String(record.progress) : '',
         });
         setError(null);
       } catch (fetchError) {
@@ -133,6 +166,7 @@ export default function EditProjectPage({ params }: PageProps) {
     }
 
     const galleryFiles = galleryUploads.map((slot) => slot.file);
+    const progressNum = form.progress.trim() === '' ? undefined : Math.min(100, Math.max(0, parseInt(form.progress, 10) || 0));
 
     try {
       const updated = await updateProjectRecord(project.id, {
@@ -143,6 +177,13 @@ export default function EditProjectPage({ params }: PageProps) {
         galleryFiles: galleryFiles.length ? galleryFiles : undefined,
         currentFeatureImages: project.featureImages,
         currentGallery: project.gallery,
+        category: form.category || undefined,
+        launchWindow: form.launchWindow.trim() || undefined,
+        deliveryWindow: form.deliveryWindow.trim() || undefined,
+        builder: form.builder.trim() || undefined,
+        consultants: form.consultants.trim() || undefined,
+        financing: form.financing.trim() || undefined,
+        progress: progressNum ?? undefined,
       });
 
       setProject(updated);
@@ -158,18 +199,18 @@ export default function EditProjectPage({ params }: PageProps) {
   };
 
   if (isLoading) {
-    return <p className="text-sm text-white/60">Loading project for editing…</p>;
+    return <p className="text-sm text-gray-600">Loading project for editing…</p>;
   }
 
   if (error && !project) {
     return (
-      <div className="space-y-4 text-white">
-        <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+      <div className="space-y-4 text-gray-900">
+        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </p>
         <Link
           href="/admin/projects"
-          className="inline-flex items-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-white/70 transition hover:border-white hover:text-white"
+          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
         >
           ← Back to projects
         </Link>
@@ -182,23 +223,23 @@ export default function EditProjectPage({ params }: PageProps) {
   }
 
   return (
-    <div className="space-y-8 text-white">
+    <div className="space-y-8 text-gray-900">
       <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-white/40">Edit project</p>
-          <h1 className="text-3xl font-semibold text-white">{project.name}</h1>
-          <p className="text-sm text-white/60">Update details, copy, or media assets.</p>
+          <p className="text-xs font-medium uppercase tracking-[0.3em] text-gray-500">Edit project</p>
+          <h1 className="text-3xl font-semibold text-gray-900">{project.name}</h1>
+          <p className="text-sm text-gray-500">Update details, copy, or media assets.</p>
         </div>
         <div className="flex gap-3">
           <Link
             href={`/admin/projects/${project.id}`}
-            className="inline-flex items-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-white/70 transition hover:border-white hover:text-white"
+            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
           >
             ← View details
           </Link>
           <Link
             href="/admin/projects"
-            className="inline-flex items-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-white/70 transition hover:border-white hover:text-white"
+            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
           >
             Back to list
           </Link>
@@ -206,12 +247,12 @@ export default function EditProjectPage({ params }: PageProps) {
       </header>
 
       {error ? (
-        <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </p>
       ) : null}
       {successMessage ? (
-        <p className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
+        <p className="rounded-lg border border-brand-primary/30 bg-brand-primary/10 px-4 py-3 text-sm text-brand-primary">
           {successMessage}
         </p>
       ) : null}
@@ -222,7 +263,7 @@ export default function EditProjectPage({ params }: PageProps) {
             label="Project Name"
             value={form.name}
             onChange={(value) => setForm((current) => ({ ...current, name: value }))}
-            placeholder="Urban retreat in Golden Gate Park"
+            placeholder="e.g. Airoli T-Junction Upgradation"
             required
           />
           <TextAreaField
@@ -232,6 +273,62 @@ export default function EditProjectPage({ params }: PageProps) {
             rows={2}
             placeholder="Short description that appears on listing cards."
           />
+          <SelectField
+            label="Category"
+            value={form.category}
+            options={CATEGORY_OPTIONS.filter((o) => o.value !== '')}
+            placeholder="—"
+            onChange={(value) => setForm((current) => ({ ...current, category: value }))}
+          />
+        </Card>
+
+        <Card title="Timeline" description="Launch and delivery windows.">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field
+              label="Launch Window"
+              value={form.launchWindow}
+              onChange={(value) => setForm((current) => ({ ...current, launchWindow: value }))}
+              placeholder="—"
+            />
+            <Field
+              label="Delivery Window"
+              value={form.deliveryWindow}
+              onChange={(value) => setForm((current) => ({ ...current, deliveryWindow: value }))}
+              placeholder="—"
+            />
+          </div>
+        </Card>
+
+        <Card title="Builder, Consultants & Progress" description="Builder/developer, consultants, financing, and project progress.">
+          <div className="space-y-4">
+            <Field
+              label="Builder / Developer"
+              value={form.builder}
+              onChange={(value) => setForm((current) => ({ ...current, builder: value }))}
+              placeholder="—"
+            />
+            <Field
+              label="Consultants"
+              value={form.consultants}
+              onChange={(value) => setForm((current) => ({ ...current, consultants: value }))}
+              placeholder="—"
+            />
+            <Field
+              label="Financing & Schemes"
+              value={form.financing}
+              onChange={(value) => setForm((current) => ({ ...current, financing: value }))}
+              placeholder="—"
+            />
+            <NumberField
+              label="Progress"
+              value={form.progress}
+              onChange={(value) => setForm((current) => ({ ...current, progress: value }))}
+              placeholder="—"
+              min={0}
+              max={100}
+              suffix="% complete"
+            />
+          </div>
         </Card>
 
         <Card title="Project Essentials" description="Edit the three bullet points shown on marketing pages.">
@@ -261,9 +358,9 @@ export default function EditProjectPage({ params }: PageProps) {
         >
           <div className="space-y-6">
             <section className="space-y-3">
-              <p className="text-xs uppercase tracking-wide text-white/40">Primary feature image</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Primary feature image</p>
               {project.featureImages.primary ? (
-                <div className="rounded-lg border border-white/10 bg-black/20 p-3 text-xs text-white/60">
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 text-xs text-gray-600">
                   Current image shown below. Upload a new one to replace it.
                 </div>
               ) : null}
@@ -278,20 +375,20 @@ export default function EditProjectPage({ params }: PageProps) {
             <section className="space-y-3">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-wide text-white/40">Project gallery</p>
-                  <p className="text-sm text-white/70">
+                  <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Project gallery</p>
+                  <p className="text-sm text-gray-600">
                     Uploading new files will replace the gallery. Leave empty to keep the current set.
                   </p>
                 </div>
               </div>
-              <label className="block space-y-2 text-sm text-white/80">
-                <span className="text-xs uppercase tracking-wide text-white/40">Upload new gallery</span>
+              <label className="block space-y-2 text-sm text-gray-700">
+                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Upload new gallery</span>
                 <input
                   type="file"
                   accept="image/*"
                   multiple
                   onChange={(event) => handleGalleryFilesChange(event.target.files)}
-                  className="w-full rounded-md border border-white/10 bg-[#0b0b0b] px-4 py-2 text-xs text-white file:mr-4 file:rounded-md file:border-0 file:bg-white file:px-3 file:py-2 file:text-xs file:font-semibold file:text-black focus:border-white/40 focus:outline-none"
+                  className="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 file:mr-4 file:rounded-md file:border-0 file:bg-brand-primary file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
                 />
               </label>
 
@@ -300,15 +397,15 @@ export default function EditProjectPage({ params }: PageProps) {
                   {galleryUploads.map((slot) => (
                     <div
                       key={slot.id}
-                      className="space-y-2 rounded-lg border border-white/10 bg-black/30 p-3 text-center"
+                      className="space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3 text-center"
                     >
                       <img src={slot.preview} alt="" className="h-28 w-full rounded-md object-cover" />
-                      <p className="truncate text-xs text-white/60">{slot.file.name}</p>
+                      <p className="truncate text-xs text-gray-600">{slot.file.name}</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-xs text-white/60">
+                <div className="text-xs text-gray-600">
                   Current gallery has {project.gallery.length} image{project.gallery.length === 1 ? '' : 's'}.
                 </div>
               )}
@@ -326,20 +423,27 @@ export default function EditProjectPage({ params }: PageProps) {
                 essential1: project.essentials?.[0] ?? '',
                 essential2: project.essentials?.[1] ?? '',
                 essential3: project.essentials?.[2] ?? '',
+                category: project.category ?? '',
+                launchWindow: project.launchWindow ?? '',
+                deliveryWindow: project.deliveryWindow ?? '',
+                builder: project.builder ?? '',
+                consultants: project.consultants ?? '',
+                financing: project.financing ?? '',
+                progress: project.progress != null ? String(project.progress) : '',
               });
               handleFeatureImageChange(null);
               handleGalleryFilesChange(null);
               setSuccessMessage(null);
               setError(null);
             }}
-            className="inline-flex items-center justify-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-white/70 transition hover:border-white hover:text-white"
+            className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
           >
             Reset changes
           </button>
           <button
             type="submit"
             disabled={isSaving}
-            className="inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-black shadow-sm shadow-black/40 transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center justify-center rounded-md bg-brand-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSaving ? 'Saving…' : 'Save updates'}
           </button>

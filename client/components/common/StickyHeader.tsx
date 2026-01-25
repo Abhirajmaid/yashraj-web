@@ -25,20 +25,23 @@ export function StickyHeader() {
     const hero = document.querySelector<HTMLElement>("[data-hero-root]");
 
     if (!hero) {
-      // Use setTimeout to avoid synchronous setState
-      setTimeout(() => {
-        setHeroPresent(false);
-        setIsScrolled(true);
-        // Don't set mobileScrolled to true initially - let scroll handle it
-      }, 0);
+      // No hero (e.g. project details, contact): always use solid header so nav is visible
+      setHeroPresent(false);
+      setIsScrolled(true);
+      setMobileScrolled(true);
     } else {
-      setTimeout(() => {
-        setHeroPresent(true);
-      }, 0);
+      setHeroPresent(true);
     }
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
+      const hasHero = document.querySelector("[data-hero-root]");
+      if (!hasHero) {
+        // Pages without hero: always show solid header and dark nav
+        setIsScrolled(true);
+        setMobileScrolled(true);
+        return;
+      }
       setIsScrolled(scrollPosition > 50);
       setMobileScrolled(scrollPosition > 30);
     };
@@ -49,7 +52,7 @@ export function StickyHeader() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <>

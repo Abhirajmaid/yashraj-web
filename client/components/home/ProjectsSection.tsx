@@ -6,97 +6,6 @@ import { SectionHeader } from "@/components/common/SectionHeader";
 import { ProjectRecord } from "@/types/project";
 import { listenToProjects } from "@/lib/projectsRepository";
 
-const projects = [
-  {
-    href: "/projects/skyline-towers",
-    imageSrc: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Skyline towers project",
-    title: `"Skyline Towers"`,
-    completion: "June 2023",
-    location: "Riverside District",
-  },
-  {
-    href: "/projects/riverfront-residences",
-    imageSrc: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Riverfront residences project",
-    title: `"Riverfront Residences"`,
-    completion: "August 2022",
-    location: "Downtown Metropolis",
-  },
-  {
-    href: "/projects/modular-megacity",
-    imageSrc: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Modular megacity project",
-    title: `"Modular Megacity"`,
-    completion: "December 2023",
-    location: "Urban Core",
-  },
-  {
-    href: "/projects/coastal-horizon",
-    imageSrc: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Coastal horizon project",
-    title: `"Coastal Horizon"`,
-    completion: "March 2024",
-    location: "Seaside Boulevard",
-  },
-  {
-    href: "/projects/tech-campus",
-    imageSrc: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Tech campus project",
-    title: `"Tech Campus"`,
-    completion: "January 2024",
-    location: "Innovation District",
-  },
-  {
-    href: "/projects/green-towers",
-    imageSrc: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Green towers project",
-    title: `"Green Towers"`,
-    completion: "May 2023",
-    location: "Eco Park",
-  },
-  {
-    href: "/projects/platinum-heights",
-    imageSrc: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Platinum heights project",
-    title: `"Platinum Heights"`,
-    completion: "September 2023",
-    location: "Business District",
-  },
-  {
-    href: "/projects/ocean-view-villas",
-    imageSrc: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Ocean view villas project",
-    title: `"Ocean View Villas"`,
-    completion: "November 2023",
-    location: "Coastal Area",
-  },
-  {
-    href: "/projects/urban-nexus",
-    imageSrc: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Urban nexus project",
-    title: `"Urban Nexus"`,
-    completion: "April 2024",
-    location: "City Center",
-  },
-  {
-    href: "/projects/elite-residences",
-    imageSrc: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Elite residences project",
-    title: `"Elite Residences"`,
-    completion: "February 2024",
-    location: "Premium Zone",
-  },
-  {
-    href: "/projects/sky-bridge-complex",
-    imageSrc: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Sky bridge complex project",
-    title: `"Sky Bridge Complex"`,
-    completion: "July 2023",
-    location: "Metropolitan Area",
-  },
-];
-
 export function ProjectsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
@@ -105,6 +14,9 @@ export function ProjectsSection() {
   const [projects, setProjects] = useState<ProjectRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // All projects, newest first (Firebase already orders by createdAt desc)
+  const topProjects = projects;
 
   // Fetch projects from Firebase
   useEffect(() => {
@@ -123,30 +35,32 @@ export function ProjectsSection() {
     return () => unsubscribe();
   }, []);
 
-  const updateScrollState = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      setCanScrollPrev(container.scrollLeft > 0);
-      setCanScrollNext(
-        container.scrollLeft <
-        container.scrollWidth - container.clientWidth - 10
-      );
+  const CAROUSEL_GAP = 16; // gap-4
 
-      // Calculate active index based on scroll position
-      const firstCard = container.firstElementChild as HTMLElement;
-      if (firstCard) {
-        const cardWidth = firstCard.offsetWidth;
-        const gap = 16; // gap-4 = 16px
-        const scrollPosition = container.scrollLeft;
-        const cardWithGap = cardWidth + gap;
-        const newActiveIndex = Math.round(scrollPosition / cardWithGap);
-        const clampedIndex = Math.max(
-          0,
-          Math.min(newActiveIndex, projects.length - 1)
-        );
-        setActiveIndex(clampedIndex);
-      }
-    }
+  const updateScrollState = () => {
+    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    setCanScrollPrev(container.scrollLeft > 0);
+    setCanScrollNext(
+      container.scrollLeft <
+      container.scrollWidth - container.clientWidth - 10
+    );
+
+    const firstCard = container.firstElementChild as HTMLElement;
+    if (
+      !firstCard ||
+      firstCard.offsetWidth < 1 ||
+      topProjects.length === 0
+    ) return;
+
+    const cardWidth = firstCard.offsetWidth;
+    const cardWithGap = cardWidth + CAROUSEL_GAP;
+    const newActiveIndex = Math.round(container.scrollLeft / cardWithGap);
+    const clampedIndex = Math.max(
+      0,
+      Math.min(newActiveIndex, topProjects.length - 1)
+    );
+    setActiveIndex(clampedIndex);
   };
 
   useEffect(() => {
@@ -160,7 +74,7 @@ export function ProjectsSection() {
         window.removeEventListener("resize", updateScrollState);
       };
     }
-  }, []);
+  }, [topProjects.length]);
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -169,31 +83,20 @@ export function ProjectsSection() {
     let intervalId: NodeJS.Timeout | null = null;
 
     const autoScroll = () => {
+      if (topProjects.length === 0) return;
       const firstCard = container.firstElementChild as HTMLElement;
-      if (!firstCard) return;
+      if (!firstCard || firstCard.offsetWidth < 1) return;
 
       const cardWidth = firstCard.offsetWidth;
-      const gap = 16; // gap-4 = 16px
-      const scrollAmount = cardWidth + gap;
+      const scrollAmount = cardWidth + CAROUSEL_GAP;
       const maxScroll = container.scrollWidth - container.clientWidth;
 
       if (container.scrollLeft >= maxScroll - 10) {
-        // Reset to start when reaching the end
-        container.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-        // Update active index after reset
-        setTimeout(() => updateScrollState(), 100);
+        container.scrollTo({ left: 0, behavior: "smooth" });
       } else {
-        // Scroll to next card
-        container.scrollBy({
-          left: scrollAmount,
-          behavior: "smooth",
-        });
-        // Update active index after scroll
-        setTimeout(() => updateScrollState(), 100);
+        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
       }
+      setTimeout(updateScrollState, 450);
     };
 
     const startAutoScroll = () => {
@@ -208,10 +111,7 @@ export function ProjectsSection() {
       }
     };
 
-    // Start auto-scroll
     startAutoScroll();
-
-    // Pause on hover
     container.addEventListener("mouseenter", stopAutoScroll);
     container.addEventListener("mouseleave", startAutoScroll);
 
@@ -220,7 +120,7 @@ export function ProjectsSection() {
       container.removeEventListener("mouseenter", stopAutoScroll);
       container.removeEventListener("mouseleave", startAutoScroll);
     };
-  }, []);
+  }, [topProjects.length]);
 
   const scroll = (direction: "prev" | "next") => {
     if (!scrollContainerRef.current) return;
@@ -231,8 +131,7 @@ export function ProjectsSection() {
     if (!firstCardElement) return;
 
     const cardWidth = firstCardElement.offsetWidth;
-    const gap = 24; // gap-6 = 24px
-    const scrollAmount = cardWidth + gap;
+    const scrollAmount = cardWidth + CAROUSEL_GAP;
 
     const newScrollLeft =
       direction === "next"
@@ -244,10 +143,18 @@ export function ProjectsSection() {
       behavior: "smooth",
     });
 
-    // Update button states and active index after scroll
-    setTimeout(() => {
-      updateScrollState();
-    }, 350);
+    setTimeout(updateScrollState, 450);
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!scrollContainerRef.current || topProjects.length === 0) return;
+    const container = scrollContainerRef.current;
+    const firstCard = container.firstElementChild as HTMLElement;
+    if (!firstCard) return;
+    const targetLeft = index * (firstCard.offsetWidth + CAROUSEL_GAP);
+    container.scrollTo({ left: targetLeft, behavior: "smooth" });
+    setActiveIndex(index);
+    setTimeout(updateScrollState, 450);
   };
 
   return (
@@ -327,9 +234,14 @@ export function ProjectsSection() {
                 <p className="text-lg text-dark/60">No projects available yet.</p>
               </div>
             ) : (
-              projects
-                .filter((project) => project.featureImages?.primary && project.featureImages.primary.trim() !== "")
-                .map((project, index) => (
+              topProjects.map((project, index) => {
+                const imageSrc =
+                  project.featureImages?.primary?.trim() ||
+                  project.gallery?.[0]?.trim() ||
+                  project.featureImages?.lifestyle?.trim() ||
+                  project.featureImages?.city?.trim() ||
+                  "";
+                return (
                   <div
                     key={project.id}
                     className="shrink-0 project-card-wrapper"
@@ -338,7 +250,7 @@ export function ProjectsSection() {
                     <div className="mx-auto w-full" style={{ maxWidth: "700px" }}>
                       <ProjectCard
                         href={`/projects/${project.id}`}
-                        imageSrc={project.featureImages.primary}
+                        imageSrc={imageSrc}
                         imageAlt={project.name || "Project"}
                         title={`"${project.name || "Untitled Project"}"`}
                         completion={project.createdAt ? new Date(project.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Recently'}
@@ -346,21 +258,25 @@ export function ProjectsSection() {
                       />
                     </div>
                   </div>
-                ))
+                );
+              })
             )}
           </div>
 
           {/* Scroll indicator */}
-          {!isLoading && !error && projects.length > 0 && (
+          {!isLoading && !error && topProjects.length > 0 && (
             <div className="mt-8 flex justify-center gap-2">
-              {projects.map((_, index) => (
-                <div
+              {topProjects.map((_, index) => (
+                <button
+                  type="button"
                   key={index}
-                  className={`h-1 rounded-full transition-all ${index === activeIndex
+                  onClick={() => scrollToIndex(index)}
+                  className={`cursor-pointer h-1 rounded-full transition-all ${index === activeIndex
                       ? "w-12 bg-brand-primary"
                       : "w-8 bg-brand-primary/30 hover:bg-brand-primary/50"
                     }`}
-                  aria-hidden="true"
+                  aria-label={`Go to project ${index + 1}`}
+                  aria-current={index === activeIndex ? "true" : undefined}
                 />
               ))}
             </div>

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  ReactNode,
+  type ReactNode,
   createContext,
   useCallback,
   useContext,
@@ -12,17 +12,19 @@ import {
   useState,
 } from 'react';
 import {
-  User,
+  type User,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebaseClient';
+import { LayoutDashboard, FolderKanban, LogOut, Menu, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/admin/dashboard', label: 'Dashboard' },
-  { href: '/admin/projects', label: 'Projects' },
+  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
 ];
 
 type AdminAuthContextValue = {
@@ -40,7 +42,6 @@ export function useAdminAuth() {
   if (!context) {
     throw new Error('useAdminAuth must be used within the AdminLayout provider');
   }
-
   return context;
 }
 
@@ -49,6 +50,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const isLoginRoute = pathname?.startsWith('/admin/login') ?? false;
 
@@ -57,7 +59,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       setUser(currentUser);
       setIsLoading(false);
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -90,10 +91,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    if (isLoading) {
-      return;
-    }
-
+    if (isLoading) return;
     if (!user && !isLoginRoute) {
       router.replace('/admin/login');
     }
@@ -105,13 +103,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   );
 
   const contextValue = useMemo<AdminAuthContextValue>(
-    () => ({
-      user,
-      isLoading,
-      signIn,
-      signUp,
-      signOut,
-    }),
+    () => ({ user, isLoading, signIn, signUp, signOut }),
     [isLoading, signIn, signOut, signUp, user]
   );
 
@@ -121,50 +113,97 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black text-white/60">
-        <span className="text-sm uppercase tracking-[0.3em]">Loading admin console…</span>
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-brand-primary" />
       </div>
     );
   }
 
   return (
     <AdminAuthContext.Provider value={contextValue}>
-      <div className="flex min-h-screen bg-[#050505] text-white">
-        <aside className="flex w-64 shrink-0 flex-col border-r border-white/10 bg-[#080808] px-6 py-8">
-          <div className="space-y-1">
-            <p className="text-xl font-semibold">Yashraj Admin</p>
-            <p className="text-xs text-white/40">{user?.email ?? 'Waiting for user...'}</p>
-          </div>
-
-          <nav className="mt-10 space-y-2 text-sm font-medium">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`block rounded-md px-3 py-2 transition ${
-                  activeHref === item.href
-                    ? 'bg-white/10 text-white'
-                    : 'text-white/60 hover:bg-white/10 hover:text-white'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
+      <div className="flex h-screen flex-col overflow-hidden bg-gray-50">
+        {/* Mobile Header */}
+        <div className="flex shrink-0 items-center justify-between border-b border-gray-200 bg-white p-4 shadow-sm lg:hidden">
+          <h1 className="text-xl font-bold text-brand-primary">Yashraj Admin</h1>
           <button
-            onClick={signOut}
-            className="mt-auto rounded-md border border-white/20 px-4 py-2 text-sm text-white/70 transition hover:border-white hover:text-white"
+            type="button"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
           >
-            Sign out
+            {sidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
-        </aside>
+        </div>
 
-        <main className="flex-1 bg-gradient-to-br from-[#0a0a0a] via-[#090909] to-[#050505] p-10">
-          <div className="mx-auto max-w-6xl">{children}</div>
-        </main>
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          {/* Sidebar */}
+          <aside
+            className={cn(
+              'fixed inset-y-0 left-0 z-40 w-64 shrink-0 transform border-r border-gray-200 bg-white shadow-lg transition-transform duration-300 ease-in-out lg:static lg:translate-x-0',
+              sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+            )}
+          >
+            <div className="flex h-full flex-col overflow-y-auto">
+              <div className="border-b border-gray-100 p-6">
+                <h1 className="text-2xl font-bold text-brand-primary">Yashraj</h1>
+                <p className="mt-1 text-sm text-gray-500">Admin Panel</p>
+              </div>
+
+              <nav className="flex-1 space-y-2 p-4">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeHref === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={cn(
+                        'flex items-center gap-3 rounded-lg px-4 py-3 transition-colors',
+                        isActive ? 'bg-brand-primary/10 font-medium text-brand-primary' : 'text-gray-700 hover:bg-gray-50'
+                      )}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              <div className="border-t border-gray-100 p-4">
+                <div className="mb-3 rounded-lg bg-gray-50 px-4 py-2">
+                  <p className="text-sm font-medium text-gray-900">{user?.email ?? 'Admin'}</p>
+                  <p className="mt-1 text-xs text-gray-500">Authenticated</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    signOut();
+                  }}
+                  className="flex w-full items-center rounded-lg px-4 py-2 text-brand-primary transition hover:bg-brand-primary/10"
+                >
+                  <LogOut className="mr-3 h-5 w-5" />
+                  Logout
+                </button>
+              </div>
+            </div>
+          </aside>
+
+          {sidebarOpen && (
+            <div
+              className="fixed inset-0 z-30 bg-black/50 lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+              onKeyDown={(e) => e.key === 'Escape' && setSidebarOpen(false)}
+              role="button"
+              tabIndex={0}
+              aria-label="Close menu"
+            />
+          )}
+
+          <main className="min-h-0 flex-1 overflow-y-auto lg:ml-0">
+            <div className="p-4 lg:p-8">{children}</div>
+          </main>
+        </div>
       </div>
     </AdminAuthContext.Provider>
   );
 }
-

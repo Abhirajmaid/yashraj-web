@@ -18,27 +18,27 @@ type HeroSlide = {
 const heroSlides: HeroSlide[] = [
   {
     backgroundImage: "/images/homeimage.png",
-    backgroundImageAlt: "Curved red bridge with mountain in background",
-    title: "Yashraj Infrastructure",
+    backgroundImageAlt: "Yashraj Infrastructure – construction and infrastructure",
+    title: "YASHRAJ INFRASTRUCTURE",
     description:
-      "Yashraj Constructions delivers iconic bridges and contemporary urban landmarks crafted with engineering excellence and bold design.",
+      "Building Beyond Horizons. A Yashraj Group company. Yashraj Infrastructure is a trusted government partner based in Navi Mumbai, delivering a variety of infrastructure projects across Maharashtra. Since 2005, we have earned a reputation for quality, reliability, and trust.",
     objectPosition: "top",
     flipHorizontal: true,
   },
   {
     backgroundImage: "/images/hero.jpg",
     backgroundImageAlt: "Modern construction and infrastructure",
-    title: "Building Tomorrow's Landmarks",
+    title: "Building Beyond Horizons",
     description:
-      "From bespoke residences to large-scale infrastructure, we transform visions into reality with enduring craftsmanship and innovative design.",
+      "Combining decades of experience with innovative technologies, we execute large-scale projects while also owning high-capacity plant and machinery and being manufacturers and suppliers of aggregates, concrete and bitumen mixes offering complete solutions in the infrastructure sector.",
     objectPosition: "center",
   },
   {
     backgroundImage: "/images/projecthero2.jpg",
-    backgroundImageAlt: "Construction project showcase",
-    title: "Excellence in Every Project",
+    backgroundImageAlt: "Infrastructure project showcase",
+    title: "A Yashraj Group Company",
     description:
-      "Our multidisciplinary teams collaborate closely with clients to reimagine skylines, elevate communities, and create spaces that stand the test of time.",
+      "Every project reflects our commitment to durability, precision, and contributing to India's development story. From roads and bridges to urban infrastructure—we create infrastructure that lasts, connects, and inspires.",
     objectPosition: "center",
   },
 ];

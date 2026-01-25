@@ -14,13 +14,11 @@ export function ServiceCTASection() {
             {/* Left Column - Main Content */}
             <div className="space-y-4 text-brand-dark">
               <h2 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-                Spaces Refined for{" "}
-                <span className="text-brand-primary">Inspired Living</span>
+                Ready to build{" "}
+                <span className="text-brand-primary">with us?</span>
               </h2>
               <p className="max-w-xl text-base leading-relaxed text-brand-dark/70">
-                From bespoke residences to contemporary workspaces, we transform
-                every environment with precision, creativity, and the signature
-                Yashraj touch.
+                From highways and flyovers to bitumen mixes and ready-mix concrete—we deliver quality, reliability, and complete infrastructure solutions. Let's discuss your next project.
               </p>
             </div>
 

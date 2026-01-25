@@ -10,7 +10,7 @@ export function Logo() {
         YR
       </span>
       <span className="text-lg font-semibold tracking-wide text-brand-secondary transition group-hover:text-white">
-        Yashraj
+        Yashraj Infrastructure
       </span>
     </Link>
   );

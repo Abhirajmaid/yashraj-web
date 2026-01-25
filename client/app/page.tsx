@@ -16,11 +16,11 @@ import { ClientCaseStudiesSection } from "@/components/home/ClientCaseStudiesSec
 export const metadata: Metadata = {
   title: "Home",
   description:
-    "Welcome to Yashraj Infrastructure - Your trusted partner for premium construction and infrastructure projects. Discover our innovative building solutions and exceptional project portfolio.",
+    "Yashraj Infrastructure – A Yashraj Group company. Building Beyond Horizons. Trusted government partner in Navi Mumbai delivering infrastructure across Maharashtra since 2005. Construction, O&M, buildings, bitumen mixes, and ready-mix concrete.",
   openGraph: {
-    title: "Yashraj Infrastructure - Leading Construction Company",
+    title: "Yashraj Infrastructure | Building Beyond Horizons",
     description:
-      "Your trusted partner for premium construction and infrastructure projects. Discover our innovative building solutions and exceptional project portfolio.",
+      "Trusted government partner in Navi Mumbai. Infrastructure projects across Maharashtra. Construction, O&M, bitumen mixes, and RMC.",
     images: ["/images/hero.jpg"],
   },
 };

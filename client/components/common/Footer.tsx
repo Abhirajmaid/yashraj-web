@@ -7,17 +7,18 @@ const footerColumns = [
     heading: "Navigation",
     links: [
       { label: "Home", href: "/" },
+      { label: "Who we are", href: "/about-us" },
+      { label: "What we Do", href: "/services" },
       { label: "Projects", href: "/projects" },
-      { label: "Services", href: "/services" },
-      { label: "About Us", href: "/about-us" },
+      { label: "Aggregates", href: "/aggregates" },
+      { label: "Blogs", href: "/blogs" },
     ],
   },
   {
     heading: "Case Studies",
     links: [
-      { label: "Skyline Towers", href: "/projects/skyline-towers" },
-      { label: "Riverfront Residences", href: "/projects/riverfront-residences" },
-      { label: "Modular Megacity", href: "/projects/modular-megacity" },
+      { label: "NMMC – Airoli T-Junction", href: "/#case-studies" },
+      { label: "Truck Lay-Byes – Mumbai–Pune Expressway", href: "/#case-studies" },
       { label: "All Projects", href: "/projects" },
     ],
   },
@@ -25,9 +26,8 @@ const footerColumns = [
     heading: "Resources",
     links: [
       { label: "Blog", href: "/blogs" },
-      { label: "FAQs", href: "#faq" },
+      { label: "FAQs", href: "/contact#faq" },
       { label: "Contact", href: "/contact" },
-      { label: "Schedule a Call", href: "/contact#consult" },
     ],
   },
 ];
@@ -58,8 +58,7 @@ export function Footer() {
           <div className="space-y-6">
             <Logo />
             <p className="max-w-sm text-sm leading-relaxed text-white/80">
-              Bringing architectural visions to life with bold design, precise
-              engineering, and a commitment to timeless quality.
+              Yashraj Infrastructure – A Yashraj Group company. Building Beyond Horizons. Trusted government partner in Navi Mumbai delivering infrastructure projects across Maharashtra since 2005.
             </p>
             
             {/* Social Media Links */}
@@ -115,10 +114,7 @@ export function Footer() {
         <div className="mt-12 flex flex-col items-start gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs text-white/60">
-              © {new Date().getFullYear()} Yashraj Constructions. All rights reserved.
-            </p>
-            <p className="text-xs text-white/50">
-              Crafted in India with a passion for detail.
+              © {new Date().getFullYear()} Yashraj Infrastructure – A Yashraj Group Company. All rights reserved.
             </p>
           </div>
           <nav className="flex flex-wrap items-center gap-6">

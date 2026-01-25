@@ -49,21 +49,21 @@ export default function ContactPage() {
   const contactInfo = [
     {
       icon: "mdi:map-marker",
-      title: "Address",
-      content: "123 Construction Avenue, Building District, City 12345",
-      link: "#",
+      title: "Office Address",
+      content: "505, AMBIENCE COURT, SECTOR 19D, VASHI, NAVI MUMBAI",
+      link: "https://www.google.com/maps/search/505+AMBIENCE+COURT+SECTOR+19D+VASHI+NAVI+MUMBAI",
     },
     {
       icon: "mdi:phone",
       title: "Phone",
-      content: "+1 (555) 123-4567",
-      link: "tel:+15551234567",
+      content: "91 8591954712",
+      link: "tel:+918591954712",
     },
     {
       icon: "mdi:email",
       title: "Email",
-      content: "info@yashrajinfrastructure.com",
-      link: "mailto:info@yashrajinfrastructure.com",
+      content: "yashrajinfra@gmail.com",
+      link: "mailto:yashrajinfra@gmail.com",
     },
   ];
 
@@ -75,7 +75,7 @@ export default function ContactPage() {
         backgroundImageAlt="Contact hero background"
         title="Contact Us"
         flipHorizontal={true}
-        description="Ready to bring your vision to life? Let's discuss your next project and explore how we can help transform your ideas into reality."
+        description="Get in touch with Yashraj Infrastructure. 505, Ambience Court, Sector 19D, Vashi, Navi Mumbai. We're here to discuss your infrastructure and construction needs."
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to contact form"
         backgroundColor="bg-brand-dark"

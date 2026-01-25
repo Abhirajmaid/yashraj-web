@@ -10,11 +10,11 @@ import { services } from "@/data/services";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence. From infrastructure development to architectural design, Yashraj Infrastructure delivers exceptional results.",
+    "Yashraj Infrastructure offers Construction & Execution, Operation & Maintenance, and Buildings & Industrial services. Highways, flyovers, STP, piling, civil works—delivered with precision and reliability across Maharashtra.",
   openGraph: {
     title: "Our Services - Yashraj Infrastructure",
     description:
-      "Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence.",
+      "Construction & Execution, Operation & Maintenance, and Buildings & Industrial. Quality infrastructure across Maharashtra.",
     images: ["/images/projecthero2.jpg"],
   },
 };
@@ -28,7 +28,7 @@ export default function ServicesPage() {
         backgroundImageAlt="Services hero background"
         title="Services"
         flipHorizontal={true}
-        description="Comprehensive architectural and construction services designed to bring your vision to life with precision and excellence."
+        description="Construction & Execution, Operation & Maintenance, and Buildings & Industrial. Quality infrastructure across Maharashtra."
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to explore"
         backgroundColor="bg-brand-dark"

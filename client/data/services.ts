@@ -1,66 +1,63 @@
 export type Service = {
-  title: string; // Full title for services page
-  shortTitle?: string; // Short title for home page (e.g., "RMC" instead of "Ready Mix Concrete (RMC)")
-  description: string; // Full description for services page
-  shortDescription?: string; // Short description for home page highlights
+  title: string;
+  shortTitle?: string;
+  description: string;
+  shortDescription?: string;
   image: string;
   imageAlt?: string;
   href?: string;
-  link?: string; // Link for home page service cards
-  slug?: string; // URL slug for anchor links
+  link?: string;
+  slug?: string;
 };
 
 export const services: Service[] = [
   {
     title: "Road Construction",
     description:
-      "End-to-end execution of highways, bridges, and access roads with strict adherence to safety, durability and delivery timelines.",
+      "End-to-end execution of highways, flyovers, roads, bridges, storm water drains, culverts, and concrete pavement. We deliver with strict adherence to government standards, safety, durability, and timelines. From feasibility and design to commissioning and handover, we combine modern technology with deep industry expertise.",
     shortDescription:
-      "Expert road construction services delivering durable, high-quality infrastructure solutions. From highways to local roads, we build with precision and engineering excellence.",
+      "Full-scope execution of highways, flyovers, roads, bridges, and urban infrastructure with adherence to government standards, safety, and delivery timelines.",
     image:
       "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Road construction service",
-    slug: "road-construction",
+    imageAlt: "Construction and execution",
+    slug: "construction-execution",
     link: "/projects",
   },
   {
     title: "Infrastructure EPC",
     description:
-      "Full‑scope engineering, procurement and construction for large civil projects — from feasibility and design to commissioning and handover.",
+      "Comprehensive operation and maintenance services for infrastructure assets. We ensure sustained performance, safety, and longevity of roads, bridges, and public facilities through disciplined maintenance programs, timely repairs, and proactive monitoring—supporting our clients in preserving the value and usability of their investments.",
     shortDescription:
-      "Full‑scope engineering, procurement and construction for large civil projects — from feasibility and design to commissioning and handover.",
+      "Operation and maintenance of infrastructure assets to ensure sustained performance, safety, and longevity of roads, bridges, and public facilities.",
     image:
       "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Infrastructure EPC service",
-    slug: "infrastructure-epc",
-    link: "/aggregates",
+    imageAlt: "Operation and maintenance",
+    slug: "operation-maintenance",
+    link: "/projects",
   },
   {
     title: "Ready Mix Concrete (RMC)",
     shortTitle: "RMC",
     description:
-      "Quality-assured ready mix concrete, produced and delivered to site with precise mix designs for consistent strength and performance.",
+      "Industrial and commercial building projects including piling, civil works, and integrated structures. We execute projects that meet functional requirements, safety norms, and stakeholder expectations—from factories and warehouses to institutional and commercial buildings—with precision and reliability.",
     shortDescription:
-      "Ready Mix Concrete (RMC) solutions for all your construction needs. Quality-assured concrete delivered on time, ensuring strength, durability, and consistency for your projects.",
+      "Industrial and commercial buildings, piling, civil works, and integrated structures—delivered with precision and reliability.",
     image:
       "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Ready Mix Concrete service",
-    slug: "rmc",
-    link: "/aggregates",
+    imageAlt: "Buildings and industrial",
+    slug: "buildings-industrial",
+    link: "/projects",
   },
 ];
 
-// Helper function to get service by slug
 export function getServiceBySlug(slug: string): Service | undefined {
-  return services.find((service) => service.slug === slug);
+  return services.find((s) => s.slug === slug);
 }
 
-// Helper function to get services for home page (with short descriptions and titles)
 export function getServicesForHomePage(): Service[] {
-  return services.map((service) => ({
-    ...service,
-    title: service.shortTitle || service.title,
-    description: service.shortDescription || service.description,
+  return services.map((s) => ({
+    ...s,
+    title: s.shortTitle || s.title,
+    description: s.shortDescription || s.description,
   }));
 }
-
