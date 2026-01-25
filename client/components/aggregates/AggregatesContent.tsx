@@ -11,11 +11,11 @@ import {
   deliveryLocations,
   rmcProducts,
 } from "@/data/rmcPlants";
-import Button from "@/components/common/Button";
+// import Button from "@/components/common/Button";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 export function AggregatesContent() {
-  const { openModal } = useEnquiryModal();
+  useEnquiryModal();
 
   return (
     <>

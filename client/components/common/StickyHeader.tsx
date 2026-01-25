@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ export function StickyHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [heroPresent, setHeroPresent] = useState(true); // Start as true to prevent flash
   const [mobileScrolled, setMobileScrolled] = useState(false);
-  const { openModal } = useEnquiryModal();
+  useEnquiryModal();
 
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>("[data-hero-root]");

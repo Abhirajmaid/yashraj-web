@@ -71,7 +71,7 @@ export default function AdminAuthPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-brand-primary/5 via-white to-brand-secondary/30 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-brand-primary/5 via-white to-brand-secondary/30 p-4">
       <div className="w-full max-w-md overflow-hidden rounded-xl border-0 bg-white shadow-xl">
         <div className="space-y-1 p-6 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand-primary">

@@ -207,7 +207,7 @@ export default function ContactPage() {
 
             {/* Contact Information */}
             <div className="space-y-4 sm:space-y-6">
-              <div className="rounded-2xl border border-brand-gray-light/50 bg-gradient-to-br from-brand-primary/5 to-transparent p-5 sm:p-6 lg:p-10">
+              <div className="rounded-2xl border border-brand-gray-light/50 bg-linear-to-br from-brand-primary/5 to-transparent p-5 sm:p-6 lg:p-10">
                 <h3 className="mb-4 sm:mb-6 text-lg sm:text-xl font-semibold text-brand-dark">
                   Contact Information
                 </h3>
