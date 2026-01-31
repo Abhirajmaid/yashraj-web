@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { use, type FormEvent, useEffect, useState } from 'react';
 import { getProjectRecord, updateProjectRecord } from '@/lib/projectsRepository';
 import { ProjectRecord } from '@/types/project';
@@ -64,6 +65,7 @@ const makeLocalId = () =>
     : Math.random().toString(36).slice(2, 8);
 
 export default function EditProjectPage({ params }: PageProps) {
+  const router = useRouter();
   const { projectId } = use(params);
 
   const [project, setProject] = useState<ProjectRecord | null>(null);
@@ -252,9 +254,37 @@ export default function EditProjectPage({ params }: PageProps) {
         </p>
       ) : null}
       {successMessage ? (
-        <p className="rounded-lg border border-brand-primary/30 bg-brand-primary/10 px-4 py-3 text-sm text-brand-primary">
+        <p className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
           {successMessage}
         </p>
+      ) : null}
+
+      {successMessage ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="success-modal-title"
+        >
+          <div className="w-full max-w-md rounded-xl border border-green-200 bg-white p-6 shadow-lg">
+            <h2 id="success-modal-title" className="text-lg font-semibold text-green-800">
+              Success
+            </h2>
+            <p className="mt-2 text-sm text-gray-700">{successMessage}</p>
+            <div className="mt-6 flex justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setSuccessMessage(null);
+                  router.push('/admin/projects');
+                }}
+                className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
       ) : null}
 
       <form className="space-y-6" onSubmit={handleSubmit}>

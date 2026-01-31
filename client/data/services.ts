@@ -12,7 +12,7 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    title: "Road Construction",
+    title: "Construction & Execution",
     description:
       "End-to-end execution of highways, flyovers, roads, bridges, storm water drains, culverts, and concrete pavement. We deliver with strict adherence to government standards, safety, durability, and timelines. From feasibility and design to commissioning and handover, we combine modern technology with deep industry expertise.",
     shortDescription:
@@ -24,7 +24,7 @@ export const services: Service[] = [
     link: "/projects",
   },
   {
-    title: "Infrastructure EPC",
+    title: "Operation & Maintenance",
     description:
       "Comprehensive operation and maintenance services for infrastructure assets. We ensure sustained performance, safety, and longevity of roads, bridges, and public facilities through disciplined maintenance programs, timely repairs, and proactive monitoring—supporting our clients in preserving the value and usability of their investments.",
     shortDescription:
@@ -36,8 +36,7 @@ export const services: Service[] = [
     link: "/projects",
   },
   {
-    title: "Ready Mix Concrete (RMC)",
-    shortTitle: "RMC",
+    title: "Buildings & Industrial",
     description:
       "Industrial and commercial building projects including piling, civil works, and integrated structures. We execute projects that meet functional requirements, safety norms, and stakeholder expectations—from factories and warehouses to institutional and commercial buildings—with precision and reliability.",
     shortDescription:

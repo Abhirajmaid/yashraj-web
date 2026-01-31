@@ -25,7 +25,7 @@ export function AggregatesContent() {
           <SectionHeader
             eyebrow="OUR PRODUCTS"
             title="Bitumen Mixes & Ready-Mix Concrete"
-            description="We are manufacturers and suppliers of aggregates, concrete and bitumen mixes, offering complete solutions in the infrastructure sector."
+            description="We manufacture and supply Bitumen Mixes and Ready-Mix Concrete (RMC), offering complete solutions in the infrastructure sector."
             align="center"
             eyebrowClassName="text-brand-primary"
           />
