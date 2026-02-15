@@ -18,7 +18,7 @@ export const services: Service[] = [
     shortDescription:
       "Full-scope execution of highways, flyovers, roads, bridges, and urban infrastructure with adherence to government standards, safety, and delivery timelines.",
     image:
-      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+      "/images/istockphoto-619668880-612x612.jpg",
     imageAlt: "Construction and execution",
     slug: "construction-execution",
     link: "/projects",
@@ -30,7 +30,7 @@ export const services: Service[] = [
     shortDescription:
       "Operation and maintenance of infrastructure assets to ensure sustained performance, safety, and longevity of roads, bridges, and public facilities.",
     image:
-      "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
+      "/images/AdobeStock_95426986.jpeg",
     imageAlt: "Operation and maintenance",
     slug: "operation-maintenance",
     link: "/projects",
@@ -42,7 +42,7 @@ export const services: Service[] = [
     shortDescription:
       "Industrial and commercial buildings, piling, civil works, and integrated structures—delivered with precision and reliability.",
     image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
+      "/images/many-tall-buildings-under-construction-cranes-20004270.jpg",
     imageAlt: "Buildings and industrial",
     slug: "buildings-industrial",
     link: "/projects",
