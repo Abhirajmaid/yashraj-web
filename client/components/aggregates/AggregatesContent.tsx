@@ -369,12 +369,12 @@ export function AggregatesContent() {
                 </div>
                 <div className="space-y-4">
                   <div className="relative h-64 w-full overflow-hidden rounded-xl">
-                    <Image
-                      src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80"
-                      alt={`${plant.name} facility`}
-                      fill
-                      className="object-cover"
-                    />
+                  <Image
+                    src="/images/ready-mix-concrete-500x500.jpg"
+                    alt={`${plant.name} facility`}
+                    fill
+                    className="object-cover"
+                  />
                   </div>
                   <div className="rounded-lg border border-brand-gray-light/50 bg-brand-light/20 p-4">
                     <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-dark">
