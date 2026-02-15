@@ -4,7 +4,7 @@ import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { Footer } from "@/components/common/Footer";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { PurposeSection } from "@/components/about-us/PurposeSection";
-import { ServiceCTASection } from "@/components/common/ServiceCTASection";
+import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { StorySection } from "@/components/about-us/StorySection";
 import {
   purposePillars,
@@ -81,7 +81,7 @@ export default function AboutUsPage() {
 
       <PartnersSection />
 
-      <ServiceCTASection />
+      <FullWidthCTA />
 
       <Footer />
     </main>

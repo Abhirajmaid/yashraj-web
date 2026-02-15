@@ -9,7 +9,7 @@ const navLinks = [
   { label: "What we Do", href: "/services" },
   { label: "Projects", href: "/projects" },
   { label: "Products", href: "/aggregates" },
-  { label: "Blogs", href: "/blogs" },
+  // Blogs removed per request
 ];
 
 type NavigationProps = {
@@ -26,7 +26,10 @@ export function Navigation({ variant = "light" }: NavigationProps) {
   const hoverEffect = "transition-all duration-200 hover:-translate-y-0.5";
 
   return (
-    <nav className="flex items-center space-x-8" style={{ pointerEvents: "auto" }}>
+    <nav
+      className="flex items-center space-x-8"
+      style={{ pointerEvents: "auto" }}
+    >
       {navLinks.map((link) => {
         const isActive =
           link.href === "/"

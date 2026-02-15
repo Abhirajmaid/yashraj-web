@@ -3,7 +3,7 @@ import { CommonHeroSection } from "@/components/common/CommonHeroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { ProjectPageSection } from "@/components/projects/ProjectPageSection";
 import { PartnersSection } from "@/components/common/PartnersSection";
-import { ServiceCTASection } from "@/components/common/ServiceCTASection";
+import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { Footer } from "@/components/common/Footer";
 
 export const metadata: Metadata = {
@@ -50,7 +50,7 @@ export default function ProjectsPage() {
           <PartnersSection />
         </div>
         <div className="pt-16">
-          <ServiceCTASection />
+          <FullWidthCTA />
         </div>
       </div>
 

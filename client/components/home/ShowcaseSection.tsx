@@ -30,17 +30,17 @@ export function ShowcaseSection() {
               Our Projects
             </p>
             <h1 className="text-3xl font-extrabold leading-tight text-black sm:text-4xl md:text-5xl">
-              Building beyond horizons — infrastructure that lasts, connects, and
+              Building beyond horizons infrastructure that lasts, connects, and
               inspires
             </h1>
             <p className="mt-4 text-base text-black/60">
               Yashraj Infrastructure is a trusted government partner based in
-              Navi Mumbai, delivering a variety of infrastructure projects across
-              Maharashtra since 2008. Combining decades of experience with
-              innovative technologies, we execute large-scale projects while
-              owning high-capacity plant and machinery and supplying aggregates,
-              concrete and bitumen mixes — offering complete solutions in the
-              infrastructure sector.
+              Navi Mumbai, delivering a variety of infrastructure projects
+              across Maharashtra since 2008. Combining decades of experience
+              with innovative technologies, we execute large-scale projects
+              while owning high-capacity plant and machinery and supplying
+              aggregates, concrete and bitumen mixes offering complete solutions
+              in the infrastructure sector.
             </p>
             <div className="mt-6 flex justify-center">
               <Button

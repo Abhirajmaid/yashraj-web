@@ -23,7 +23,7 @@ export default function ContactPage() {
   >("idle");
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -71,11 +71,11 @@ export default function ContactPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="contact"
-        backgroundImage="/images/servicesimage.jpg"
+        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 15.56.55 (2).jpeg"
         backgroundImageAlt="Contact hero background"
         title="Contact Us"
         flipHorizontal={true}
-        description="Get in touch with Yashraj Infrastructure. 505, Ambience Court, Sector 19D, Vashi, Navi Mumbai. We're here to discuss your infrastructure and construction needs."
+        description="Get in touch with Yashraj Infrastructure."
         showGradientOverlay={false}
         scrollIndicatorText="Scroll to contact form"
         backgroundColor="bg-brand-dark"

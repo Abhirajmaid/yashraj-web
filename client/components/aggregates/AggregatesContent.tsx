@@ -233,7 +233,7 @@ export function AggregatesContent() {
             <div className="grid gap-4">
               <div className="relative h-64 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80"
+                  src="/images/ready-mix-concrete-500x500.jpg"
                   alt="RMC batching plant"
                   fill
                   className="object-cover"
@@ -242,7 +242,7 @@ export function AggregatesContent() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80"
+                    src="/images/Featured-image-12.jpg"
                     alt="RMC transit mixer"
                     fill
                     className="object-cover"
@@ -250,7 +250,7 @@ export function AggregatesContent() {
                 </div>
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=800&q=80"
+                    src="/images/iStock-1330089238.png"
                     alt="RMC quality control"
                     fill
                     className="object-cover"

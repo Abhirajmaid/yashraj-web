@@ -62,7 +62,7 @@ export function CommonHeroSection({
     <section
       id={id}
       data-hero-root
-      className={`relative h-[60vh] sm:h-screen overflow-hidden ${backgroundColor}`}
+      className={`relative h-[70vh] sm:h-screen overflow-hidden ${backgroundColor}`}
       style={{ zIndex: 1, pointerEvents: "auto" }}
     >
       {/* Background Image */}

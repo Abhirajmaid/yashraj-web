@@ -6,8 +6,7 @@ import Button from "@/components/common/Button";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 const TITLE = "Yashraj Infrastructure";
-const SUBTITLE =
-  "Yashraj Infrastructure is a trusted government partner based in Navi Mumbai, delivering a variety of infrastructure projects across Maharashtra. Combining decades of experience with innovative technologies, we execute large-scale projects while also owning high-capacity plant and machinery and supplying aggregates, concrete and bitumen mixes.";
+const SUBTITLE = "Trusted Partner, Quality Infrastructure.";
 
 export function HeroSection() {
   const { openModal } = useEnquiryModal();
@@ -20,9 +19,6 @@ export function HeroSection() {
 
   const words = useMemo(() => TITLE.split(" "), []);
   const wordRefs = useRef<Array<HTMLSpanElement | null>>([]);
-  const setWordRef = (el: HTMLSpanElement | null, i: number) => {
-    wordRefs.current[i] = el;
-  };
 
   // Intro loader removed — set final visual state immediately on mount
   useEffect(() => {

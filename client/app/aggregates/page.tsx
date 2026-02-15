@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CommonHeroSection } from "@/components/common/CommonHeroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { AggregatesContent } from "@/components/aggregates/AggregatesContent";
-import { ServiceCTASection } from "@/components/common/ServiceCTASection";
+import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { Footer } from "@/components/common/Footer";
 
 export const metadata: Metadata = {
@@ -36,7 +36,7 @@ export default function AggregatesPage() {
       <ConnectMarquee />
       <AggregatesContent />
       <div className="bg-white">
-        <ServiceCTASection />
+        <FullWidthCTA />
       </div>
       <Footer />
     </main>

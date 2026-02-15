@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CommonHeroSection } from "@/components/common/CommonHeroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { ServicesSection } from "@/components/services/ServicesSection";
-import { ServiceCTASection } from "@/components/common/ServiceCTASection";
+import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { Footer } from "@/components/common/Footer";
 import { FAQSection } from "@/components/common/FAQSection";
 import { services } from "@/data/services";
@@ -28,7 +28,7 @@ export default function ServicesPage() {
         backgroundImageAlt="Services hero background"
         title="Services"
         flipHorizontal={true}
-        description="Construction & Execution, Operation & Maintenance, and Buildings & Industrial. Quality infrastructure across Maharashtra."
+        description="Construction & Execution, Operation & Maintenance, and Buildings & Industrial."
         showGradientOverlay={true}
         scrollIndicatorText="Scroll to explore"
         backgroundColor="bg-brand-dark"
@@ -42,7 +42,7 @@ export default function ServicesPage() {
       </div>
 
       <div className="bg-white">
-        <ServiceCTASection />
+        <FullWidthCTA />
       </div>
 
       <Footer />

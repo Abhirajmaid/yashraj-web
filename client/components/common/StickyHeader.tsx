@@ -61,7 +61,10 @@ export function StickyHeader() {
   return (
     <>
       {/* Mobile Header - Logo Only */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-200 bg-transparent" style={{ pointerEvents: "auto" }}>
+      <header
+        className="lg:hidden fixed top-0 left-0 right-0 z-200 bg-transparent"
+        style={{ pointerEvents: "auto" }}
+      >
         {/* White Background on Scroll */}
         <div
           className={`absolute inset-0 transition-all duration-500 ${
@@ -74,7 +77,10 @@ export function StickyHeader() {
         {/* Logo Container - Centered */}
         <div className="relative z-10 px-4 py-3.5 flex items-center justify-center">
           <div className={mobileScrolled ? "" : "drop-shadow-lg"}>
-            <Logo variant={mobileScrolled ? "dark" : "light"} />
+            <Logo
+              compact={mobileScrolled}
+              variant={mobileScrolled ? "dark" : "light"}
+            />
           </div>
         </div>
       </header>
@@ -115,7 +121,10 @@ export function StickyHeader() {
             <Logo variant={isScrolled ? "dark" : "light"} />
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-8 relative z-10" style={{ pointerEvents: "auto" }}>
+            <div
+              className="hidden lg:flex items-center space-x-8 relative z-10"
+              style={{ pointerEvents: "auto" }}
+            >
               <Navigation variant={isScrolled ? "dark" : "light"} />
             </div>
 
