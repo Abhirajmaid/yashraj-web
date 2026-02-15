@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { AboutHeroSection } from "@/components/about-us/AboutHeroSection";
+import { CommonHeroSection } from "@/components/common/CommonHeroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { Footer } from "@/components/common/Footer";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { PurposeSection } from "@/components/about-us/PurposeSection";
 import { ServiceCTASection } from "@/components/common/ServiceCTASection";
 import { StorySection } from "@/components/about-us/StorySection";
-import { purposePillars, storyHighlights, aboutNarrative } from "@/data/aboutUs";
+import {
+  purposePillars,
+  storyHighlights,
+  aboutNarrative,
+} from "@/data/aboutUs";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -23,25 +27,36 @@ export const metadata: Metadata = {
 export default function AboutUsPage() {
   return (
     <main className="bg-white text-[#031B4E]">
-      <AboutHeroSection
-        title="At Yashraj Infrastructure, we turn vision into lasting impact."
-        upperImage={{
-          src: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80",
-          alt: "Infrastructure and construction",
-        }}
-        lowerImage={{
-          src: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80",
-          alt: "Infrastructure project",
-        }}
-        description="Based in Navi Mumbai, we deliver high-quality infrastructure projects across Maharashtra, earning the trust of government departments and stakeholders alike. Our portfolio spans highways, flyovers, beautification, sewage treatment plants, piling, industrial and commercial buildings—and we are manufacturers and suppliers of aggregates, concrete and bitumen mixes."
-        buttonText="Our services"
-        buttonLink="/services"
+      <CommonHeroSection
+        id="about"
+        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 14.44.03.jpeg"
+        backgroundImageAlt="Infrastructure and construction"
+        title="About Us"
+        description=""
+        buttons={[
+          {
+            text: "Our services",
+            link: "/services",
+            type: "secondary",
+            size: "lg",
+            className: "w-full sm:w-auto",
+          },
+        ]}
+        showGradientOverlay={false}
+        overlayColor="rgba(0,0,0,0.35)"
+        scrollIndicatorText="Scroll to learn more"
+        backgroundColor="bg-brand-dark"
+        objectPosition="center"
+        maxContentWidth="max-w-4xl"
+        flipHorizontal={false}
       />
 
       {/* Who We Are narrative */}
       <section className="relative bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
-          <h2 className="mb-8 text-2xl font-semibold text-brand-dark sm:text-3xl">Who we are</h2>
+          <h2 className="mb-8 text-2xl font-semibold text-brand-dark sm:text-3xl">
+            Who we are
+          </h2>
           <div className="space-y-6 text-base leading-relaxed text-brand-dark/80">
             {aboutNarrative.split("\n\n").map((p, i) => (
               <p key={i}>{p}</p>

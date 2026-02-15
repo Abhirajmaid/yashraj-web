@@ -17,7 +17,10 @@ export function StatsGrid({ stats, className }: StatsGridProps) {
       }`}
     >
       {stats.map((stat) => (
-        <div key={stat.id ?? stat.label} className="space-y-2">
+        <div
+          key={stat.id ?? stat.label}
+          className="space-y-2 flex flex-col justify-center items-center"
+        >
           <dt className="text-sm font-medium uppercase tracking-[0.3em] text-neutral-500">
             {stat.label}
           </dt>

@@ -34,10 +34,10 @@ export default function Home() {
       <MissionVisionSection />
       <ServicesHighlightSection />
       <PartnersSection />
-      <ClientCaseStudiesSection />
+      {/* <ClientCaseStudiesSection /> */}
       <ProjectsSection />
       <TestimonialsSection />
-      {/* <FeatureBlogsSection /> */}
+      <FeatureBlogsSection />
       <ServiceCTASection />
       <Footer />
     </main>

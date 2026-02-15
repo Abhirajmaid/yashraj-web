@@ -127,9 +127,6 @@ export function StorySection({
 }: StorySectionProps) {
   return (
     <section className="relative isolate overflow-hidden bg-white text-brand-dark">
-      {/* Top left gradient with primary color */}
-      <div className="absolute inset-0 bg-linear-to-br from-brand-primary/10 via-transparent to-transparent" />
-
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-16 sm:py-20 lg:px-10 xl:px-14">
         <div className="mb-10 sm:mb-12 max-w-2xl">
           <SectionHeader
@@ -172,4 +169,3 @@ export function StorySection({
     </section>
   );
 }
-

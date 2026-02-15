@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BlogsHeroSection } from "@/components/blogs/BlogsHeroSection";
+import { CommonHeroSection } from "@/components/common/CommonHeroSection";
 import { BlogsSection } from "@/components/blogs/BlogsSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { ServiceCTASection } from "@/components/common/ServiceCTASection";
@@ -19,7 +19,18 @@ export const metadata: Metadata = {
 export default function BlogsPage() {
   return (
     <main className="bg-white text-[#031B4E]">
-      <BlogsHeroSection />
+      <CommonHeroSection
+        id="blogs"
+        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 15.56.55 (2).jpeg"
+        backgroundImageAlt="Blogs hero background"
+        title="Insights & Updates"
+        description=""
+        showGradientOverlay={false}
+        scrollIndicatorText="Scroll to explore"
+        backgroundColor="bg-black"
+        objectPosition="center"
+        maxContentWidth="max-w-4xl"
+      />
 
       <BlogsSection />
 

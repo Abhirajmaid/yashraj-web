@@ -1,6 +1,6 @@
 import Image from "next/image";
+import { resolveImageSrc } from "@/lib/getImageSrc";
 import Button from "@/components/common/Button";
-import { SectionHeader } from "@/components/common/SectionHeader";
 import { StatsGrid } from "./StatsGrid";
 
 const stats = [
@@ -12,40 +12,54 @@ const stats = [
 
 export function ShowcaseSection() {
   return (
-    <section className="relative bg-white pb-24 pt-28 text-neutral-900 sm:pb-28 sm:pt-32">
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-12 px-6 lg:px-10 xl:px-14">
-        <div className="grid gap-14 lg:grid-cols-2 lg:items-start lg:gap-16">
-          <div className="flex flex-col gap-8">
-            <SectionHeader
-              title="Building Beyond Horizons — infrastructure that lasts, connects, and inspires"
-              description="Yashraj Infrastructure is a trusted government partner based in Navi Mumbai, delivering infrastructure projects across Maharashtra since 2005. We combine decades of experience with innovative technologies—from roads and bridges to bitumen mixes and ready-mix concrete—offering complete solutions in the infrastructure sector."
-            />
-            <Button
-              link="/services"
-              type="primary"
-              size="sm"
-              className="gap-3 self-start pl-3 text-sm shadow-[0_20px_40px_rgba(14,14,14,0.18)] hover:-translate-y-0.5 hover:shadow-[0_30px_50px_rgba(14,14,14,0.22)]"
-            >
-              Learn more
-            </Button>
-          </div>
-          <div className="relative flex w-full justify-end">
-            <div className="relative w-full max-w-[420px]">
-              <div className="overflow-hidden rounded-[32px] border border-neutral-200 bg-neutral-100 shadow-[0_28px_56px_rgba(15,23,42,0.14)]">
-                <div className="relative aspect-4/5 w-full">
-                  <Image
-                    src="/images/about.jpg"
-                    alt="Yashraj architectural showcase"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              </div>
+    <section className="relative w-full text-neutral-900">
+      {/* Fullscreen hero image */}
+      <div className="relative h-screen w-full">
+                <Image
+                  src={resolveImageSrc("/images/about.jpg")}
+          alt="Yashraj architectural showcase"
+          fill
+          className="object-cover"
+          priority
+        />
+
+        {/* Centered content overlay */}
+        <div className="absolute left-1/2 top-1/2 z-20 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 px-6 text-center">
+          <div className="mx-auto max-w-3xl">
+            <p className="mb-4 text-sm font-medium tracking-widest text-white/75 uppercase">
+              Our Projects
+            </p>
+            <h1 className="text-3xl font-extrabold leading-tight text-black sm:text-4xl md:text-5xl">
+              Building Beyond Horizons infrastructure that lasts, connects, and
+              inspires
+            </h1>
+            <p className="mt-4 text-base text-black/60">
+              Yashraj Infrastructure is a trusted government partner based in
+              Navi Mumbai, delivering infrastructure projects across Maharashtra
+              since 2005. We combine decades of experience with innovative
+              technologies—from roads and bridges to bitumen mixes and ready-mix
+              concrete—offering complete solutions in the infrastructure sector.
+            </p>
+            <div className="mt-6 flex justify-center">
+              <Button
+                link="/services"
+                type="primary"
+                size="sm"
+                className="gap-3 pl-3 text-sm shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
+              >
+                Learn more
+              </Button>
+            </div>
+
+            {/* Stats below the hero */}
+            <div className="relative z-10 mx-auto max-w-7xl px-6 py-12 lg:px-10 xl:px-14">
+              <StatsGrid stats={stats} className="gap-y-12" />
             </div>
           </div>
         </div>
-        <StatsGrid stats={stats} className="gap-y-12" />
+
+        {/* subtle overlay to darken image for legibility */}
+        <div className="absolute inset-0 bg-white pointer-events-none" />
       </div>
     </section>
   );

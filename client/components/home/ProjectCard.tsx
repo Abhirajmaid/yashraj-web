@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { resolveImageSrc } from "@/lib/getImageSrc";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { Icon } from "@iconify/react";
@@ -31,7 +32,7 @@ export function ProjectCard({
       <div className="relative isolate aspect-4/3 w-full overflow-hidden">
         {imageSrc && imageSrc.trim() !== "" ? (
           <Image
-            src={imageSrc}
+            src={resolveImageSrc(imageSrc)}
             alt={imageAlt}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -39,7 +40,10 @@ export function ProjectCard({
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-brand-gray-light/20">
-            <Icon icon="solar:gallery-bold" className="text-4xl text-brand-gray" />
+            <Icon
+              icon="solar:gallery-bold"
+              className="text-4xl text-brand-gray"
+            />
           </div>
         )}
 

@@ -7,6 +7,7 @@ import { Pagination } from "./Pagination";
 import type { Project } from "@/data/projects";
 import { listenToProjects } from "@/lib/projectsRepository";
 import { ProjectRecord } from "@/types/project";
+import ProjectDetailsModal from "./ProjectDetailsModal";
 
 const PROJECTS_PER_PAGE = 3;
 
@@ -82,6 +83,18 @@ export function ProjectPageSection() {
   }, [filteredProjects, currentPage]);
 
   const highlightProjects = useMemo(() => liveProjects, [liveProjects]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+
+  function handleOpenDetails(project: Project) {
+    setSelectedProject(project);
+    setIsDetailsOpen(true);
+  }
+
+  function handleCloseDetails() {
+    setIsDetailsOpen(false);
+    setSelectedProject(null);
+  }
 
   return (
     <section className="relative bg-white py-12 sm:py-16 overflow-hidden">
@@ -111,9 +124,19 @@ export function ProjectPageSection() {
           <>
             <div className="space-y-16 sm:space-y-20 lg:space-y-24">
               {highlightProjects.map((project) => (
-                <ProjectHighlightCard key={project.id} project={project} />
+                <ProjectHighlightCard
+                  key={project.id}
+                  project={project}
+                  onOpenDetails={handleOpenDetails}
+                />
               ))}
             </div>
+
+            <ProjectDetailsModal
+              open={isDetailsOpen}
+              project={selectedProject}
+              onClose={handleCloseDetails}
+            />
 
             {/* Pagination */}
             {filteredProjects.length > PROJECTS_PER_PAGE && (

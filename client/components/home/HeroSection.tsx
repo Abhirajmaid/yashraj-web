@@ -1,238 +1,230 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
-import { Icon } from "@iconify/react";
+import { useEffect, useRef, useMemo } from "react";
+import { gsap } from "gsap";
 import Button from "@/components/common/Button";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
-type HeroSlide = {
-  backgroundImage: string;
-  backgroundImageAlt: string;
-  title: string;
-  description: string;
-  objectPosition?: "center" | "top" | "bottom";
-  flipHorizontal?: boolean;
-};
-
-const heroSlides: HeroSlide[] = [
-  {
-    backgroundImage: "/images/homeimage.png",
-    backgroundImageAlt: "Yashraj Infrastructure – construction and infrastructure",
-    title: "YASHRAJ INFRASTRUCTURE",
-    description:
-      "Building Beyond Horizons. A Yashraj Group company. Yashraj Infrastructure is a trusted government partner based in Navi Mumbai, delivering a variety of infrastructure projects across Maharashtra. Since 2005, we have earned a reputation for quality, reliability, and trust.",
-    objectPosition: "top",
-    flipHorizontal: true,
-  },
-  {
-    backgroundImage: "/images/hero.jpg",
-    backgroundImageAlt: "Modern construction and infrastructure",
-    title: "Building Beyond Horizons",
-    description:
-      "Combining decades of experience with innovative technologies, we execute large-scale projects while also owning high-capacity plant and machinery and being manufacturers and suppliers of aggregates, concrete and bitumen mixes offering complete solutions in the infrastructure sector.",
-    objectPosition: "center",
-  },
-  {
-    backgroundImage: "/images/projecthero2.jpg",
-    backgroundImageAlt: "Infrastructure project showcase",
-    title: "A Yashraj Group Company",
-    description:
-      "Every project reflects our commitment to durability, precision, and contributing to India's development story. From roads and bridges to urban infrastructure—we create infrastructure that lasts, connects, and inspires.",
-    objectPosition: "center",
-  },
-];
+const TITLE = "YASHRAJ INFRASTRUCTURE";
+const SUBTITLE = "Durable infrastructure across Maharashtra.";
 
 export function HeroSection() {
   const { openModal } = useEnquiryModal();
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  const handlePrevious = useCallback(() => {
-    setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
-    setIsAutoPlaying(false);
-  }, []);
+  const rootRef = useRef<HTMLElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const subRef = useRef<HTMLParagraphElement | null>(null);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
 
-  const handleNext = useCallback(() => {
-    setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-    setIsAutoPlaying(false);
-  }, []);
+  const words = useMemo(() => TITLE.split(" "), []);
+  const wordRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const setWordRef = (el: HTMLSpanElement | null, i: number) => {
+    wordRefs.current[i] = el;
+  };
 
-  const goToSlide = useCallback((index: number) => {
-    setCurrentSlide(index);
-    setIsAutoPlaying(false);
-  }, []);
-
-  // Auto-play functionality
+  // Intro loader removed — set final visual state immediately on mount
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    const root = rootRef.current;
+    const video = videoRef.current;
+    const overlay = overlayRef.current;
+    const subtitle = subRef.current;
+    const cta = ctaRef.current;
+    const headlineEls = wordRefs.current.filter(Boolean) as HTMLSpanElement[];
 
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) =>
-        prev === heroSlides.length - 1 ? 0 : prev + 1
-      );
-    }, 2000); // Change slide every 2 seconds
+    if (!root) return;
 
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-  const currentSlideData = heroSlides[currentSlide];
-  const objectPositionClass =
-    currentSlideData.objectPosition === "top"
-      ? "object-top"
-      : currentSlideData.objectPosition === "bottom"
-      ? "object-bottom"
-      : "object-center";
+    if (prefersReducedMotion) {
+      // Respect reduced motion: show final state without motion
+      gsap.set(video, { scale: 1, force3D: true });
+      if (overlay) gsap.set(overlay, { opacity: 1 });
+      if (headlineEls.length)
+        gsap.set(headlineEls, { y: 0, opacity: 1, filter: "blur(0px)" });
+      if (subtitle) gsap.set(subtitle, { y: 0, opacity: 1 });
+      if (cta) gsap.set(cta, { y: 0, opacity: 1, scale: 1 });
+      return;
+    }
+
+    // Immediately set the final visible state — no loader or intro timeline
+    const ctx = gsap.context(() => {
+      if (video)
+        gsap.set(video, {
+          scale: 1,
+          transformOrigin: "50% 50%",
+          willChange: "transform",
+        });
+      if (overlay) gsap.set(overlay, { opacity: 1, willChange: "opacity" });
+      if (headlineEls.length) {
+        gsap.set(headlineEls, {
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          willChange: "transform, opacity, filter",
+        });
+      }
+      if (subtitle)
+        gsap.set(subtitle, {
+          y: 0,
+          opacity: 1,
+          willChange: "transform, opacity",
+        });
+      if (cta)
+        gsap.set(cta, {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          willChange: "transform, opacity",
+        });
+    }, root);
+
+    return () => {
+      ctx.revert();
+    };
+  }, [words]);
 
   return (
     <section
-      id="home"
+      ref={rootRef}
+      className="relative w-full min-h-screen h-screen overflow-hidden bg-black"
+      aria-label="Hero"
       data-hero-root
-      className="relative h-screen overflow-hidden bg-black"
-      style={{ height: "100vh", zIndex: 1 }}
-      onMouseEnter={() => setIsAutoPlaying(false)}
-      onMouseLeave={() => setIsAutoPlaying(true)}
     >
-      {/* Carousel Slides */}
-      <div className="absolute inset-0 h-full w-full">
-        {heroSlides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 h-full w-full transition-opacity duration-1000 ease-in-out ${
-              index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-            }`}
-          >
-            <Image
-              src={slide.backgroundImage}
-              alt={slide.backgroundImageAlt}
-              fill
-              priority={index === 0}
-              quality={75}
-              sizes="100vw"
-              className={`object-cover h-full w-full ${objectPositionClass} ${
-                slide.flipHorizontal ? "scale-x-[-1]" : ""
-              }`}
-            />
-
-            {/* Grid Overlay */}
-            <div
-              className="absolute inset-0 opacity-10"
-              style={{
-                backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                  linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                backgroundSize: "50px 50px",
-              }}
-            />
-          </div>
-        ))}
+      {/* Video background */}
+      <div
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{ willChange: "transform" }}
+      >
+        <video
+          ref={videoRef}
+          src="/upscaled-video.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+          aria-hidden
+        />
       </div>
 
-      {/* Content Overlay */}
-      <div className="relative z-20 h-full flex flex-col">
-        {/* Main Content */}
-        <div className="flex-1 flex items-center">
-          <div className="max-w-7xl w-full px-6 lg:px-8 pt-20 lg:pt-24 pb-20 mx-auto">
-            <div className="max-w-7xl">
-              {/* Animated Content */}
-              <div
-                key={currentSlide}
-                className="animate-fade-in"
-                style={{
-                  animation: "fadeIn 0.8s ease-in-out",
-                }}
-              >
-                <h1 className="text-5xl lg:text-6xl xl:text-8xl font-medium text-white leading-[1.1] mb-6">
-                  {currentSlideData.title}
-                </h1>
+      {/* Overlay: dark at bottom -> transparent at top */}
+      <div
+        ref={overlayRef}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0) 60%)",
+          willChange: "opacity",
+        }}
+        aria-hidden
+      />
 
-                <p className="text-lg lg:text-xl text-white/80 leading-relaxed mb-8 max-w-2xl">
-                  {currentSlideData.description}
-                </p>
+      {/* Content centered */}
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-6">
+        <div className="max-w-7xl w-full text-left">
+          <p
+            ref={subRef}
+            className="mt-6 text-white/90 max-w-2xl leading-[60px]"
+            style={{
+              fontSize: "clamp(14px, 8vw, 60px)",
+              willChange: "transform, opacity",
+            }}
+          >
+            {SUBTITLE}
+          </p>
 
-                {/* CTA Buttons */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                  <Button
-                    link="/projects"
-                    type="secondary"
-                    size="lg"
-                    className="w-full sm:w-auto"
-                  >
-                    Explore Projects
-                  </Button>
-                  <Button
-                    onClick={openModal}
-                    type="primary"
-                    size="lg"
-                    className="w-full sm:w-auto"
-                  >
-                    Get in Touch
-                  </Button>
-                </div>
-              </div>
-            </div>
+          <div ref={ctaRef} className="mt-8">
+            <Button onClick={openModal} type="primary" size="lg">
+              Get a Quote
+            </Button>
           </div>
         </div>
+      </div>
 
-        {/* Navigation Controls */}
-        <div className="relative z-20 pb-12">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12">
-            <div className="flex flex-col items-center gap-6">
-              {/* Navigation Buttons */}
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={handlePrevious}
-                  aria-label="Previous slide"
-                  className="h-12 w-12 rounded-full bg-white/10 text-white hover:bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/20 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
-                >
-                  <Icon icon="solar:alt-arrow-left-bold" className="text-2xl" />
-                </button>
-
-                {/* Slide Indicators */}
-                <div className="flex items-center gap-2">
-                  {heroSlides.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => goToSlide(index)}
-                      aria-label={`Go to slide ${index + 1}`}
-                      className={`h-2 rounded-full transition-all ${
-                        index === currentSlide
-                          ? "w-12 bg-white"
-                          : "w-2 bg-white/40 hover:bg-white/60"
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                <button
-                  onClick={handleNext}
-                  aria-label="Next slide"
-                  className="h-12 w-12 rounded-full bg-white/10 text-white hover:bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/20 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
-                >
-                  <Icon
-                    icon="solar:alt-arrow-right-bold"
-                    className="text-2xl"
-                  />
-                </button>
-              </div>
-
-              {/* Scroll Indicator */}
-              <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-4 py-2 shadow-lg">
-                <div className="text-white/70 text-xs">Scroll down</div>
-              </div>
+      {/* Large auto-scrolling horizontal marquee (cinematic, low-opacity) */}
+      <div
+        className="absolute left-0 right-0 -bottom-3 pointer-events-none flex justify-center overflow-hidden"
+        style={{ zIndex: 9 }}
+        aria-hidden="true"
+      >
+        <div className="w-full max-w-full overflow-hidden">
+          <div className="marquee-track">
+            <div className="marquee-group">
+              <span className="marquee-text">
+                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
+              </span>
+              <span className="marquee-text">
+                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
+              </span>
+            </div>
+            <div className="marquee-group" aria-hidden="true">
+              <span className="marquee-text">
+                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
+              </span>
+              <span className="marquee-text">
+                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
+        .marquee-track {
+          display: flex;
+          gap: 2rem;
+          align-items: flex-end;
+          white-space: nowrap;
+          will-change: transform;
+          transform: translate3d(0, 0, 0);
+          animation: marquee 18s linear infinite;
+        }
+
+        .marquee-group {
+          display: inline-flex;
+          align-items: center;
+        }
+
+        .marquee-text {
+          display: inline-block;
+          color: #fff;
+          padding-bottom: 0px;
+          font-weight: 400;
+          letter-spacing: 0.06em;
+          font-family:
+            var(--font-montserrat),
+            system-ui,
+            -apple-system,
+            "Segoe UI",
+            Roboto,
+            "Helvetica Neue",
+            Arial,
+            "Noto Sans";
+          font-size: clamp(32px, 8vw, 160px);
+          line-height: 1;
+          padding-right: 2.5rem;
+          text-transform: uppercase;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        @keyframes marquee {
+          0% {
+            transform: translateX(0%);
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .marquee-track {
+            animation: none;
+            transform: translateX(0) !important;
+            opacity: 0.9;
           }
         }
       `}</style>

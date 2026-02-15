@@ -14,7 +14,7 @@ export function PartnersSection() {
   return (
     <section className="relative isolate overflow-hidden bg-white py-16">
       {/* Wave SVG Pattern Background */}
-      <div className="absolute inset-0 z-0 opacity-5">
+      {/* <div className="absolute inset-0 z-0 opacity-5">
         <svg
           className="h-full w-full"
           viewBox="0 0 1200 200"
@@ -39,10 +39,10 @@ export function PartnersSection() {
             opacity="0.4"
           />
         </svg>
-      </div>
+      </div> */}
 
       {/* Inverted Wave at Bottom */}
-      <div className="absolute bottom-0 left-0 right-0 z-0 opacity-5">
+      {/* <div className="absolute bottom-0 left-0 right-0 z-0 opacity-5">
         <svg
           className="h-24 w-full"
           viewBox="0 0 1200 100"
@@ -55,7 +55,7 @@ export function PartnersSection() {
             className="text-brand-primary"
           />
         </svg>
-      </div>
+      </div> */}
 
       <div className="relative z-10 mx-auto max-w-full">
         {/* First Row - Moving Left */}
@@ -88,7 +88,7 @@ export function PartnersSection() {
                 key={`${partner.id}-right-${index}`}
                 className="flex shrink-0 flex-col items-center gap-3"
               >
-                <div className="group flex h-32 w-32 items-center justify-center rounded-2xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:border-brand-primary/30 hover:shadow-md">
+                <div className="group flex h-32 w-32 items-center justify-center rounded-2xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:border-brand-primary/30 hover:shadow-md">
                   <Image
                     src={partner.src}
                     alt={partner.alt}

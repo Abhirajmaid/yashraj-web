@@ -1,4 +1,5 @@
-"use client";
+ "use client";
+import { resolveImageSrc } from "@/lib/getImageSrc";
 
 import Image from "next/image";
 import Button from "./Button";
@@ -20,6 +21,12 @@ type CommonHeroSectionProps = {
   description: string;
   buttons?: HeroButton[];
   showGradientOverlay?: boolean;
+  /**
+   * Optional solid overlay color (CSS color string). If provided, this color
+   * will be rendered on top of the background image (below content).
+   * Example: "rgba(0,0,0,0.4)" or "rgba(191,26,26,0.25)"
+   */
+  overlayColor?: string;
   scrollIndicatorText?: string;
   backgroundColor?: string;
   objectPosition?: "center" | "top" | "bottom";
@@ -36,6 +43,7 @@ export function CommonHeroSection({
   description,
   buttons = [],
   showGradientOverlay = false,
+  overlayColor,
   scrollIndicatorText,
   backgroundColor = "bg-brand-dark",
   objectPosition = "center",
@@ -60,7 +68,7 @@ export function CommonHeroSection({
       {/* Background Image */}
       <div className="absolute inset-0 h-full w-full z-0">
         <Image
-          src={backgroundImage}
+          src={resolveImageSrc(backgroundImage)}
           alt={backgroundImageAlt}
           fill
           priority
@@ -70,6 +78,13 @@ export function CommonHeroSection({
             flipHorizontal ? "scale-x-[-1]" : ""
           }`}
         />
+        {/* Optional solid overlay color */}
+        {overlayColor && (
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ backgroundColor: overlayColor }}
+          />
+        )}
 
         {/* Grid Overlay */}
         <div

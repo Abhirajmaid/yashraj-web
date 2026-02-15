@@ -23,7 +23,7 @@ export default function ProjectsPage() {
     <main className="bg-white">
       <CommonHeroSection
         id="projects"
-        backgroundImage="/images/golden-gate-bridge-zolotye.jpg"
+        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 14.44.03 (1).jpeg"
         backgroundImageAlt="Projects hero background"
         title="Our Projects"
         description="Discover our portfolio of iconic infrastructure projects, from stunning bridges to contemporary urban landmarks, each crafted with engineering excellence and bold design vision."
@@ -36,10 +36,10 @@ export default function ProjectsPage() {
             className: "w-full sm:w-auto",
           },
         ]}
-        showGradientOverlay={false}
+        showGradientOverlay={true}
         scrollIndicatorText="Scroll to explore"
         backgroundColor="bg-brand-dark"
-        objectPosition="top"
+        objectPosition="center"
         maxContentWidth="max-w-4xl"
         flipHorizontal={true}
       />

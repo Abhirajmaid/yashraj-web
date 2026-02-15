@@ -145,6 +145,38 @@ export default function EditProjectPage({ params }: PageProps) {
     setGalleryUploads(next);
   };
 
+  const handleRemoveFeatureImage = (key: 'primary' | 'lifestyle' | 'city') => {
+    // Clear any selected file preview and remove the current URL from project state
+    if (featureImage.preview) {
+      URL.revokeObjectURL(featureImage.preview);
+    }
+    setFeatureImage({ file: null, preview: null });
+    setProject((current) => {
+      if (!current) return current;
+      return {
+        ...current,
+        featureImages: { ...current.featureImages, [key]: '' },
+      };
+    });
+  };
+
+  const handleRemoveGalleryImageAt = (index: number) => {
+    setProject((current) => {
+      if (!current) return current;
+      const nextGallery = [...current.gallery];
+      nextGallery.splice(index, 1);
+      return { ...current, gallery: nextGallery };
+    });
+  };
+ 
+  const handleRemoveGalleryUploadById = (id: string) => {
+    setGalleryUploads((current) => {
+      const slot = current.find((s) => s.id === id);
+      if (slot) URL.revokeObjectURL(slot.preview);
+      return current.filter((s) => s.id !== id);
+    });
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!project || isSaving) return;
@@ -399,6 +431,7 @@ export default function EditProjectPage({ params }: PageProps) {
                 preview={featureImage.preview ?? project.featureImages.primary ?? null}
                 fileName={featureImage.file?.name ?? (project.featureImages.primary ? 'Current image' : null)}
                 onChange={handleFeatureImageChange}
+                onRemove={() => handleRemoveFeatureImage('primary')}
               />
             </section>
 
@@ -422,23 +455,74 @@ export default function EditProjectPage({ params }: PageProps) {
                 />
               </label>
 
-              {galleryUploads.length > 0 ? (
-                <div className="grid gap-4 md:grid-cols-3">
-                  {galleryUploads.map((slot) => (
-                    <div
-                      key={slot.id}
-                      className="space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3 text-center"
-                    >
-                      <img src={slot.preview} alt="" className="h-28 w-full rounded-md object-cover" />
-                      <p className="truncate text-xs text-gray-600">{slot.file.name}</p>
+              {/* Combined thumbnail grid: feature images, existing gallery, and newly selected uploads */}
+              <div className="grid gap-4 md:grid-cols-3">
+                {/* Feature images (primary / lifestyle / city) */}
+                {(['primary', 'lifestyle', 'city'] as const).map((key) => {
+                  const previewUrl =
+                    featureImage.preview && key === 'primary'
+                      ? featureImage.preview
+                      : project.featureImages?.[key] ?? '';
+                  return previewUrl ? (
+                    <div key={`feature-${key}`} className="relative space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3 text-center">
+                      <img src={previewUrl} alt={`${key} feature`} className="h-28 w-full rounded-md object-cover" />
+                      <div className="mt-2 flex items-center justify-between gap-2">
+                        <p className="truncate text-xs text-gray-600">{key}</p>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveFeatureImage(key)}
+                          className="text-xs font-semibold text-red-600 hover:text-red-700"
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-xs text-gray-600">
-                  Current gallery has {project.gallery.length} image{project.gallery.length === 1 ? '' : 's'}.
-                </div>
-              )}
+                  ) : null;
+                })}
+
+                {/* Existing gallery images */}
+                {project.gallery.map((url, idx) => (
+                  <div key={`gallery-${url}-${idx}`} className="relative space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3 text-center">
+                    <img src={url} alt={`gallery-${idx}`} className="h-28 w-full rounded-md object-cover" />
+                    <div className="mt-2 flex items-center justify-between gap-2">
+                      <p className="truncate text-xs text-gray-600">Current image</p>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveGalleryImageAt(idx)}
+                        className="text-xs font-semibold text-red-600 hover:text-red-700"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Newly selected uploads previews */}
+                {galleryUploads.map((slot) => (
+                  <div key={slot.id} className="space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3 text-center">
+                    <img src={slot.preview} alt={slot.file.name} className="h-28 w-full rounded-md object-cover" />
+                    <div className="mt-2 flex items-center justify-between gap-2">
+                      <p className="truncate text-xs text-gray-600">{slot.file.name}</p>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveGalleryUploadById(slot.id)}
+                        className="text-xs font-semibold text-red-600 hover:text-red-700"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+                {/* If nothing to show */}
+                {project.featureImages?.primary === '' &&
+                project.featureImages?.lifestyle === '' &&
+                project.featureImages?.city === '' &&
+                project.gallery.length === 0 &&
+                galleryUploads.length === 0 ? (
+                  <div className="text-xs text-gray-600">Current gallery is empty.</div>
+                ) : null}
+              </div>
             </section>
           </div>
         </Card>
