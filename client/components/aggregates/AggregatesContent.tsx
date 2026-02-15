@@ -89,7 +89,7 @@ export function AggregatesContent() {
             <div className="grid gap-4">
               <div className="relative h-64 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80"
+                  src="/images/types-bitumen-mixes-pavements-629x420.jpg"
                   alt="Hot mix plant"
                   fill
                   className="object-cover"
@@ -98,7 +98,7 @@ export function AggregatesContent() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="https://images.unsplash.com/photo-1549492422-0f8602d71e16?auto=format&fit=crop&w=800&q=80"
+                    src="/images/road-construction-services.jpg"
                     alt="Road construction"
                     fill
                     className="object-cover"
@@ -106,7 +106,7 @@ export function AggregatesContent() {
                 </div>
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="https://images.unsplash.com/photo-1547721064-da6cfb341d50?auto=format&fit=crop&w=800&q=80"
+                    src="/images/bitumen-concrete-road-construction-service-500x500.jpg"
                     alt="Bitumen application"
                     fill
                     className="object-cover"
