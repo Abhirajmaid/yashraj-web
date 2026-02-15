@@ -226,6 +226,8 @@ export type BitumenProduct = {
   id: string;
   name: string;
   description: string;
+  image?: string;
+  imageAlt?: string;
   features?: string[];
   applications?: string[];
 };
@@ -236,6 +238,8 @@ export const bitumenProducts: BitumenProduct[] = [
     name: "BM / DBM / BC (Bituminous Layers)",
     description:
       "Bituminous base and surface layers including Bituminous Macadam (BM), Dense Bituminous Macadam (DBM), and Bituminous Concrete (BC) formulated for pavement strength and durability.",
+    image: "/images/types-bitumen-mixes-pavements-629x420.jpg",
+    imageAlt: "Bitumen layers being laid on road",
     features: ["Designed for heavy traffic", "High durability", "MoRTH compliant"],
     applications: ["Highways", "Expressways", "Urban arterial roads"],
   },
@@ -244,6 +248,8 @@ export const bitumenProducts: BitumenProduct[] = [
     name: "Prime Coat & Tack Coat",
     description:
       "Surface treatment binders used for bonding layers and priming surfaces prior to bituminous overlay works.",
+    image: "/images/road-construction-services.jpg",
+    imageAlt: "Road construction and priming works",
     features: ["Improves interlayer bonding", "Reduces slippage", "Easy application"],
     applications: ["Overlay preparation", "Layer bonding"],
   },
@@ -252,8 +258,11 @@ export const bitumenProducts: BitumenProduct[] = [
     name: "Performance-Grade Modified Binders (PMB)",
     description:
       "Modified bitumen binders such as PMB 40 and PMB 70 used to enhance pavement performance, resistance to deformation, and longevity.",
+    image: "/images/bitumen-concrete-road-construction-service-500x500.jpg",
+    imageAlt: "Performance grade modified binders",
     features: ["Improved temperature susceptibility", "Enhanced rut resistance", "Longer service life"],
     applications: ["High-temperature regions", "Heavy-load pavements", "Critical highway stretches"],
   },
 ];
+
 

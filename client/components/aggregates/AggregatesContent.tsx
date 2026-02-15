@@ -134,6 +134,16 @@ export function AggregatesContent() {
                 key={product.id}
                 className="group overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
+                {product.image && (
+                  <div className="relative h-48 w-full overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.imageAlt || product.name}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                )}
                 <div className="p-6">
                   <h3 className="mb-3 text-xl font-semibold text-brand-dark">
                     {product.name}
