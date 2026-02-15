@@ -15,17 +15,12 @@ const footerColumns = [
     ],
   },
   {
-    heading: "Case Studies",
-    links: [
-      { label: "NMMC – Airoli T-Junction", href: "/#case-studies" },
-      { label: "Truck Lay-Byes – Mumbai–Pune Expressway", href: "/#case-studies" },
-      { label: "All Projects", href: "/projects" },
-    ],
+    heading: "Projects",
+    links: [{ label: "All Projects", href: "/projects" }],
   },
   {
     heading: "Resources",
     links: [
-      { label: "Blog", href: "/blogs" },
       { label: "FAQs", href: "/contact#faq" },
       { label: "Contact", href: "/contact" },
     ],
@@ -50,7 +45,7 @@ export function Footer() {
     <footer className="relative isolate overflow-hidden bg-brand-dark text-white">
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-linear-to-br from-brand-complementary-blue/20 via-transparent to-brand-primary/10" />
-      
+
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-16 lg:px-10 xl:px-14">
         {/* Main Footer Content */}
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.5fr),minmax(0,2fr)] lg:items-start lg:gap-16">
@@ -58,9 +53,12 @@ export function Footer() {
           <div className="space-y-6">
             <Logo variant="light" />
             <p className="max-w-sm text-sm leading-relaxed text-white/80">
-              Yashraj Infrastructure – A Yashraj Group company. Building Beyond Horizons. Trusted government partner in Navi Mumbai delivering infrastructure projects across Maharashtra since 2005.
+              Yashraj Infrastructure – A Yashraj Group company. Contributing to
+              India's development story. Trusted government partner in Navi
+              Mumbai delivering infrastructure projects across Maharashtra since
+              2008.
             </p>
-            
+
             {/* Social Media Links */}
             <div className="space-y-3">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-brand-primary">
@@ -114,7 +112,8 @@ export function Footer() {
         <div className="mt-12 flex flex-col items-start gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs text-white/60">
-              © {new Date().getFullYear()} Yashraj Infrastructure – A Yashraj Group Company. All rights reserved.
+              © {new Date().getFullYear()} Yashraj Infrastructure – A Yashraj
+              Group Company. All rights reserved.
             </p>
           </div>
           <nav className="flex flex-wrap items-center gap-6">
@@ -133,6 +132,3 @@ export function Footer() {
     </footer>
   );
 }
-
-
-

@@ -5,8 +5,9 @@ import { gsap } from "gsap";
 import Button from "@/components/common/Button";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
-const TITLE = "YASHRAJ INFRASTRUCTURE";
-const SUBTITLE = "Durable infrastructure across Maharashtra.";
+const TITLE = "Yashraj Infrastructure";
+const SUBTITLE =
+  "Yashraj Infrastructure is a trusted government partner based in Navi Mumbai, delivering a variety of infrastructure projects across Maharashtra. Combining decades of experience with innovative technologies, we execute large-scale projects while also owning high-capacity plant and machinery and supplying aggregates, concrete and bitumen mixes.";
 
 export function HeroSection() {
   const { openModal } = useEnquiryModal();
