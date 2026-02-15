@@ -1,4 +1,4 @@
- "use client";
+"use client";
 import { resolveImageSrc } from "@/lib/getImageSrc";
 
 import Image from "next/image";
@@ -55,15 +55,15 @@ export function CommonHeroSection({
     objectPosition === "top"
       ? "object-top"
       : objectPosition === "bottom"
-      ? "object-bottom"
-      : "object-center";
+        ? "object-bottom"
+        : "object-center";
 
   return (
     <section
       id={id}
       data-hero-root
-      className={`relative h-screen overflow-hidden ${backgroundColor}`}
-      style={{ height: "100vh", zIndex: 1, pointerEvents: "auto" }}
+      className={`relative h-[60vh] sm:h-screen overflow-hidden ${backgroundColor}`}
+      style={{ zIndex: 1, pointerEvents: "auto" }}
     >
       {/* Background Image */}
       <div className="absolute inset-0 h-full w-full z-0">
@@ -98,7 +98,7 @@ export function CommonHeroSection({
 
         {/* Gradient Overlay */}
         {showGradientOverlay && (
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/40 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-brand-dark/80 via-brand-dark/40 to-transparent" />
         )}
       </div>
 

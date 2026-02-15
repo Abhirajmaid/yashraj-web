@@ -1,15 +1,30 @@
 import Link from "next/link";
+import Image from "next/image";
 
-export function Logo() {
+type LogoProps = {
+  variant?: "light" | "dark";
+};
+
+export function Logo({ variant = "light" }: LogoProps) {
+  const textClass =
+    variant === "light"
+      ? "text-white transition group-hover:text-white"
+      : "text-black transition group-hover:text-primary";
+
   return (
-    <Link
-      href="/"
-      className="group flex items-center gap-3"
-    >
-      <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-secondary text-base font-semibold uppercase text-brand-primary transition group-hover:bg-white group-hover:text-brand-primary">
-        YR
-      </span>
-      <span className="text-lg font-semibold tracking-wide text-brand-secondary transition group-hover:text-white">
+    <Link href="/" className="group flex items-center">
+      <div className="relative h-20 md:h-15 w-10">
+        <Image
+          src="/logo_main.png"
+          alt="Yashraj Infrastructure"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+      <span
+        className={`hidden md:inline-block text-lg font-semibold tracking-wide ${textClass}`}
+      >
         Yashraj Infrastructure
       </span>
     </Link>

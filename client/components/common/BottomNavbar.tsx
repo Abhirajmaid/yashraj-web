@@ -22,17 +22,19 @@ export function BottomNavbar() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
-      {/* Glass Morphism Background */}
-      <div className="absolute inset-0 backdrop-blur-xl bg-white/90 border-t border-dark/10 shadow-2xl shadow-black/20">
+      {/* Glass Morphism Background (subtle, like StickyHeader) */}
+      <div className="absolute inset-0 backdrop-blur-xl bg-white/15 border-t border-white/12 shadow-2xl shadow-black/12">
         {/* Glass effect overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-white/10" />
+        <div className="absolute inset-0 bg-linear-to-br from-white/20 to-white/6 opacity-90" />
       </div>
 
       {/* Navigation Items */}
       <div className="relative z-10 flex items-center justify-around px-2 py-3">
         {navLinks.map((link) => {
-          const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
-          
+          const isActive =
+            pathname === link.href ||
+            (link.href !== "/" && pathname?.startsWith(link.href));
+
           return (
             <Link
               key={link.href}
@@ -68,4 +70,3 @@ export function BottomNavbar() {
     </nav>
   );
 }
-

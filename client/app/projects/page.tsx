@@ -26,7 +26,7 @@ export default function ProjectsPage() {
         backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 14.44.03 (1).jpeg"
         backgroundImageAlt="Projects hero background"
         title="Our Projects"
-        description="Discover our portfolio of iconic infrastructure projects, from stunning bridges to contemporary urban landmarks, each crafted with engineering excellence and bold design vision."
+        description="Discover our portfolio of iconic infrastructure projects."
         buttons={[
           {
             text: "Start Your Project",

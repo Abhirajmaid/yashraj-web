@@ -74,7 +74,7 @@ export function StickyHeader() {
         {/* Logo Container - Centered */}
         <div className="relative z-10 px-4 py-3.5 flex items-center justify-center">
           <div className={mobileScrolled ? "" : "drop-shadow-lg"}>
-            <Logo />
+            <Logo variant={mobileScrolled ? "dark" : "light"} />
           </div>
         </div>
       </header>
@@ -112,7 +112,7 @@ export function StickyHeader() {
         >
           <nav className="flex items-center justify-between">
             {/* Logo */}
-            <Logo />
+            <Logo variant={isScrolled ? "dark" : "light"} />
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8 relative z-10" style={{ pointerEvents: "auto" }}>

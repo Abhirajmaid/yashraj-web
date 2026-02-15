@@ -1,13 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Icon } from "@iconify/react";
 import { ProjectCard } from "./ProjectCard";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { ProjectRecord } from "@/types/project";
 import { listenToProjects } from "@/lib/projectsRepository";
 
 export function ProjectsSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  // removed unused activeIndex state
   const [projects, setProjects] = useState<ProjectRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,9 +38,9 @@ export function ProjectsSection() {
       {/* Top left gradient with primary color */}
       {/* <div className="absolute inset-0 bg-linear-to-br from-brand-primary/10 via-transparent to-transparent" /> */}
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 pb-0 lg:px-10 xl:px-14">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-12 pb-0 lg:px-10 xl:px-14">
         {/* Header Section */}
-        <div className="mb-16 flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
+        <div className="mb-6 flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex-1 max-w-2xl">
             <SectionHeader
               eyebrow="Our Projects"
@@ -142,23 +141,28 @@ export function ProjectsSection() {
           display: none;
         }
 
-        /* Project card sizing - responsive and based on viewport so marquee fills width */
+        /* Project card sizing - larger on mobile for better visibility */
         .project-card-wrapper {
-          width: calc((100vw - 3rem) / 1.2);
-          min-width: calc((100vw - 3rem) / 1.2);
+          /* nearly full-bleed on small devices with comfortable side padding */
+          width: calc(100vw - 2rem);
+          min-width: calc(100vw - 2rem);
+          max-width: 720px;
         }
 
         @media (min-width: 640px) {
           .project-card-wrapper {
-            width: calc((100vw - 6rem) / 1.5);
-            min-width: calc((100vw - 6rem) / 1.5);
+            /* slightly narrower on small tablets to allow part of next card to peek */
+            width: calc((100vw - 4rem) / 1.1);
+            min-width: calc((100vw - 4rem) / 1.1);
+            max-width: 840px;
           }
         }
 
         @media (min-width: 1024px) {
           .project-card-wrapper {
-            width: calc((100vw - 12rem) / 2.5);
-            min-width: calc((100vw - 12rem) / 2.5);
+            /* desktop: multiple cards visible */
+            width: calc((100vw - 8rem) / 2.2);
+            min-width: calc((100vw - 8rem) / 2.2);
           }
         }
 

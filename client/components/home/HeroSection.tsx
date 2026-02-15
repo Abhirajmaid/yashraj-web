@@ -89,7 +89,7 @@ export function HeroSection() {
   return (
     <section
       ref={rootRef}
-      className="relative w-full min-h-screen h-screen overflow-hidden bg-black"
+      className="relative w-full h-[90vh] md:min-h-screen overflow-hidden bg-black"
       aria-label="Hero"
       data-hero-root
     >
@@ -146,7 +146,7 @@ export function HeroSection() {
 
       {/* Large auto-scrolling horizontal marquee (cinematic, low-opacity) */}
       <div
-        className="absolute left-0 right-0 -bottom-3 pointer-events-none flex justify-center overflow-hidden"
+        className="absolute left-0 right-0 md:-bottom-3 bottom-2 pointer-events-none flex justify-center overflow-hidden"
         style={{ zIndex: 9 }}
         aria-hidden="true"
       >
@@ -203,7 +203,7 @@ export function HeroSection() {
             "Helvetica Neue",
             Arial,
             "Noto Sans";
-          font-size: clamp(32px, 8vw, 160px);
+          font-size: clamp(32px, 7vw, 160px);
           line-height: 1;
           padding-right: 2.5rem;
           text-transform: uppercase;
@@ -225,6 +225,11 @@ export function HeroSection() {
             animation: none;
             transform: translateX(0) !important;
             opacity: 0.9;
+          }
+        }
+        @media (max-width: 768px) {
+          .marquee-text {
+            font-size: clamp(32px, 14vw, 160px);
           }
         }
       `}</style>

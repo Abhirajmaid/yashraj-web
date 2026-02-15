@@ -21,7 +21,7 @@ export function MissionVisionSection() {
       {/* Top left gradient with primary color */}
       <div className="absolute inset-0 bg-linear-to-br from-brand-primary/10 via-transparent to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-[80%] px-6 py-16 sm:py-20 lg:px-10 xl:px-14">
+      <div className="relative z-10 mx-auto max-w-[90%] md:max-w-[80%] px-2 py-16 sm:py-20 lg:px-10 xl:px-14">
         <div className="mb-12 sm:mb-16">
           <SectionHeader
             eyebrow="OUR FOUNDATION"

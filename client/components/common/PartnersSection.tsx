@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 const partnerImages = Array.from({ length: 8 }).map((_, index) => ({
-  src: "/images/partnerslogo.png",
+  src: "/logo.png",
   alt: `Partner logo ${index + 1}`,
   id: `partner-logo-${index}`,
 }));

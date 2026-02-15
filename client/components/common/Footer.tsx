@@ -49,14 +49,14 @@ export function Footer() {
   return (
     <footer className="relative isolate overflow-hidden bg-brand-dark text-white">
       {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-complementary-blue/20 via-transparent to-brand-primary/10" />
+      <div className="absolute inset-0 bg-linear-to-br from-brand-complementary-blue/20 via-transparent to-brand-primary/10" />
       
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-16 lg:px-10 xl:px-14">
         {/* Main Footer Content */}
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.5fr),minmax(0,2fr)] lg:items-start lg:gap-16">
           {/* Left Column - Brand & Description */}
           <div className="space-y-6">
-            <Logo />
+            <Logo variant="light" />
             <p className="max-w-sm text-sm leading-relaxed text-white/80">
               Yashraj Infrastructure – A Yashraj Group company. Building Beyond Horizons. Trusted government partner in Navi Mumbai delivering infrastructure projects across Maharashtra since 2005.
             </p>

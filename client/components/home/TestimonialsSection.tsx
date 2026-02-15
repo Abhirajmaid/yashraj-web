@@ -155,7 +155,7 @@ export function TestimonialsSection() {
 
   return (
     <section className="relative isolate bg-white py-12 sm:py-16 lg:py-24 text-brand-dark">
-      <div className="relative z-10 mx-auto flex max-w-[80%] flex-col gap-8 sm:gap-10 lg:gap-12 px-4 sm:px-6 lg:px-10 xl:px-14">
+      <div className="relative z-10 mx-auto flex max-w-[90%] md:max-w-[80%] flex-col gap-8 sm:gap-10 lg:gap-12 px-4 sm:px-6 lg:px-10 xl:px-14">
         <SectionHeader
           eyebrow="Testimonials"
           title="Trusted by clients who value innovation and integrity."
