@@ -24,7 +24,7 @@ export function ShowcaseSection() {
         />
 
         {/* Centered content overlay */}
-        <div className="absolute left-1/2 top-1/2 z-20 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 px-6 text-center">
+        <div className="absolute left-1/2 top-1/2 z-20 w-full max-w-7xl -translate-x-1/2 -translate-y-1/2 px-6 text-center">
           <div className="mx-auto max-w-3xl">
             <p className="mb-4 text-sm font-medium tracking-widest text-white/75 uppercase">
               Our Projects
@@ -34,13 +34,9 @@ export function ShowcaseSection() {
               inspires
             </h1>
             <p className="mt-4 text-base text-black/60">
-              Yashraj Infrastructure is a trusted government partner based in
-              Navi Mumbai, delivering a variety of infrastructure projects
-              across Maharashtra since 2008. Combining decades of experience
-              with innovative technologies, we execute large-scale projects
-              while owning high-capacity plant and machinery and supplying
-              aggregates, concrete and bitumen mixes offering complete solutions
-              in the infrastructure sector.
+              Yashraj Infrastructure, based in Navi Mumbai, delivers innovative,
+              large-scale infrastructure projects across Maharashtra, supplying
+              complete solutions since 2008.
             </p>
             <div className="mt-6 flex justify-center">
               <Button

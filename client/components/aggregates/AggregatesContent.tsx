@@ -23,7 +23,7 @@ export function AggregatesContent() {
     <>
       {/* Products Overview: Bitumen Mixes & RMC */}
       <section className="relative bg-gradient-to-br from-white via-brand-light/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="OUR PRODUCTS"
             title="Bitumen Mixes & Ready-Mix Concrete"
@@ -34,20 +34,34 @@ export function AggregatesContent() {
           <div className="mt-12 grid gap-8 md:grid-cols-2">
             <div className="rounded-2xl border border-brand-gray-light/50 bg-white p-6 shadow-sm lg:p-8">
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10">
-                <Icon icon="solar:road-bold" className="text-2xl text-brand-primary" />
+                <Icon
+                  icon="solar:road-bold"
+                  className="text-2xl text-brand-primary"
+                />
               </div>
-              <h3 className="mb-2 text-xl font-semibold text-brand-dark">Bitumen Mixes</h3>
+              <h3 className="mb-2 text-xl font-semibold text-brand-dark">
+                Bitumen Mixes
+              </h3>
               <p className="text-sm leading-relaxed text-brand-dark/70">
-                Quality-assured bitumen mixes for road construction, resurfacing, and maintenance. Supplied to government and private projects across Maharashtra.
+                Quality-assured bitumen mixes for road construction,
+                resurfacing, and maintenance. Supplied to government and private
+                projects across Maharashtra.
               </p>
             </div>
             <div className="rounded-2xl border border-brand-gray-light/50 bg-white p-6 shadow-sm lg:p-8">
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10">
-                <Icon icon="solar:box-bold" className="text-2xl text-brand-primary" />
+                <Icon
+                  icon="solar:box-bold"
+                  className="text-2xl text-brand-primary"
+                />
               </div>
-              <h3 className="mb-2 text-xl font-semibold text-brand-dark">Ready-Mix Concrete (RMC)</h3>
+              <h3 className="mb-2 text-xl font-semibold text-brand-dark">
+                Ready-Mix Concrete (RMC)
+              </h3>
               <p className="text-sm leading-relaxed text-brand-dark/70">
-                Quality-assured ready mix concrete from our plants. Precise mix designs, consistent strength, and on-time delivery for infrastructure and building projects.
+                Quality-assured ready mix concrete from our plants. Precise mix
+                designs, consistent strength, and on-time delivery for
+                infrastructure and building projects.
               </p>
             </div>
           </div>
@@ -56,7 +70,7 @@ export function AggregatesContent() {
 
       {/* Bitumen Mixes Section */}
       <section className="relative bg-gradient-to-br from-white via-brand-light/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="ABOUT BITUMEN MIXES"
             title={bitumenDescription.title}
@@ -81,7 +95,9 @@ export function AggregatesContent() {
                       icon="solar:check-circle-bold"
                       className="mt-0.5 text-lg text-brand-primary"
                     />
-                    <span className="text-sm text-brand-dark/70">{benefit}</span>
+                    <span className="text-sm text-brand-dark/70">
+                      {benefit}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -120,7 +136,7 @@ export function AggregatesContent() {
 
       {/* Bitumen Product Range */}
       <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="OUR PRODUCTS"
             title="Bitumen Product Range"
@@ -198,7 +214,7 @@ export function AggregatesContent() {
 
       {/* What is RMC Section */}
       <section className="relative bg-gradient-to-br from-white via-brand-light/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="ABOUT RMC"
             title={rmcDescription.title}
@@ -264,7 +280,7 @@ export function AggregatesContent() {
 
       {/* Our Plant in Tanooja Section */}
       <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="OUR PLANT"
             title="Yashraj RMC Plant - Tanooja"
@@ -369,12 +385,12 @@ export function AggregatesContent() {
                 </div>
                 <div className="space-y-4">
                   <div className="relative h-64 w-full overflow-hidden rounded-xl">
-                  <Image
-                    src="/images/ready-mix-concrete-500x500.jpg"
-                    alt={`${plant.name} facility`}
-                    fill
-                    className="object-cover"
-                  />
+                    <Image
+                      src="/images/ready-mix-concrete-500x500.jpg"
+                      alt={`${plant.name} facility`}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                   <div className="rounded-lg border border-brand-gray-light/50 bg-brand-light/20 p-4">
                     <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-dark">
@@ -442,7 +458,7 @@ export function AggregatesContent() {
 
       {/* Delivery Locations Section */}
       <section className="relative bg-gradient-to-tr from-white via-brand-light/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-6 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="SERVICE AREAS"
             title="Where We Deliver"
@@ -483,7 +499,7 @@ export function AggregatesContent() {
 
       {/* Products Section */}
       <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="OUR PRODUCTS"
             title="RMC Product Range"
@@ -559,7 +575,7 @@ export function AggregatesContent() {
 
       {/* Features Section */}
       <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="WHY CHOOSE US"
             title="Our RMC Advantages"
@@ -590,7 +606,7 @@ export function AggregatesContent() {
 
       {/* Concrete Grades Section */}
       <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="CONCRETE GRADES"
             title="Available Concrete Mixes"

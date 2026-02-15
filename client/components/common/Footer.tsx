@@ -11,7 +11,6 @@ const footerColumns = [
       { label: "What we Do", href: "/services" },
       { label: "Projects", href: "/projects" },
       { label: "Products", href: "/aggregates" },
-      { label: "Blogs", href: "/blogs" },
     ],
   },
   {

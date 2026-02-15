@@ -17,7 +17,7 @@ export function ServicesSection({
   const featured = services.slice(0, 3);
 
   return (
-    <section className="relative bg-white py-20">
+    <section className="relative bg-white py-20 overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="max-w-3xl space-y-4">
           <p className="text-xs uppercase tracking-[0.35em] text-brand-gray">

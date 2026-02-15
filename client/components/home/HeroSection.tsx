@@ -124,7 +124,7 @@ export function HeroSection() {
         <div className="max-w-7xl w-full text-left">
           <p
             ref={subRef}
-            className="mt-6 text-white/90 max-w-2xl leading-[60px]"
+            className="mt-6 text-white/90 max-w-2xl font-medium leading-[40px] md:leading-[60px]"
             style={{
               fontSize: "clamp(14px, 8vw, 60px)",
               willChange: "transform, opacity",
@@ -134,7 +134,7 @@ export function HeroSection() {
           </p>
 
           <div ref={ctaRef} className="mt-8">
-            <Button onClick={openModal} type="primary" size="lg">
+            <Button onClick={openModal} type="primary" size="md">
               Get a Quote
             </Button>
           </div>
