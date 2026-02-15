@@ -10,6 +10,8 @@ import {
   rmcDescription,
   deliveryLocations,
   rmcProducts,
+  bitumenDescription,
+  bitumenProducts,
 } from "@/data/rmcPlants";
 // import Button from "@/components/common/Button";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
@@ -48,6 +50,138 @@ export function AggregatesContent() {
                 Quality-assured ready mix concrete from our plants. Precise mix designs, consistent strength, and on-time delivery for infrastructure and building projects.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Bitumen Mixes Section */}
+      <section className="relative bg-gradient-to-br from-white via-brand-light/5 to-transparent py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+          <SectionHeader
+            eyebrow="ABOUT BITUMEN MIXES"
+            title={bitumenDescription.title}
+            description=""
+            align="center"
+            eyebrowClassName="text-brand-primary"
+          />
+          <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="space-y-6">
+              {bitumenDescription.content.map((paragraph, index) => (
+                <p
+                  key={index}
+                  className="text-base leading-relaxed text-brand-dark/80"
+                >
+                  {paragraph}
+                </p>
+              ))}
+              <div className="grid grid-cols-2 gap-4 pt-4">
+                {bitumenDescription.benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-start gap-2">
+                    <Icon
+                      icon="solar:check-circle-bold"
+                      className="mt-0.5 text-lg text-brand-primary"
+                    />
+                    <span className="text-sm text-brand-dark/70">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="grid gap-4">
+              <div className="relative h-64 w-full overflow-hidden rounded-2xl">
+                <Image
+                  src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80"
+                  alt="Hot mix plant"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="relative h-48 w-full overflow-hidden rounded-xl">
+                  <Image
+                    src="https://images.unsplash.com/photo-1549492422-0f8602d71e16?auto=format&fit=crop&w=800&q=80"
+                    alt="Road construction"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="relative h-48 w-full overflow-hidden rounded-xl">
+                  <Image
+                    src="https://images.unsplash.com/photo-1547721064-da6cfb341d50?auto=format&fit=crop&w=800&q=80"
+                    alt="Bitumen application"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Bitumen Product Range */}
+      <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+          <SectionHeader
+            eyebrow="OUR PRODUCTS"
+            title="Bitumen Product Range"
+            description="High-quality bitumen mixes and performance-grade binders manufactured to meet MoRTH and IRC standards."
+            align="center"
+            eyebrowClassName="text-brand-primary"
+          />
+          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {bitumenProducts.map((product) => (
+              <div
+                key={product.id}
+                className="group overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              >
+                <div className="p-6">
+                  <h3 className="mb-3 text-xl font-semibold text-brand-dark">
+                    {product.name}
+                  </h3>
+                  <p className="mb-4 text-sm leading-relaxed text-brand-dark/70">
+                    {product.description}
+                  </p>
+                  {product.features && product.features.length > 0 && (
+                    <div className="mb-4 space-y-2">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                        Key Features:
+                      </p>
+                      <ul className="space-y-1">
+                        {product.features.map((feature, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 text-xs text-brand-dark/70"
+                          >
+                            <Icon
+                              icon="solar:check-circle-bold"
+                              className="mt-0.5 text-brand-primary"
+                            />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {product.applications && product.applications.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                        Applications:
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {product.applications.map((app, idx) => (
+                          <span
+                            key={idx}
+                            className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-xs font-medium text-brand-primary"
+                          >
+                            {app}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

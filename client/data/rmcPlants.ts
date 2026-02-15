@@ -207,3 +207,53 @@ export const rmcDescription = {
   ],
 };
 
+export const bitumenDescription = {
+  title: "What are Bitumen Mixes?",
+  content: [
+    "Bitumen mixes (hot mix asphalt) are engineered combinations of aggregates and bituminous binder produced in modern hot mix plants. These mixes are designed for road construction, resurfacing, and maintenance applications where durability, load-bearing capacity, and riding comfort are essential.",
+    "Our bituminous products are manufactured under strict quality control and in accordance with MoRTH, IRC, and client specifications. We use performance-grade modified binders, including PMB 40, PMB 70, and other specialized grades as required by project specifications.",
+    "Bitumen mixes provide flexibility, resistance to deformation, and long service life when produced with quality aggregates and proper compaction, making them ideal for highways, arterial roads, and high-traffic surfaces.",
+  ],
+  benefits: [
+    "High load-bearing capacity",
+    "Improved rutting and deformation resistance",
+    "Designed to meet MoRTH and IRC specifications",
+    "Consistent quality through plant-controlled production",
+  ],
+};
+
+export type BitumenProduct = {
+  id: string;
+  name: string;
+  description: string;
+  features?: string[];
+  applications?: string[];
+};
+
+export const bitumenProducts: BitumenProduct[] = [
+  {
+    id: "bm-dbm-bc",
+    name: "BM / DBM / BC (Bituminous Layers)",
+    description:
+      "Bituminous base and surface layers including Bituminous Macadam (BM), Dense Bituminous Macadam (DBM), and Bituminous Concrete (BC) formulated for pavement strength and durability.",
+    features: ["Designed for heavy traffic", "High durability", "MoRTH compliant"],
+    applications: ["Highways", "Expressways", "Urban arterial roads"],
+  },
+  {
+    id: "prime-tack",
+    name: "Prime Coat & Tack Coat",
+    description:
+      "Surface treatment binders used for bonding layers and priming surfaces prior to bituminous overlay works.",
+    features: ["Improves interlayer bonding", "Reduces slippage", "Easy application"],
+    applications: ["Overlay preparation", "Layer bonding"],
+  },
+  {
+    id: "pmb-grades",
+    name: "Performance-Grade Modified Binders (PMB)",
+    description:
+      "Modified bitumen binders such as PMB 40 and PMB 70 used to enhance pavement performance, resistance to deformation, and longevity.",
+    features: ["Improved temperature susceptibility", "Enhanced rut resistance", "Longer service life"],
+    applications: ["High-temperature regions", "Heavy-load pavements", "Critical highway stretches"],
+  },
+];
+
