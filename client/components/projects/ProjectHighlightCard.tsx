@@ -5,7 +5,6 @@ import { resolveImageSrc } from "@/lib/getImageSrc";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { Project } from "@/data/projects";
-import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 import BlurGradient from "@/components/common/BlurGradient";
 
 type ProjectHighlightCardProps = {
@@ -13,8 +12,6 @@ type ProjectHighlightCardProps = {
 };
 
 export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
-  const { openModal } = useEnquiryModal();
-
   return (
     <div className="group relative overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl">
       <div className="relative h-80 sm:h-96 md:h-[520px] w-full">
@@ -52,13 +49,13 @@ export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
               Learn More
               <Icon icon="solar:arrow-right-bold" />
             </Link>
-            <button
-              onClick={openModal}
+            <Link
+              href="/contact"
               className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20"
             >
               <Icon icon="mdi:email-outline" />
               Enquire
-            </button>
+            </Link>
           </div>
         </div>
       </div>

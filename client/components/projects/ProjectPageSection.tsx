@@ -9,7 +9,7 @@ import { listenToProjects } from "@/lib/projectsRepository";
 import { ProjectRecord } from "@/types/project";
 import { mapRecordToProject } from "@/lib/projectUtils";
 
-const PROJECTS_PER_PAGE = 3;
+const PROJECTS_PER_PAGE = 4;
 
 export function ProjectPageSection() {
   const [allProjects, setAllProjects] = useState<ProjectRecord[]>([]);
