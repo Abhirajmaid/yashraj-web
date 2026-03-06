@@ -40,8 +40,9 @@ export type CreateProjectPayload = {
   overview?: string; // Single line overview description
   essentials?: string[]; // Key bullet points (optional)
   featureFiles?: Partial<Record<'primary' | 'lifestyle' | 'city', File>>; // Hero image + 2 sub images
-  galleryFiles?: File[]; // Gallery images (optional)
+  galleryFiles?: File[]; // Gallery images (optional, max 4 for 5 total with primary)
   category?: string;
+  location?: string;
   launchWindow?: string;
   deliveryWindow?: string;
   builder?: string;
@@ -59,6 +60,7 @@ export type UpdateProjectPayload = {
   currentFeatureImages: FeatureImageMap;
   currentGallery: string[];
   category?: string;
+  location?: string;
   launchWindow?: string;
   deliveryWindow?: string;
   builder?: string;

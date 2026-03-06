@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import { ProjectHighlightCard } from "./ProjectHighlightCard";
 import { ProjectFilters } from "./ProjectFilters";
 import { Pagination } from "./Pagination";
+import { ProjectDetailsInline } from "./ProjectDetailsInline";
 import type { Project } from "@/data/projects";
 import { listenToProjects } from "@/lib/projectsRepository";
 import { ProjectRecord } from "@/types/project";
-import ProjectDetailsModal from "./ProjectDetailsModal";
 
 const PROJECTS_PER_PAGE = 3;
 
@@ -84,15 +84,14 @@ export function ProjectPageSection() {
 
   const highlightProjects = useMemo(() => liveProjects, [liveProjects]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   function handleOpenDetails(project: Project) {
     setSelectedProject(project);
-    setIsDetailsOpen(true);
+    const el = document.getElementById("projects");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function handleCloseDetails() {
-    setIsDetailsOpen(false);
+  function handleBackToProjects() {
     setSelectedProject(null);
   }
 
@@ -122,31 +121,38 @@ export function ProjectPageSection() {
           </p>
         ) : (
           <>
-            <div className="space-y-16 sm:space-y-20 lg:space-y-24">
-              {highlightProjects.map((project) => (
-                <ProjectHighlightCard
-                  key={project.id}
-                  project={project}
-                  onOpenDetails={handleOpenDetails}
+            {selectedProject ? (
+              <div className="mb-16">
+                <ProjectDetailsInline
+                  project={selectedProject}
+                  onBack={handleBackToProjects}
                 />
-              ))}
-            </div>
+              </div>
+            ) : null}
 
-            <ProjectDetailsModal
-              open={isDetailsOpen}
-              project={selectedProject}
-              onClose={handleCloseDetails}
-            />
+            {!selectedProject && (
+              <>
+                <div className="space-y-16 sm:space-y-20 lg:space-y-24">
+                  {highlightProjects.map((project) => (
+                    <ProjectHighlightCard
+                      key={project.id}
+                      project={project}
+                      onOpenDetails={handleOpenDetails}
+                    />
+                  ))}
+                </div>
 
-            {/* Pagination */}
-            {filteredProjects.length > PROJECTS_PER_PAGE && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-                totalItems={filteredProjects.length}
-                itemsPerPage={PROJECTS_PER_PAGE}
-              />
+                {/* Pagination */}
+                {filteredProjects.length > PROJECTS_PER_PAGE && (
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                    totalItems={filteredProjects.length}
+                    itemsPerPage={PROJECTS_PER_PAGE}
+                  />
+                )}
+              </>
             )}
           </>
         )}

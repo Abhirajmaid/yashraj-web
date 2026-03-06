@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { createProjectRecord } from '@/lib/projectsRepository';
 import { ProjectRecord } from '@/types/project';
-import { Card, Field, ImageUploadField, NumberField, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
+import { Card, Field, ImageUploadField, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
+
+const MAX_GALLERY_IMAGES = 4; // 1 primary + 4 gallery = 5 total
 
 const CATEGORY_OPTIONS = [
   { value: '', label: '—' },
@@ -21,17 +23,9 @@ const CATEGORY_OPTIONS = [
 
 type ProjectForm = {
   name: string;
-  overview: string;
-  essential1: string;
-  essential2: string;
-  essential3: string;
+  location: string;
   category: string;
-  launchWindow: string;
-  deliveryWindow: string;
-  builder: string;
-  consultants: string;
-  financing: string;
-  progress: string;
+  overview: string;
 };
 
 type ImageSlot = {
@@ -52,17 +46,9 @@ type SubmittedMediaState = {
 
 const emptyForm: ProjectForm = {
   name: '',
-  overview: '',
-  essential1: '',
-  essential2: '',
-  essential3: '',
+  location: '',
   category: '',
-  launchWindow: '',
-  deliveryWindow: '',
-  builder: '',
-  consultants: '',
-  financing: '',
-  progress: '',
+  overview: '',
 };
 
 const featureImageTemplate: ImageSlot[] = [
@@ -140,7 +126,6 @@ export default function CreateNewProjectPage() {
 
   const handleGalleryFilesChange = (files: FileList | null) => {
     setGalleryImages((current) => {
-      // Clean up existing previews
       current.forEach((slot) => {
         if (slot.preview && slot.file) {
           URL.revokeObjectURL(slot.preview);
@@ -152,7 +137,8 @@ export default function CreateNewProjectPage() {
       }
 
       const next: ImageSlot[] = [];
-      Array.from(files).forEach((file, index) => {
+      const filesArray = Array.from(files).slice(0, MAX_GALLERY_IMAGES);
+      filesArray.forEach((file, index) => {
         next.push({
           id: `gallery-${index}-${makeLocalId()}`,
           label: `Gallery image ${index + 1}`,
@@ -162,7 +148,6 @@ export default function CreateNewProjectPage() {
           file,
         });
       });
-
       return next;
     });
   };
@@ -197,10 +182,6 @@ export default function CreateNewProjectPage() {
       return;
     }
 
-    const essentialsList = [form.essential1, form.essential2, form.essential3]
-      .map((e) => e.trim())
-      .filter(Boolean);
-
     const featureFiles = featureImages.reduce<Partial<Record<'primary' | 'lifestyle' | 'city', File>>>(
       (acc, slot) => {
         if (slot.storageKey && slot.file) {
@@ -214,8 +195,6 @@ export default function CreateNewProjectPage() {
     const galleryFiles = galleryImages
       .map((slot) => slot.file)
       .filter((file): file is File => Boolean(file));
-
-    const progressNum = form.progress.trim() === '' ? undefined : Math.min(100, Math.max(0, parseInt(form.progress, 10) || 0));
 
     setIsSaving(true);
     setFormError(null);
@@ -236,16 +215,11 @@ export default function CreateNewProjectPage() {
         createProjectRecord({
           name: form.name.trim(),
           overview: form.overview.trim(),
-          essentials: essentialsList,
+          essentials: [],
           featureFiles,
-          galleryFiles,
+          galleryFiles: galleryFiles.slice(0, MAX_GALLERY_IMAGES),
           category: form.category || undefined,
-          launchWindow: form.launchWindow.trim() || undefined,
-          deliveryWindow: form.deliveryWindow.trim() || undefined,
-          builder: form.builder.trim() || undefined,
-          consultants: form.consultants.trim() || undefined,
-          financing: form.financing.trim() || undefined,
-          progress: progressNum ?? undefined,
+          location: form.location.trim() || undefined,
         }),
         timeoutPromise,
       ]);
@@ -260,20 +234,6 @@ export default function CreateNewProjectPage() {
             id: 'saved-primary',
             preview: savedProject.featureImages.primary,
             fileName: 'Primary feature',
-            file: null,
-          },
-          {
-            ...featureImageTemplate[1],
-            id: 'saved-lifestyle',
-            preview: savedProject.featureImages.lifestyle,
-            fileName: 'Lifestyle feature',
-            file: null,
-          },
-          {
-            ...featureImageTemplate[2],
-            id: 'saved-city',
-            preview: savedProject.featureImages.city,
-            fileName: 'City feature',
             file: null,
           },
         ],
@@ -388,12 +348,11 @@ export default function CreateNewProjectPage() {
               placeholder="e.g. Airoli T-Junction Upgradation"
               required
             />
-            <TextAreaField
-              label="Overview (Single line description)"
-              value={form.overview}
-              onChange={(value) => setForm((current) => ({ ...current, overview: value }))}
-              placeholder="Short description that appears on cards and the project overview."
-              rows={2}
+            <Field
+              label="Project Location"
+              value={form.location}
+              onChange={(value) => setForm((current) => ({ ...current, location: value }))}
+              placeholder="e.g. Surat Industrial Corridor"
             />
             <SelectField
               label="Category"
@@ -402,84 +361,18 @@ export default function CreateNewProjectPage() {
               placeholder="—"
               onChange={(value) => setForm((current) => ({ ...current, category: value }))}
             />
-          </Card>
-
-          <Card title="Timeline" description="Launch and delivery windows.">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field
-                label="Launch Window"
-                value={form.launchWindow}
-                onChange={(value) => setForm((current) => ({ ...current, launchWindow: value }))}
-                placeholder="—"
-              />
-              <Field
-                label="Delivery Window"
-                value={form.deliveryWindow}
-                onChange={(value) => setForm((current) => ({ ...current, deliveryWindow: value }))}
-                placeholder="—"
-              />
-            </div>
-          </Card>
-
-          <Card title="Builder, Consultants & Progress" description="Builder/developer, consultants, financing, and project progress.">
-            <div className="space-y-4">
-              <Field
-                label="Builder / Developer"
-                value={form.builder}
-                onChange={(value) => setForm((current) => ({ ...current, builder: value }))}
-                placeholder="—"
-              />
-              <Field
-                label="Consultants"
-                value={form.consultants}
-                onChange={(value) => setForm((current) => ({ ...current, consultants: value }))}
-                placeholder="—"
-              />
-              <Field
-                label="Financing & Schemes"
-                value={form.financing}
-                onChange={(value) => setForm((current) => ({ ...current, financing: value }))}
-                placeholder="—"
-              />
-              <NumberField
-                label="Progress"
-                value={form.progress}
-                onChange={(value) => setForm((current) => ({ ...current, progress: value }))}
-                placeholder="—"
-                min={0}
-                max={100}
-                suffix="% complete"
-              />
-            </div>
-          </Card>
-
-          <Card title="Project Essentials" description="Three key features displayed as bullet points.">
             <TextAreaField
-              label="Essential 1"
-              value={form.essential1}
-              onChange={(value) => setForm((current) => ({ ...current, essential1: value }))}
-              placeholder="6,500 sq.ft workplace with passive cooling, operable skylights, and rainwater-fed biowalls for humidity control."
-              rows={2}
-            />
-            <TextAreaField
-              label="Essential 2"
-              value={form.essential2}
-              onChange={(value) => setForm((current) => ({ ...current, essential2: value }))}
-              placeholder="Immersive innovation forum with retractable seating, acoustic fins, and integrated AV for investor previews and press launches."
-              rows={2}
-            />
-            <TextAreaField
-              label="Essential 3"
-              value={form.essential3}
-              onChange={(value) => setForm((current) => ({ ...current, essential3: value }))}
-              placeholder="Material palette couples reclaimed white oak, recycled terrazzo, and low-iron glass connected to a campus-wide energy dashboard."
-              rows={2}
+              label="Overview / Description"
+              value={form.overview}
+              onChange={(value) => setForm((current) => ({ ...current, overview: value }))}
+              placeholder="Short description that appears on cards and the project overview."
+              rows={3}
             />
           </Card>
 
           <Card
-            title="Visual Assets"
-            description="Upload a primary hero image and gallery images."
+            title="Images"
+            description={`Up to 5 images (1 primary + up to ${MAX_GALLERY_IMAGES} gallery).`}
           >
             <div className="space-y-6">
               <section>
@@ -510,7 +403,7 @@ export default function CreateNewProjectPage() {
                 </div>
 
                 <label className="block space-y-2 text-sm text-gray-700">
-                  <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Gallery images</span>
+                  <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Gallery images (max {MAX_GALLERY_IMAGES})</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -614,38 +507,13 @@ export default function CreateNewProjectPage() {
             </div>
 
             <div className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                {submittedMedia.feature.slice(1, 3).map((slot) => (
-                  <div
-                    key={slot.id}
-                    className="overflow-hidden rounded-2xl border border-gray-200 bg-gray-50"
-                  >
-                    {slot.preview ? (
-                      <img
-                        src={slot.preview}
-                        alt={slot.fileName ?? slot.label}
-                        className="h-40 w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-40 items-center justify-center text-xs text-gray-400">
-                        {slot.label}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
               <div className="space-y-2 rounded-2xl border border-gray-200 bg-gray-50 p-4">
-                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Project essentials</p>
+                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Project details</p>
                 <p className="text-sm font-semibold text-gray-900">{submittedProject.name}</p>
-                <p className="text-sm text-gray-600">{submittedProject.overview || 'Overview pending.'}</p>
-                {submittedProject.essentials && submittedProject.essentials.length > 0 ? (
-                  <ul className="mt-2 list-disc space-y-1 pl-4 text-xs text-gray-600">
-                    {submittedProject.essentials.map((item, idx) => (
-                      <li key={idx}>{item}</li>
-                    ))}
-                  </ul>
+                {submittedProject.location ? (
+                  <p className="text-xs text-gray-600">{submittedProject.location}</p>
                 ) : null}
+                <p className="text-sm text-gray-600">{submittedProject.overview || 'Overview pending.'}</p>
                 <button
                   type="button"
                   onClick={() => setIsGalleryOpen((previous) => !previous)}

@@ -173,6 +173,7 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
         updatedAt: serverTimestamp(),
       };
       if (payload.category != null && payload.category !== '') docData.category = payload.category;
+      if (payload.location != null && payload.location.trim() !== '') docData.location = payload.location.trim();
       if (payload.launchWindow != null && payload.launchWindow.trim() !== '') docData.launchWindow = payload.launchWindow.trim();
       if (payload.deliveryWindow != null && payload.deliveryWindow.trim() !== '') docData.deliveryWindow = payload.deliveryWindow.trim();
       if (payload.builder != null && payload.builder.trim() !== '') docData.builder = payload.builder.trim();
@@ -204,6 +205,7 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
       updatedAt: nowIso,
       industries: [],
       category: payload.category || undefined,
+      location: payload.location?.trim() || undefined,
       launchWindow: payload.launchWindow?.trim() || undefined,
       deliveryWindow: payload.deliveryWindow?.trim() || undefined,
       builder: payload.builder?.trim() || undefined,
@@ -299,6 +301,7 @@ export async function updateProjectRecord(
   updateData.gallery = galleryImages;
 
   if (payload.category !== undefined) updateData.category = payload.category || null;
+  if (payload.location !== undefined) updateData.location = payload.location?.trim() || null;
   if (payload.launchWindow !== undefined) updateData.launchWindow = payload.launchWindow?.trim() || null;
   if (payload.deliveryWindow !== undefined) updateData.deliveryWindow = payload.deliveryWindow?.trim() || null;
   if (payload.builder !== undefined) updateData.builder = payload.builder?.trim() || null;

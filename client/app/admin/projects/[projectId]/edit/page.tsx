@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { use, type FormEvent, useEffect, useState } from 'react';
 import { getProjectRecord, updateProjectRecord } from '@/lib/projectsRepository';
 import { ProjectRecord } from '@/types/project';
-import { Card, Field, ImageUploadField, NumberField, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
+import { Card, Field, ImageUploadField, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
+
+const MAX_GALLERY_IMAGES = 4; // 1 primary + 4 gallery = 5 total
 
 const CATEGORY_OPTIONS = [
   { value: '', label: '—' },
@@ -25,17 +27,9 @@ type PageProps = {
 
 type ProjectForm = {
   name: string;
-  overview: string;
-  essential1: string;
-  essential2: string;
-  essential3: string;
+  location: string;
   category: string;
-  launchWindow: string;
-  deliveryWindow: string;
-  builder: string;
-  consultants: string;
-  financing: string;
-  progress: string;
+  overview: string;
 };
 
 type GallerySlot = {
@@ -46,17 +40,9 @@ type GallerySlot = {
 
 const emptyForm: ProjectForm = {
   name: '',
-  overview: '',
-  essential1: '',
-  essential2: '',
-  essential3: '',
+  location: '',
   category: '',
-  launchWindow: '',
-  deliveryWindow: '',
-  builder: '',
-  consultants: '',
-  financing: '',
-  progress: '',
+  overview: '',
 };
 
 const makeLocalId = () =>
@@ -93,17 +79,9 @@ export default function EditProjectPage({ params }: PageProps) {
         setProject(record);
         setForm({
           name: record.name,
-          overview: record.overview ?? '',
-          essential1: record.essentials?.[0] ?? '',
-          essential2: record.essentials?.[1] ?? '',
-          essential3: record.essentials?.[2] ?? '',
+          location: record.location ?? '',
           category: record.category ?? '',
-          launchWindow: record.launchWindow ?? '',
-          deliveryWindow: record.deliveryWindow ?? '',
-          builder: record.builder ?? '',
-          consultants: record.consultants ?? '',
-          financing: record.financing ?? '',
-          progress: record.progress != null ? String(record.progress) : '',
+          overview: record.overview ?? '',
         });
         setError(null);
       } catch (fetchError) {
@@ -137,7 +115,8 @@ export default function EditProjectPage({ params }: PageProps) {
       return;
     }
 
-    const next: GallerySlot[] = Array.from(files).map((file, index) => ({
+    const filesArray = Array.from(files).slice(0, MAX_GALLERY_IMAGES);
+    const next: GallerySlot[] = filesArray.map((file, index) => ({
       id: `gallery-${index}-${makeLocalId()}`,
       file,
       preview: URL.createObjectURL(file),
@@ -190,34 +169,24 @@ export default function EditProjectPage({ params }: PageProps) {
     setSuccessMessage(null);
     setIsSaving(true);
 
-    const essentialsList = [form.essential1, form.essential2, form.essential3]
-      .map((item) => item.trim())
-      .filter(Boolean);
-
     const featureFiles: Partial<Record<'primary' | 'lifestyle' | 'city', File>> = {};
     if (featureImage.file) {
       featureFiles.primary = featureImage.file;
     }
 
     const galleryFiles = galleryUploads.map((slot) => slot.file);
-    const progressNum = form.progress.trim() === '' ? undefined : Math.min(100, Math.max(0, parseInt(form.progress, 10) || 0));
 
     try {
       const updated = await updateProjectRecord(project.id, {
         name: form.name.trim(),
         overview: form.overview.trim(),
-        essentials: essentialsList,
+        essentials: [],
         featureFiles: featureImage.file ? featureFiles : undefined,
         galleryFiles: galleryFiles.length ? galleryFiles : undefined,
         currentFeatureImages: project.featureImages,
         currentGallery: project.gallery,
         category: form.category || undefined,
-        launchWindow: form.launchWindow.trim() || undefined,
-        deliveryWindow: form.deliveryWindow.trim() || undefined,
-        builder: form.builder.trim() || undefined,
-        consultants: form.consultants.trim() || undefined,
-        financing: form.financing.trim() || undefined,
-        progress: progressNum ?? undefined,
+        location: form.location.trim() || undefined,
       });
 
       setProject(updated);
@@ -328,12 +297,11 @@ export default function EditProjectPage({ params }: PageProps) {
             placeholder="e.g. Airoli T-Junction Upgradation"
             required
           />
-          <TextAreaField
-            label="Overview (single line)"
-            value={form.overview}
-            onChange={(value) => setForm((current) => ({ ...current, overview: value }))}
-            rows={2}
-            placeholder="Short description that appears on listing cards."
+          <Field
+            label="Project Location"
+            value={form.location}
+            onChange={(value) => setForm((current) => ({ ...current, location: value }))}
+            placeholder="e.g. Surat Industrial Corridor"
           />
           <SelectField
             label="Category"
@@ -342,81 +310,18 @@ export default function EditProjectPage({ params }: PageProps) {
             placeholder="—"
             onChange={(value) => setForm((current) => ({ ...current, category: value }))}
           />
-        </Card>
-
-        <Card title="Timeline" description="Launch and delivery windows.">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field
-              label="Launch Window"
-              value={form.launchWindow}
-              onChange={(value) => setForm((current) => ({ ...current, launchWindow: value }))}
-              placeholder="—"
-            />
-            <Field
-              label="Delivery Window"
-              value={form.deliveryWindow}
-              onChange={(value) => setForm((current) => ({ ...current, deliveryWindow: value }))}
-              placeholder="—"
-            />
-          </div>
-        </Card>
-
-        <Card title="Builder, Consultants & Progress" description="Builder/developer, consultants, financing, and project progress.">
-          <div className="space-y-4">
-            <Field
-              label="Builder / Developer"
-              value={form.builder}
-              onChange={(value) => setForm((current) => ({ ...current, builder: value }))}
-              placeholder="—"
-            />
-            <Field
-              label="Consultants"
-              value={form.consultants}
-              onChange={(value) => setForm((current) => ({ ...current, consultants: value }))}
-              placeholder="—"
-            />
-            <Field
-              label="Financing & Schemes"
-              value={form.financing}
-              onChange={(value) => setForm((current) => ({ ...current, financing: value }))}
-              placeholder="—"
-            />
-            <NumberField
-              label="Progress"
-              value={form.progress}
-              onChange={(value) => setForm((current) => ({ ...current, progress: value }))}
-              placeholder="—"
-              min={0}
-              max={100}
-              suffix="% complete"
-            />
-          </div>
-        </Card>
-
-        <Card title="Project Essentials" description="Edit the three bullet points shown on marketing pages.">
           <TextAreaField
-            label="Essential 1"
-            value={form.essential1}
-            onChange={(value) => setForm((current) => ({ ...current, essential1: value }))}
-            rows={2}
-          />
-          <TextAreaField
-            label="Essential 2"
-            value={form.essential2}
-            onChange={(value) => setForm((current) => ({ ...current, essential2: value }))}
-            rows={2}
-          />
-          <TextAreaField
-            label="Essential 3"
-            value={form.essential3}
-            onChange={(value) => setForm((current) => ({ ...current, essential3: value }))}
-            rows={2}
+            label="Overview / Description"
+            value={form.overview}
+            onChange={(value) => setForm((current) => ({ ...current, overview: value }))}
+            rows={3}
+            placeholder="Short description that appears on listing cards and project page."
           />
         </Card>
 
         <Card
-          title="Visual Assets"
-          description="Upload new images to replace the current hero or gallery. Leave blank to keep existing media."
+          title="Images"
+          description={`Up to 5 images (1 primary + up to ${MAX_GALLERY_IMAGES} gallery). Leave blank to keep existing.`}
         >
           <div className="space-y-6">
             <section className="space-y-3">
@@ -445,7 +350,7 @@ export default function EditProjectPage({ params }: PageProps) {
                 </div>
               </div>
               <label className="block space-y-2 text-sm text-gray-700">
-                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Upload new gallery</span>
+                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Upload gallery (max {MAX_GALLERY_IMAGES})</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -533,17 +438,9 @@ export default function EditProjectPage({ params }: PageProps) {
             onClick={() => {
               setForm({
                 name: project.name,
-                overview: project.overview ?? '',
-                essential1: project.essentials?.[0] ?? '',
-                essential2: project.essentials?.[1] ?? '',
-                essential3: project.essentials?.[2] ?? '',
+                location: project.location ?? '',
                 category: project.category ?? '',
-                launchWindow: project.launchWindow ?? '',
-                deliveryWindow: project.deliveryWindow ?? '',
-                builder: project.builder ?? '',
-                consultants: project.consultants ?? '',
-                financing: project.financing ?? '',
-                progress: project.progress != null ? String(project.progress) : '',
+                overview: project.overview ?? '',
               });
               handleFeatureImageChange(null);
               handleGalleryFilesChange(null);

@@ -111,7 +111,7 @@ export default function AdminProjectsPage() {
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-gray-500">Name</th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-gray-500">Overview</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-gray-500">Essentials</th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-gray-500">Location</th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-gray-500">Images</th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-gray-500">Created</th>
                 <th className="h-12 px-4 text-right align-middle font-medium text-gray-500">Actions</th>
@@ -156,7 +156,7 @@ export default function AdminProjectsPage() {
                       </td>
                       <td className="p-4 font-medium text-gray-900">{row.name}</td>
                       <td className="max-w-md truncate p-4 text-gray-600">{row.overview || '—'}</td>
-                      <td className="p-4 text-gray-600">{row.essentials?.length ?? 0}</td>
+                      <td className="max-w-[12rem] truncate p-4 text-gray-600">{row.location || '—'}</td>
                       <td className="p-4 text-gray-600">{imgCount}</td>
                       <td className="p-4 text-gray-600">
                         {row.createdAt ? new Date(row.createdAt).toLocaleDateString() : '—'}

@@ -29,10 +29,19 @@ export default function ProjectDetailsModal({ open, project, onClose }: Props) {
 
   if (!open || !project) return null;
 
+  // Include primary, secondary (lifestyle/city), and gallery so all dashboard images appear
+  const seen = new Set<string>();
   const images = [
     ...(project.mainImage ? [{ src: project.mainImage, alt: project.mainImageAlt ?? project.title }] : []),
+    ...(project.secondaryImages ?? []),
     ...(project.gallery ?? []),
-  ].map((img) => (typeof img === "string" ? { src: img, alt: project.title } : img));
+  ]
+    .map((img) => (typeof img === "string" ? { src: img, alt: project.title } : img))
+    .filter((img) => {
+      if (seen.has(img.src)) return false;
+      seen.add(img.src);
+      return true;
+    });
 
   const clampIndex = (i: number) => {
     if (images.length === 0) return 0;

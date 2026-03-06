@@ -12,7 +12,7 @@ type StatsGridProps = {
 export function StatsGrid({ stats, className }: StatsGridProps) {
   return (
     <dl
-      className={`grid grid-cols-2 gap-10 text-neutral-900 lg:grid-cols-4 ${
+      className={`grid grid-cols-2 gap-6 gap-y-6 text-neutral-900 sm:gap-8 sm:gap-y-8 lg:grid-cols-4 lg:gap-10 lg:gap-y-10 ${
         className ?? ""
       }`}
     >

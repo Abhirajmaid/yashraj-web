@@ -258,6 +258,26 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
+
+          {/* Office location map */}
+          <div className="mt-10 lg:mt-14">
+            <h3 className="mb-4 text-lg font-semibold text-brand-dark sm:mb-6">
+              Our Location
+            </h3>
+            <div className="overflow-hidden rounded-2xl border border-brand-gray-light/50 shadow-sm">
+              <iframe
+                title="Yashraj Infrastructure office location - 505, Ambience Court, Sector 19D, Vashi, Navi Mumbai"
+                src="https://www.google.com/maps?q=505+AMBIENCE+COURT+SECTOR+19D+VASHI+NAVI+MUMBAI&output=embed"
+                width="100%"
+                height="400"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="block w-full min-h-[280px] sm:min-h-[350px] lg:min-h-[400px]"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
