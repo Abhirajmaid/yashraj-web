@@ -4,45 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { ProjectHighlightCard } from "./ProjectHighlightCard";
 import { ProjectFilters } from "./ProjectFilters";
 import { Pagination } from "./Pagination";
-import { ProjectDetailsInline } from "./ProjectDetailsInline";
 import type { Project } from "@/data/projects";
 import { listenToProjects } from "@/lib/projectsRepository";
 import { ProjectRecord } from "@/types/project";
+import { mapRecordToProject } from "@/lib/projectUtils";
 
 const PROJECTS_PER_PAGE = 3;
-
-const fallbackDescription = "Project narrative coming soon.";
-const fallbackEssential = "Details to be announced.";
-
-function mapRecordToHighlight(record: ProjectRecord): Project {
-  const description =
-    record.overview && record.overview.trim().length > 0
-      ? [record.overview.trim()]
-      : [fallbackDescription];
-
-  const secondaryImages = [
-    record.featureImages.lifestyle
-      ? { src: record.featureImages.lifestyle, alt: `${record.name} lifestyle view` }
-      : null,
-    record.featureImages.city ? { src: record.featureImages.city, alt: `${record.name} skyline view` } : null,
-  ].filter(Boolean) as Project["secondaryImages"];
-
-  const gallery = record.gallery.map((src, index) => ({
-    src,
-    alt: `${record.name} gallery image ${index + 1}`,
-  }));
-
-  return {
-    id: record.id,
-    title: record.name || "Untitled project",
-    description,
-    mainImage: record.featureImages.primary,
-    mainImageAlt: record.featureImages.primary ? `${record.name || "Project"} hero image` : undefined,
-    secondaryImages,
-    essentials: record.essentials.length > 0 ? record.essentials : [fallbackEssential],
-    gallery,
-  };
-}
 
 export function ProjectPageSection() {
   const [allProjects, setAllProjects] = useState<ProjectRecord[]>([]);
@@ -79,21 +46,10 @@ export function ProjectPageSection() {
     const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
     const endIndex = startIndex + PROJECTS_PER_PAGE;
     const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
-    setLiveProjects(paginatedProjects.map(mapRecordToHighlight));
+    setLiveProjects(paginatedProjects.map(mapRecordToProject));
   }, [filteredProjects, currentPage]);
 
   const highlightProjects = useMemo(() => liveProjects, [liveProjects]);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  function handleOpenDetails(project: Project) {
-    setSelectedProject(project);
-    const el = document.getElementById("projects");
-    el?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  function handleBackToProjects() {
-    setSelectedProject(null);
-  }
 
   return (
     <section className="relative bg-white py-12 sm:py-16 overflow-hidden">
@@ -121,38 +77,21 @@ export function ProjectPageSection() {
           </p>
         ) : (
           <>
-            {selectedProject ? (
-              <div className="mb-16">
-                <ProjectDetailsInline
-                  project={selectedProject}
-                  onBack={handleBackToProjects}
-                />
-              </div>
-            ) : null}
-
-            {!selectedProject && (
-              <>
-                <div className="space-y-16 sm:space-y-20 lg:space-y-24">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
                   {highlightProjects.map((project) => (
-                    <ProjectHighlightCard
-                      key={project.id}
-                      project={project}
-                      onOpenDetails={handleOpenDetails}
-                    />
+                    <ProjectHighlightCard key={project.id} project={project} />
                   ))}
                 </div>
 
-                {/* Pagination */}
-                {filteredProjects.length > PROJECTS_PER_PAGE && (
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={setCurrentPage}
-                    totalItems={filteredProjects.length}
-                    itemsPerPage={PROJECTS_PER_PAGE}
-                  />
-                )}
-              </>
+            {/* Pagination */}
+            {filteredProjects.length > PROJECTS_PER_PAGE && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                totalItems={filteredProjects.length}
+                itemsPerPage={PROJECTS_PER_PAGE}
+              />
             )}
           </>
         )}

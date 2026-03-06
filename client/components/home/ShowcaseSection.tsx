@@ -12,9 +12,9 @@ const stats = [
 
 export function ShowcaseSection() {
   return (
-    <section className="relative w-full text-neutral-900">
-      {/* On mobile: container grows with content to prevent overlap; min height so image shows. On md+: fixed min height. */}
-      <div className="relative min-h-[45vh] w-full md:min-h-[70vh]">
+    <section className="relative w-full min-h-screen text-neutral-900">
+      {/* Full viewport height, no y padding */}
+      <div className="relative flex min-h-screen w-full items-center justify-center">
         <Image
           src={resolveImageSrc("/images/about.jpg")}
           alt="Yashraj architectural showcase"
@@ -23,22 +23,22 @@ export function ShowcaseSection() {
           priority
         />
 
-        {/* Content: on mobile relative (in flow) so section height fits content; on md+ absolute centered */}
-        <div className="relative z-20 flex w-full max-w-7xl items-center justify-center px-4 py-8 md:absolute md:left-1/2 md:top-1/2 md:min-h-0 md:-translate-x-1/2 md:-translate-y-1/2 md:py-0 sm:px-6 sm:py-10">
+        {/* Content: full-height flex center, no vertical padding; responsive spacing */}
+        <div className="relative z-20 flex w-full max-w-7xl flex-1 flex-col items-center justify-center px-4 py-6 sm:px-6 sm:py-8 md:py-0">
           <div className="mx-auto w-full max-w-3xl">
-            <p className="mb-2 text-xs font-medium tracking-widest text-white/75 uppercase sm:mb-4 sm:text-sm md:text-center">
+            <p className="mb-2 text-center text-xs font-medium tracking-widest text-white/75 uppercase sm:mb-4 sm:text-sm md:text-center">
               Our Projects
             </p>
-            <h1 className="text-left text-2xl font-extrabold leading-tight text-black sm:text-3xl md:text-center md:text-4xl lg:text-5xl">
+            <h1 className="text-center text-2xl font-extrabold leading-tight text-black sm:text-3xl md:text-4xl lg:text-5xl">
               Building beyond horizons infrastructure that lasts, connects, and
               inspires
             </h1>
-            <p className="mt-2 text-left text-sm text-black/60 sm:mt-4 sm:text-base md:text-center">
+            <p className="mt-2 text-center text-sm text-black/60 sm:mt-4 sm:text-base md:text-center">
               Yashraj Infrastructure, based in Navi Mumbai, delivers innovative,
               large-scale infrastructure projects across Maharashtra, supplying
               complete solutions since 2008.
             </p>
-            <div className="mt-4 flex justify-start sm:mt-6 md:justify-center">
+            <div className="mt-4 flex justify-center sm:mt-6">
               <Button
                 link="/services"
                 type="primary"
@@ -49,9 +49,9 @@ export function ShowcaseSection() {
               </Button>
             </div>
 
-            {/* Stats below the hero — reduced gap on mobile */}
-            <div className="relative z-10 mx-auto mt-6 w-full max-w-7xl px-0 py-4 sm:py-6 lg:px-10 xl:px-14 lg:py-8">
-              <StatsGrid stats={stats} className="gap-y-6 sm:gap-y-8 lg:gap-y-12" />
+            {/* Stats: full width, equal columns, centered */}
+            <div className="relative z-10 mx-auto mt-4 w-full max-w-7xl px-0 sm:mt-6 lg:px-10 xl:px-14">
+              <StatsGrid stats={stats} className="gap-y-4 sm:gap-y-6 lg:gap-y-8" />
             </div>
           </div>
         </div>

@@ -9,10 +9,12 @@ import Link from "next/link";
 
 type Props = {
   project: Project;
-  onBack: () => void;
+  onBack?: () => void;
+  /** When set, "Back to projects" is a link to this href (e.g. "/projects") instead of a button. */
+  backHref?: string;
 };
 
-export function ProjectDetailsInline({ project, onBack }: Props) {
+export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -45,14 +47,25 @@ export function ProjectDetailsInline({ project, onBack }: Props) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white shadow-lg overflow-hidden">
       <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4 bg-gray-50/80">
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-brand-primary transition"
-          aria-label="Back to projects"
-        >
-          <Icon icon="mdi:arrow-left" className="text-lg" />
-          Back to projects
-        </button>
+        {backHref ? (
+          <Link
+            href={backHref}
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-brand-primary transition"
+            aria-label="Back to projects"
+          >
+            <Icon icon="mdi:arrow-left" className="text-lg" />
+            Back to projects
+          </Link>
+        ) : (
+          <button
+            onClick={onBack}
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-brand-primary transition"
+            aria-label="Back to projects"
+          >
+            <Icon icon="mdi:arrow-left" className="text-lg" />
+            Back to projects
+          </button>
+        )}
         <Link
           href="/contact"
           className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:opacity-90"

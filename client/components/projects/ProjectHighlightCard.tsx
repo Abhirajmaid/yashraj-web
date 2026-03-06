@@ -6,15 +6,13 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { Project } from "@/data/projects";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
-import type { MouseEvent } from "react";
 import BlurGradient from "@/components/common/BlurGradient";
 
 type ProjectHighlightCardProps = {
   project: Project;
-  onOpenDetails?: (project: Project) => void;
 };
 
-export function ProjectHighlightCard({ project, onOpenDetails }: ProjectHighlightCardProps) {
+export function ProjectHighlightCard({ project }: ProjectHighlightCardProps) {
   const { openModal } = useEnquiryModal();
 
   return (
@@ -47,16 +45,13 @@ export function ProjectHighlightCard({ project, onOpenDetails }: ProjectHighligh
           </p>
 
           <div className="mt-5 flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={(e: MouseEvent) => {
-                e.preventDefault();
-                if (onOpenDetails) onOpenDetails(project);
-              }}
+            <Link
+              href={`/projects/${project.id}`}
               className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-brand-dark shadow-sm transition hover:shadow-md"
             >
               Learn More
               <Icon icon="solar:arrow-right-bold" />
-            </button>
+            </Link>
             <button
               onClick={openModal}
               className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20"
