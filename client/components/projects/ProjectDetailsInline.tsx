@@ -21,19 +21,28 @@ export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
     setIndex(0);
   }, [project.id]);
 
-  // Include primary, lifestyle/city (secondary), and gallery so all dashboard images appear
-  const seen = new Set<string>();
-  const images = [
-    ...(project.mainImage ? [{ src: project.mainImage, alt: project.mainImageAlt ?? project.title }] : []),
-    ...(project.secondaryImages ?? []),
-    ...(project.gallery ?? []),
-  ]
-    .map((img) => (typeof img === "string" ? { src: img, alt: project.title } : img))
-    .filter((img) => {
-      if (seen.has(img.src)) return false;
-      seen.add(img.src);
-      return true;
-    });
+  // Use allImages from backend (no primary/lifestyle/city distinction). Fallback to legacy list if missing.
+  const images =
+    project.allImages && project.allImages.length > 0
+      ? project.allImages
+      : (() => {
+          const seen = new Set<string>();
+          return [
+            ...(project.mainImage
+              ? [{ src: project.mainImage, alt: project.mainImageAlt ?? project.title }]
+              : []),
+            ...(project.secondaryImages ?? []),
+            ...(project.gallery ?? []),
+          ]
+            .map((img) =>
+              typeof img === "string" ? { src: img, alt: project.title } : img
+            )
+            .filter((img) => {
+              if (seen.has(img.src)) return false;
+              seen.add(img.src);
+              return true;
+            });
+        })();
 
   const clampIndex = (i: number) => {
     if (images.length === 0) return 0;
@@ -44,17 +53,22 @@ export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
 
   const current = images[clampIndex(index)];
 
+  // Same dark bottom gradient as project cards for consistent look
+  const imageGradient =
+    "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 25%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0) 100%)";
+
   return (
     <div className="rounded-2xl border border-gray-200 bg-white shadow-lg overflow-hidden">
-      <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4 bg-gray-50/80">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-4 py-4 sm:px-6 bg-gray-50/80">
         {backHref ? (
           <Link
             href={backHref}
             className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-brand-primary transition"
             aria-label="Back to projects"
           >
-            <Icon icon="mdi:arrow-left" className="text-lg" />
-            Back to projects
+            <Icon icon="mdi:arrow-left" className="text-lg shrink-0" />
+            <span className="hidden sm:inline">Back to projects</span>
+            <span className="sm:hidden">Back</span>
           </Link>
         ) : (
           <button
@@ -76,58 +90,69 @@ export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
       </div>
 
       <div className="flex flex-col lg:flex-row">
-        <div className="lg:w-2/3 w-full p-4 lg:p-6">
+        <div className="lg:w-2/3 w-full p-4 sm:p-6">
           {current ? (
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl">
+            <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden rounded-xl bg-gray-100">
               <Image
                 src={resolveImageSrc(current.src)}
                 alt={current.alt ?? project.title}
                 fill
-                className="object-cover"
+                className="object-contain"
+                sizes="(max-width: 1024px) 100vw, 66vw"
+              />
+              {/* Dark gradient from bottom (like home/project cards) so head & controls show nicely */}
+              <div
+                className="pointer-events-none absolute left-0 right-0 bottom-0 h-[58%] rounded-b-xl"
+                style={{
+                  background: imageGradient,
+                }}
+                aria-hidden
               />
             </div>
           ) : (
-            <div className="flex h-64 items-center justify-center rounded-xl bg-gray-50 text-sm text-gray-500">
+            <div className="flex aspect-[16/10] items-center justify-center rounded-xl bg-gray-50 text-sm text-gray-500">
               No images available
             </div>
           )}
 
-          <div className="mt-3 flex items-center justify-between gap-4">
+          <div className="mt-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIndex((i) => clampIndex(i - 1))}
-                className="rounded-full border border-gray-200 p-2 shadow-sm hover:bg-gray-50"
+                className="rounded-full border border-gray-200 p-2.5 shadow-sm hover:bg-gray-50 transition"
                 aria-label="Previous image"
               >
-                <Icon icon="mdi:chevron-left" />
+                <Icon icon="mdi:chevron-left" className="text-xl" />
               </button>
               <button
                 onClick={() => setIndex((i) => clampIndex(i + 1))}
-                className="rounded-full border border-gray-200 p-2 shadow-sm hover:bg-gray-50"
+                className="rounded-full border border-gray-200 p-2.5 shadow-sm hover:bg-gray-50 transition"
                 aria-label="Next image"
               >
-                <Icon icon="mdi:chevron-right" />
+                <Icon icon="mdi:chevron-right" className="text-xl" />
               </button>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-gray-500 min-w-[4rem]">
                 {clampIndex(index) + 1} / {Math.max(1, images.length)}
               </span>
             </div>
           </div>
         </div>
 
-        <aside className="lg:w-1/3 w-full border-t lg:border-t lg:border-l border-gray-100 p-4 lg:p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">{project.title}</h2>
-          <div className="mb-4 text-sm text-gray-700">
+        <aside className="lg:w-1/3 w-full border-t lg:border-t-0 lg:border-l border-gray-100 p-4 sm:p-6 bg-white">
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4">
+            {project.title}
+          </h1>
+          <div className="mb-4 text-sm text-gray-700 space-y-2">
             {project.description.map((d, idx) => (
-              <p key={idx} className="mb-2">
-                {d}
-              </p>
+              <p key={idx}>{d}</p>
             ))}
           </div>
 
           {project.essentials && project.essentials.length > 0 && (
             <div className="mb-4">
-              <h4 className="mb-2 text-sm font-semibold text-gray-900">Essentials</h4>
+              <h4 className="mb-2 text-sm font-semibold text-gray-900">
+                Essentials
+              </h4>
               <ul className="text-sm text-gray-600 space-y-1">
                 {project.essentials.map((ess, idx) => (
                   <li key={idx}>• {ess}</li>
@@ -138,14 +163,19 @@ export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
 
           {images.length > 0 && (
             <div>
-              <h4 className="mb-2 text-sm font-semibold text-gray-900">Gallery</h4>
-              <div className="grid grid-cols-4 gap-2">
+              <h4 className="mb-2 text-sm font-semibold text-gray-900">
+                All images ({images.length})
+              </h4>
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                 {images.map((img, idx) => (
                   <button
                     key={idx}
+                    type="button"
                     onClick={() => setIndex(idx)}
-                    className={`relative h-20 w-full overflow-hidden rounded-lg border-2 transition ${
-                      clampIndex(index) === idx ? "border-brand-primary ring-1 ring-brand-primary" : "border-gray-200 hover:border-gray-300"
+                    className={`relative aspect-square w-full overflow-hidden rounded-lg border-2 transition ${
+                      clampIndex(index) === idx
+                        ? "border-brand-primary ring-1 ring-brand-primary"
+                        : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
                     <Image
@@ -153,6 +183,7 @@ export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
                       alt={img.alt ?? project.title}
                       fill
                       className="object-cover"
+                      sizes="120px"
                     />
                   </button>
                 ))}

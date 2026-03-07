@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
 
+// Order and labels match desktop nav; Contact is in top navbar on mobile
 const navLinks = [
   { label: "Home", href: "/", icon: "mdi:home" },
+  { label: "Who we are", href: "/about-us", icon: "mdi:information" },
+  { label: "What we Do", href: "/services", icon: "mdi:briefcase" },
   { label: "Projects", href: "/projects", icon: "mdi:folder-multiple" },
-  { label: "Services", href: "/services", icon: "mdi:briefcase" },
-  { label: "About Us", href: "/about-us", icon: "mdi:information" },
-  { label: "Contact", href: "/contact", icon: "mdi:email" },
+  { label: "Products", href: "/aggregates", icon: "mdi:package-variant" },
 ];
 
 export function BottomNavbar() {
@@ -28,8 +29,8 @@ export function BottomNavbar() {
         <div className="absolute inset-0 bg-linear-to-br from-white/20 to-white/6 opacity-90" />
       </div>
 
-      {/* Navigation Items */}
-      <div className="relative z-10 flex items-center justify-around px-2 py-3">
+      {/* Navigation Items - line-wise like desktop (single row, icon above label) */}
+      <div className="relative z-10 flex flex-nowrap items-center justify-around gap-0 px-1 py-3">
         {navLinks.map((link) => {
           const isActive =
             pathname === link.href ||
@@ -39,7 +40,7 @@ export function BottomNavbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-xl transition-all duration-200 ${
+              className={`relative flex min-w-0 flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-xl transition-all duration-200 sm:px-3 ${
                 isActive
                   ? "text-brand-primary scale-110"
                   : "text-brand-dark/60 hover:text-brand-dark"
@@ -48,12 +49,12 @@ export function BottomNavbar() {
             >
               <Icon
                 icon={link.icon}
-                className={`text-2xl transition-all duration-200 ${
+                className={`shrink-0 text-[1.35rem] transition-all duration-200 sm:text-2xl ${
                   isActive ? "scale-110" : ""
                 }`}
               />
               <span
-                className={`text-xs font-medium transition-all duration-200 ${
+                className={`text-[10px] font-medium leading-tight text-center transition-all duration-200 sm:text-xs ${
                   isActive ? "opacity-100" : "opacity-70"
                 }`}
               >

@@ -2,7 +2,6 @@ import Image from "next/image";
 import { resolveImageSrc } from "@/lib/getImageSrc";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import Button from "@/components/common/Button";
-import BlurGradient from "@/components/common/BlurGradient";
 import { getServicesForHomePage } from "@/data/services";
 
 const services = getServicesForHomePage();
@@ -38,25 +37,23 @@ export function ServicesHighlightSection() {
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 
-                {/* Bottom blur + gradient overlay for legibility (stronger at bottom, decreasing to top) */}
-                <BlurGradient
-                  position="bottom"
-                  height="33%"
-                  blur={8}
-                  className=""
+                {/* Darker gradient from bottom for clear text (no glass/blur) */}
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/95 via-black/70 to-transparent"
+                  aria-hidden
                 />
 
-                {/* Content on top, anchored to bottom */}
-                <div className="absolute left-6 right-6 bottom-6 z-10">
+                {/* Content anchored to bottom: centered on mobile, consistent alignment */}
+                <div className="absolute left-4 right-4 bottom-4 z-10 flex flex-col items-center text-center sm:left-6 sm:right-6 sm:bottom-6 sm:items-start sm:text-left">
                   <h3 className="text-xl font-semibold text-white sm:text-2xl md:text-3xl">
                     {service.title}
                   </h3>
-                  <p className="mt-3 mb-4 text-sm sm:text-base text-white/90 line-clamp-2">
+                  <p className="mt-2 mb-3 hidden text-sm text-white/95 line-clamp-2 sm:mt-3 sm:mb-4 sm:block sm:text-base">
                     {service.description}
                   </p>
-                  <div className="flex items-center justify-start">
+                  <div className="mt-4 flex w-full justify-center sm:mt-5 sm:justify-start">
                     <Button
-                      link={service.link}
+                      link="/contact"
                       type="primary"
                       size="md"
                       className="bg-primary text-white rounded-full shadow-md"

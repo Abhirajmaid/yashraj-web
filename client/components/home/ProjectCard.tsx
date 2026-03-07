@@ -28,8 +28,8 @@ export function ProjectCard({
       href={href}
       className="group relative block overflow-hidden rounded-3xl bg-white transition-all duration-300 focus:outline-none focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-brand-secondary"
     >
-      {/* Image Container */}
-      <div className="relative isolate aspect-4/3 w-full overflow-hidden">
+      {/* Image Container - taller aspect for both mobile and desktop */}
+      <div className="relative isolate aspect-[4/4] w-full overflow-hidden">
         {imageSrc && imageSrc.trim() !== "" ? (
           <Image
             src={resolveImageSrc(imageSrc)}
@@ -47,8 +47,11 @@ export function ProjectCard({
           </div>
         )}
 
-        {/* Gradient Overlay - Dark only at bottom */}
-        <div className="absolute inset-0 bg-linear-to-t from-brand-dark/70 via-transparent to-transparent" />
+        {/* Gradient at bottom (replaces glass effect) - dark at bottom, fades up */}
+        <div
+          className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent"
+          aria-hidden
+        />
 
         {/* Top Badge and Icon */}
         <div className="absolute right-5 top-5 flex items-center gap-3 z-10">
@@ -58,14 +61,14 @@ export function ProjectCard({
           </span>
         </div>
 
-        {/* Content Overlay */}
+        {/* Content Overlay: title always; location/details hidden on mobile */}
         <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 px-6 pb-6 text-white">
           <p className="text-xl font-bold leading-tight transition-transform duration-300 group-hover:translate-y-[-2px]">
             {title}
           </p>
-          <div className="flex flex-col gap-1.5 text-sm">
+          <div className="hidden flex-col gap-1.5 text-sm sm:flex">
             <div className="flex items-center gap-2 text-white/90">
-              <Icon icon="solar:map-point-bold" className="text-base" />
+              <Icon icon="solar:map-point-bold" className="text-base shrink-0" />
               <span>{location}</span>
             </div>
           </div>

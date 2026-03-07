@@ -34,10 +34,22 @@ export function AggregatesContent() {
           <div className="mt-12 grid gap-8 md:grid-cols-2">
             <div className="rounded-2xl border border-brand-gray-light/50 bg-white p-6 shadow-sm lg:p-8">
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10">
-                <Icon
-                  icon="solar:road-bold"
-                  className="text-2xl text-brand-primary"
-                />
+                <svg
+                  className="h-7 w-7 shrink-0 text-brand-primary"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M2 12h20" />
+                  <path d="M2 12v6h4v-6" />
+                  <path d="M10 12v6h4v-6" />
+                  <path d="M18 12v6h4v-6" />
+                  <path d="M2 12V8l4-3 6 2 6-2 4 3v4" />
+                </svg>
               </div>
               <h3 className="mb-2 text-xl font-semibold text-brand-dark">
                 Bitumen Mixes
@@ -93,7 +105,9 @@ export function AggregatesContent() {
                   <div key={index} className="flex items-start gap-2">
                     <Icon
                       icon="solar:check-circle-bold"
-                      className="mt-0.5 text-lg text-brand-primary"
+                      className="mt-0.5 h-6 w-6 shrink-0 text-brand-primary sm:h-5 sm:w-5"
+                      width={24}
+                      height={24}
                     />
                     <span className="text-sm text-brand-dark/70">
                       {benefit}
@@ -180,7 +194,9 @@ export function AggregatesContent() {
                           >
                             <Icon
                               icon="solar:check-circle-bold"
-                              className="mt-0.5 text-brand-primary"
+                              className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
+                              width={20}
+                              height={20}
                             />
                             {feature}
                           </li>
@@ -237,7 +253,9 @@ export function AggregatesContent() {
                   <div key={index} className="flex items-start gap-2">
                     <Icon
                       icon="solar:check-circle-bold"
-                      className="mt-0.5 text-lg text-brand-primary"
+                      className="mt-0.5 h-6 w-6 shrink-0 text-brand-primary sm:h-5 sm:w-5"
+                      width={24}
+                      height={24}
                     />
                     <span className="text-sm text-brand-dark/70">
                       {benefit}
@@ -541,7 +559,9 @@ export function AggregatesContent() {
                           >
                             <Icon
                               icon="solar:check-circle-bold"
-                              className="mt-0.5 text-brand-primary"
+                              className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
+                              width={20}
+                              height={20}
                             />
                             {feature}
                           </li>

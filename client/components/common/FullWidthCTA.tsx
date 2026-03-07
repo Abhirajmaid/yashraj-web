@@ -17,10 +17,10 @@ export function FullWidthCTA() {
         </p>
 
         <Button
+          link="/contact"
           type="secondary"
           size="lg"
           className="rounded-full text-sm mt-8 font-semibold shadow-[0_8px_24px_rgba(var(--color-primary-rgb),0.18)]"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           Schedule a Call
         </Button>

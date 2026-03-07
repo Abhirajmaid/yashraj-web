@@ -7,7 +7,7 @@ import { getProjectRecord, updateProjectRecord } from '@/lib/projectsRepository'
 import { ProjectRecord } from '@/types/project';
 import { Card, Field, ImageUploadField, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
 
-const MAX_GALLERY_IMAGES = 4; // 1 primary + 4 gallery = 5 total
+const MAX_GALLERY_IMAGES = 100; // No practical limit; all shown on frontend
 
 const CATEGORY_OPTIONS = [
   { value: '', label: '—' },
@@ -321,7 +321,7 @@ export default function EditProjectPage({ params }: PageProps) {
 
         <Card
           title="Images"
-          description={`Up to 5 images (1 primary + up to ${MAX_GALLERY_IMAGES} gallery). Leave blank to keep existing.`}
+          description="Add more gallery images as needed; all are shown on the project detail page. Leave blank to keep existing."
         >
           <div className="space-y-6">
             <section className="space-y-3">
@@ -350,7 +350,7 @@ export default function EditProjectPage({ params }: PageProps) {
                 </div>
               </div>
               <label className="block space-y-2 text-sm text-gray-700">
-                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Upload gallery (max {MAX_GALLERY_IMAGES})</span>
+                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Upload gallery (no limit)</span>
                 <input
                   type="file"
                   accept="image/*"

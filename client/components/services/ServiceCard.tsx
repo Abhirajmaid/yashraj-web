@@ -84,21 +84,10 @@ export function ServiceCard({
           <p className="text-sm sm:text-base leading-relaxed text-brand-foreground/80">{description}</p>
         </div>
 
-        <div className="flex flex-wrap gap-3 text-xs text-brand-gray">
-          <span className="inline-flex items-center gap-1 rounded-full border border-brand-gray-light/60 bg-white/80 px-3 py-1 uppercase tracking-[0.18em]">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
-            End‑to‑end delivery
-          </span>
-          <span className="inline-flex items-center gap-1 rounded-full border border-brand-gray-light/40 bg-white/70 px-3 py-1 uppercase tracking-[0.18em]">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
-            Quality & safety first
-          </span>
-        </div>
-
         {link && (
           <div className="mt-4">
             <Button
-              link={link}
+              link="/contact"
               type="primary"
               size="md"
               className="w-full sm:w-auto"

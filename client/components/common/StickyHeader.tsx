@@ -60,7 +60,7 @@ export function StickyHeader() {
 
   return (
     <>
-      {/* Mobile Header - Logo Only */}
+      {/* Mobile Header - Logo + Contact (line-wise like desktop) */}
       <header
         className="lg:hidden fixed top-0 left-0 right-0 z-200 bg-transparent"
         style={{ pointerEvents: "auto" }}
@@ -74,14 +74,21 @@ export function StickyHeader() {
           }`}
         />
 
-        {/* Logo Container - Centered */}
-        <div className="relative z-10 px-4 py-3.5 flex items-center justify-center">
+        <div className="relative z-10 px-4 py-3.5 flex items-center justify-between">
           <div className={mobileScrolled ? "" : "drop-shadow-lg"}>
             <Logo
               compact={mobileScrolled}
               variant={mobileScrolled ? "dark" : "light"}
             />
           </div>
+          <Button
+            link="/contact"
+            type={mobileScrolled ? "primary" : "secondary"}
+            size="sm"
+            className="uppercase tracking-[0.12em] shrink-0"
+          >
+            Contact
+          </Button>
         </div>
       </header>
 
