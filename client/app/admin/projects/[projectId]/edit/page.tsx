@@ -7,7 +7,7 @@ import { getProjectRecord, updateProjectRecord } from '@/lib/projectsRepository'
 import { ProjectRecord } from '@/types/project';
 import { Card, Field, ImageUploadField, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
 
-const MAX_GALLERY_IMAGES = 100; // No practical limit; all shown on frontend
+const MAX_GALLERY_IMAGES = 4; // 1 primary + 4 gallery = 5 total
 
 const CATEGORY_OPTIONS = [
   { value: '', label: '—' },
@@ -67,6 +67,13 @@ export default function EditProjectPage({ params }: PageProps) {
   });
   const [galleryUploads, setGalleryUploads] = useState<GallerySlot[]>([]);
 
+  const clearGalleryUploads = () => {
+    setGalleryUploads((current) => {
+      current.forEach((slot) => URL.revokeObjectURL(slot.preview));
+      return [];
+    });
+  };
+
   useEffect(() => {
     const fetchProject = async () => {
       try {
@@ -108,20 +115,32 @@ export default function EditProjectPage({ params }: PageProps) {
   };
 
   const handleGalleryFilesChange = (files: FileList | null) => {
-    galleryUploads.forEach((slot) => URL.revokeObjectURL(slot.preview));
-
     if (!files || files.length === 0) {
-      setGalleryUploads([]);
       return;
     }
 
-    const filesArray = Array.from(files).slice(0, MAX_GALLERY_IMAGES);
-    const next: GallerySlot[] = filesArray.map((file, index) => ({
-      id: `gallery-${index}-${makeLocalId()}`,
-      file,
-      preview: URL.createObjectURL(file),
-    }));
-    setGalleryUploads(next);
+    setGalleryUploads((current) => {
+      const existingGalleryCount = project?.gallery.length ?? 0;
+      const remainingSlots = MAX_GALLERY_IMAGES - existingGalleryCount - current.length;
+      if (remainingSlots <= 0) {
+        setError(`You can keep up to ${MAX_GALLERY_IMAGES} gallery images.`);
+        return current;
+      }
+
+      const filesArray = Array.from(files).slice(0, remainingSlots);
+      if (filesArray.length < files.length) {
+        setError(`Only ${remainingSlots} more image${remainingSlots === 1 ? '' : 's'} can be added.`);
+      } else {
+        setError(null);
+      }
+
+      const nextSlots: GallerySlot[] = filesArray.map((file, index) => ({
+        id: `gallery-${current.length + index}-${makeLocalId()}`,
+        file,
+        preview: URL.createObjectURL(file),
+      }));
+      return [...current, ...nextSlots];
+    });
   };
 
   const handleRemoveFeatureImage = (key: 'primary' | 'lifestyle' | 'city') => {
@@ -191,7 +210,7 @@ export default function EditProjectPage({ params }: PageProps) {
 
       setProject(updated);
       setFeatureImage({ file: null, preview: null });
-      setGalleryUploads([]);
+      clearGalleryUploads();
       setSuccessMessage('Project updated successfully.');
     } catch (saveError) {
       const message = saveError instanceof Error ? saveError.message : 'Failed to update project.';
@@ -321,7 +340,7 @@ export default function EditProjectPage({ params }: PageProps) {
 
         <Card
           title="Images"
-          description="Add more gallery images as needed; all are shown on the project detail page. Leave blank to keep existing."
+          description={`Up to 5 images (1 primary + up to ${MAX_GALLERY_IMAGES} gallery). Leave blank to keep existing.`}
         >
           <div className="space-y-6">
             <section className="space-y-3">
@@ -345,17 +364,20 @@ export default function EditProjectPage({ params }: PageProps) {
                 <div>
                   <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Project gallery</p>
                   <p className="text-sm text-gray-600">
-                    Uploading new files will replace the gallery. Leave empty to keep the current set.
+                    Uploading new files will add to the current gallery (up to {MAX_GALLERY_IMAGES} total).
                   </p>
                 </div>
               </div>
               <label className="block space-y-2 text-sm text-gray-700">
-                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Upload gallery (no limit)</span>
+                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Upload gallery (max {MAX_GALLERY_IMAGES})</span>
                 <input
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(event) => handleGalleryFilesChange(event.target.files)}
+                  onChange={(event) => {
+                    handleGalleryFilesChange(event.target.files);
+                    event.currentTarget.value = '';
+                  }}
                   className="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 file:mr-4 file:rounded-md file:border-0 file:bg-brand-primary file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
                 />
               </label>
@@ -443,7 +465,7 @@ export default function EditProjectPage({ params }: PageProps) {
                 overview: project.overview ?? '',
               });
               handleFeatureImageChange(null);
-              handleGalleryFilesChange(null);
+              clearGalleryUploads();
               setSuccessMessage(null);
               setError(null);
             }}

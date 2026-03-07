@@ -82,8 +82,8 @@ export default function ProjectDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-white">
-      <section className="relative bg-white py-8 sm:py-12 overflow-hidden">
+    <main className="min-h-screen bg-gray-50">
+      <section className="relative overflow-hidden bg-gray-50 py-6 sm:py-10 lg:py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 xl:px-14">
           <ProjectDetailsInline project={project} backHref="/projects" />
         </div>

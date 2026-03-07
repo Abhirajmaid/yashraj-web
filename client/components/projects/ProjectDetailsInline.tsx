@@ -21,28 +21,19 @@ export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
     setIndex(0);
   }, [project.id]);
 
-  // Use allImages from backend (no primary/lifestyle/city distinction). Fallback to legacy list if missing.
-  const images =
-    project.allImages && project.allImages.length > 0
-      ? project.allImages
-      : (() => {
-          const seen = new Set<string>();
-          return [
-            ...(project.mainImage
-              ? [{ src: project.mainImage, alt: project.mainImageAlt ?? project.title }]
-              : []),
-            ...(project.secondaryImages ?? []),
-            ...(project.gallery ?? []),
-          ]
-            .map((img) =>
-              typeof img === "string" ? { src: img, alt: project.title } : img
-            )
-            .filter((img) => {
-              if (seen.has(img.src)) return false;
-              seen.add(img.src);
-              return true;
-            });
-        })();
+  // Include primary, lifestyle/city (secondary), and gallery so all dashboard images appear
+  const seen = new Set<string>();
+  const images = [
+    ...(project.mainImage ? [{ src: project.mainImage, alt: project.mainImageAlt ?? project.title }] : []),
+    ...(project.secondaryImages ?? []),
+    ...(project.gallery ?? []),
+  ]
+    .map((img) => (typeof img === "string" ? { src: img, alt: project.title } : img))
+    .filter((img) => {
+      if (seen.has(img.src)) return false;
+      seen.add(img.src);
+      return true;
+    });
 
   const clampIndex = (i: number) => {
     if (images.length === 0) return 0;
@@ -53,64 +44,56 @@ export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
 
   const current = images[clampIndex(index)];
 
-  // Same dark bottom gradient as project cards for consistent look
-  const imageGradient =
-    "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 25%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0) 100%)";
-
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white shadow-lg overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-4 py-4 sm:px-6 bg-gray-50/80">
+    <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl shadow-black/5">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 bg-gray-50/80 px-4 py-4 sm:px-6">
         {backHref ? (
           <Link
             href={backHref}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-brand-primary transition"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-brand-primary"
             aria-label="Back to projects"
           >
-            <Icon icon="mdi:arrow-left" className="text-lg shrink-0" />
-            <span className="hidden sm:inline">Back to projects</span>
-            <span className="sm:hidden">Back</span>
+            <Icon icon="mdi:arrow-left" className="text-lg" />
+            Back to projects
           </Link>
         ) : (
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-brand-primary transition"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-brand-primary"
             aria-label="Back to projects"
           >
             <Icon icon="mdi:arrow-left" className="text-lg" />
             Back to projects
           </button>
         )}
-        <Link
-          href="/contact"
-          className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:opacity-90"
-        >
-          CONTACT
-          <Icon icon="mdi:arrow-right" className="text-lg" />
-        </Link>
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-primary">
+            {project.category || "Project"}
+          </span>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:opacity-90"
+          >
+            Contact
+            <Icon icon="mdi:arrow-right" className="text-lg" />
+          </Link>
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row">
-        <div className="lg:w-2/3 w-full p-4 sm:p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
+        <section className="border-b border-gray-100 p-4 sm:p-6 lg:border-b-0 lg:border-r">
           {current ? (
-            <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden rounded-xl bg-gray-100">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gray-100 sm:aspect-[16/10]">
               <Image
                 src={resolveImageSrc(current.src)}
                 alt={current.alt ?? project.title}
                 fill
-                className="object-contain"
-                sizes="(max-width: 1024px) 100vw, 66vw"
-              />
-              {/* Dark gradient from bottom (like home/project cards) so head & controls show nicely */}
-              <div
-                className="pointer-events-none absolute left-0 right-0 bottom-0 h-[58%] rounded-b-xl"
-                style={{
-                  background: imageGradient,
-                }}
-                aria-hidden
+                className="object-cover"
+                sizes="(min-width: 1024px) 66vw, 100vw"
               />
             </div>
           ) : (
-            <div className="flex aspect-[16/10] items-center justify-center rounded-xl bg-gray-50 text-sm text-gray-500">
+            <div className="flex h-72 items-center justify-center rounded-2xl bg-gray-50 text-sm text-gray-500">
               No images available
             </div>
           )}
@@ -119,60 +102,32 @@ export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIndex((i) => clampIndex(i - 1))}
-                className="rounded-full border border-gray-200 p-2.5 shadow-sm hover:bg-gray-50 transition"
+                className="rounded-full border border-gray-200 p-2 shadow-sm transition hover:bg-gray-50"
                 aria-label="Previous image"
               >
-                <Icon icon="mdi:chevron-left" className="text-xl" />
+                <Icon icon="mdi:chevron-left" />
               </button>
               <button
                 onClick={() => setIndex((i) => clampIndex(i + 1))}
-                className="rounded-full border border-gray-200 p-2.5 shadow-sm hover:bg-gray-50 transition"
+                className="rounded-full border border-gray-200 p-2 shadow-sm transition hover:bg-gray-50"
                 aria-label="Next image"
               >
-                <Icon icon="mdi:chevron-right" className="text-xl" />
+                <Icon icon="mdi:chevron-right" />
               </button>
-              <span className="text-sm text-gray-500 min-w-[4rem]">
+              <span className="text-sm font-medium text-gray-500">
                 {clampIndex(index) + 1} / {Math.max(1, images.length)}
               </span>
             </div>
           </div>
-        </div>
-
-        <aside className="lg:w-1/3 w-full border-t lg:border-t-0 lg:border-l border-gray-100 p-4 sm:p-6 bg-white">
-          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4">
-            {project.title}
-          </h1>
-          <div className="mb-4 text-sm text-gray-700 space-y-2">
-            {project.description.map((d, idx) => (
-              <p key={idx}>{d}</p>
-            ))}
-          </div>
-
-          {project.essentials && project.essentials.length > 0 && (
-            <div className="mb-4">
-              <h4 className="mb-2 text-sm font-semibold text-gray-900">
-                Essentials
-              </h4>
-              <ul className="text-sm text-gray-600 space-y-1">
-                {project.essentials.map((ess, idx) => (
-                  <li key={idx}>• {ess}</li>
-                ))}
-              </ul>
-            </div>
-          )}
 
           {images.length > 0 && (
-            <div>
-              <h4 className="mb-2 text-sm font-semibold text-gray-900">
-                All images ({images.length})
-              </h4>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            <div className="mt-4">
+              <div className="flex gap-2 overflow-x-auto pb-1 lg:grid lg:grid-cols-4">
                 {images.map((img, idx) => (
                   <button
                     key={idx}
-                    type="button"
                     onClick={() => setIndex(idx)}
-                    className={`relative aspect-square w-full overflow-hidden rounded-lg border-2 transition ${
+                    className={`relative h-20 min-w-20 overflow-hidden rounded-xl border-2 transition sm:h-24 sm:min-w-24 lg:min-w-0 ${
                       clampIndex(index) === idx
                         ? "border-brand-primary ring-1 ring-brand-primary"
                         : "border-gray-200 hover:border-gray-300"
@@ -183,11 +138,47 @@ export function ProjectDetailsInline({ project, onBack, backHref }: Props) {
                       alt={img.alt ?? project.title}
                       fill
                       className="object-cover"
-                      sizes="120px"
                     />
                   </button>
                 ))}
               </div>
+            </div>
+          )}
+        </section>
+
+        <aside className="p-4 sm:p-6">
+          <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
+            {project.title}
+          </h1>
+          {project.location ? (
+            <p className="mt-2 inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+              <Icon icon="solar:map-point-bold" className="text-sm" />
+              {project.location}
+            </p>
+          ) : null}
+
+          <div className="mt-5 space-y-3 text-sm leading-relaxed text-gray-700 sm:text-base">
+            {project.description.map((d, idx) => (
+              <p key={idx}>{d}</p>
+            ))}
+          </div>
+
+          {project.essentials && project.essentials.length > 0 && (
+            <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-4 sm:p-5">
+              <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-900">
+                Key Highlights
+              </h4>
+              <ul className="space-y-2 text-sm text-gray-700">
+                {project.essentials.map((ess, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <Icon
+                      icon="mdi:check-circle-outline"
+                      className="mt-0.5 shrink-0 text-brand-primary"
+                    />
+                    <span>{ess}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </aside>

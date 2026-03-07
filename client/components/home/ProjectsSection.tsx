@@ -108,10 +108,11 @@ export function ProjectsSection() {
                       style={{ maxWidth: "700px" }}
                     >
                       <ProjectCard
-                        href={`/projects`}
+                        href={`/projects/${project.id}`}
                         imageSrc={imageSrc}
                         imageAlt={project.name || "Project"}
                         title={`"${project.name || "Untitled Project"}"`}
+                        category={project.category}
                         completion={
                           project.createdAt
                             ? new Date(project.createdAt).toLocaleDateString(
@@ -124,7 +125,7 @@ export function ProjectsSection() {
                           project.overview
                             ? project.overview.substring(0, 50) +
                               (project.overview.length > 50 ? "..." : "")
-                            : "Location not specified"
+                            : "Details coming soon"
                         }
                       />
                     </div>

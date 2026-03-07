@@ -26,6 +26,7 @@ import {
 import { uploadImageToCloudinary } from '@/lib/cloudinary';
 
 export const PROJECTS_COLLECTION = 'projects';
+const MAX_GALLERY_IMAGES = 4;
 
 const projectsCollection = collection(db, PROJECTS_COLLECTION);
 
@@ -263,10 +264,10 @@ export async function updateProjectRecord(
   let galleryImages = payload.currentGallery ?? [];
   if (payload.galleryFiles?.length) {
     try {
-      console.log('[updateProjectRecord] Uploading replacement gallery images...', {
+      console.log('[updateProjectRecord] Uploading new gallery images...', {
         count: payload.galleryFiles.length,
       });
-      galleryImages = await Promise.all(
+      const uploadedImages = await Promise.all(
         payload.galleryFiles.map(async (file, index) => {
           const uploadResult = await uploadImageToCloudinary(file, {
             folder: `projects/${projectId}/gallery`,
@@ -275,6 +276,11 @@ export async function updateProjectRecord(
           return uploadResult.secureUrl;
         })
       );
+      const combinedGallery = [...galleryImages, ...uploadedImages];
+      if (combinedGallery.length > MAX_GALLERY_IMAGES) {
+        throw new Error(`A project can have at most ${MAX_GALLERY_IMAGES} gallery images.`);
+      }
+      galleryImages = combinedGallery;
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error';
       throw new Error(`Failed to update gallery images: ${message}`);
