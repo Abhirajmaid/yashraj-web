@@ -43,10 +43,7 @@ export default function AdminProjectsPage() {
     });
   }, [projects, searchTerm]);
 
-  const getThumb = (row: ProjectRecord) => {
-    const url = row.featureImages?.primary ?? row.gallery?.[0] ?? null;
-    return url || null;
-  };
+  const getThumb = (row: ProjectRecord) => row.images?.[0] ?? null;
 
   return (
     <div className="space-y-6">
@@ -133,7 +130,7 @@ export default function AdminProjectsPage() {
               ) : (
                 filteredRows.map((row) => {
                   const thumb = getThumb(row);
-                  const imgCount = (row.gallery?.length ?? 0) + (row.featureImages ? 3 : 0);
+                  const imgCount = row.images?.length ?? 0;
                   return (
                     <tr
                       key={row.id}

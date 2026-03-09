@@ -10,18 +10,11 @@ export function mapRecordToProject(record: ProjectRecord): Project {
       ? [record.overview.trim()]
       : [fallbackDescription];
 
-  const secondaryImages = [
-    record.featureImages.lifestyle
-      ? { src: record.featureImages.lifestyle, alt: `${record.name} lifestyle view` }
-      : null,
-    record.featureImages.city
-      ? { src: record.featureImages.city, alt: `${record.name} skyline view` }
-      : null,
-  ].filter(Boolean) as Project["secondaryImages"];
+  const [primaryImage, ...restImages] = record.images ?? [];
 
-  const gallery = record.gallery.map((src, index) => ({
+  const gallery = restImages.map((src, index) => ({
     src,
-    alt: `${record.name} gallery image ${index + 1}`,
+    alt: `${record.name} image ${index + 2}`,
   }));
 
   return {
@@ -30,11 +23,9 @@ export function mapRecordToProject(record: ProjectRecord): Project {
     category: record.category?.trim() || "Project",
     location: record.location?.trim() || undefined,
     description,
-    mainImage: record.featureImages.primary,
-    mainImageAlt: record.featureImages.primary
-      ? `${record.name || "Project"} hero image`
-      : undefined,
-    secondaryImages,
+    mainImage: primaryImage || undefined,
+    mainImageAlt: primaryImage ? `${record.name || "Project"} hero image` : undefined,
+    secondaryImages: [],
     essentials:
       record.essentials.length > 0 ? record.essentials : [fallbackEssential],
     gallery,

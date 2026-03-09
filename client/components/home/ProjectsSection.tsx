@@ -91,12 +91,7 @@ export function ProjectsSection() {
               }}
             >
               {[...topProjects, ...topProjects].map((project, i) => {
-                const imageSrc =
-                  project.featureImages?.primary?.trim() ||
-                  project.gallery?.[0]?.trim() ||
-                  project.featureImages?.lifestyle?.trim() ||
-                  project.featureImages?.city?.trim() ||
-                  "";
+                const imageSrc = project.images?.[0]?.trim() || "";
                 return (
                   <div
                     key={`${project.id}-${i}`}

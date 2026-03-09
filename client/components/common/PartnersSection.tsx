@@ -66,7 +66,7 @@ export function PartnersSection() {
                 key={`${partner.id}-left-${index}`}
                 className="flex shrink-0 flex-col items-center gap-3"
               >
-                <div className="group flex h-32 w-32 items-center justify-center rounded-2xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:border-brand-primary/30 hover:shadow-md">
+                <div className="group flex h-32 w-32 items-center justify-center rounded-2xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:border-brand-primary/30 hover:shadow-md">
                   <Image
                     src={partner.src}
                     alt={partner.alt}
