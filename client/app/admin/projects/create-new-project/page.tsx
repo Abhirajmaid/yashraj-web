@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { createProjectRecord } from '@/lib/projectsRepository';
 import { ProjectRecord } from '@/types/project';
-import { Card, Field, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
+import { Card, Field, SelectField, TextAreaField, StringListField } from '@/components/admin/ProjectFormFields';
 
 const MAX_IMAGES = 10;
 
@@ -25,6 +25,7 @@ type ProjectForm = {
   location: string;
   category: string;
   overview: string;
+  essentials: string[];
 };
 
 type ImageEntry = {
@@ -33,7 +34,7 @@ type ImageEntry = {
   preview: string;
 };
 
-const emptyForm: ProjectForm = { name: '', location: '', category: '', overview: '' };
+const emptyForm: ProjectForm = { name: '', location: '', category: '', overview: '', essentials: [] };
 
 const makeId = () =>
   typeof crypto !== 'undefined' && 'randomUUID' in crypto
@@ -122,7 +123,7 @@ export default function CreateNewProjectPage() {
         createProjectRecord({
           name: form.name.trim(),
           overview: form.overview.trim(),
-          essentials: [],
+          essentials: form.essentials.filter((s) => s.trim() !== ''),
           imageFiles: images.map((e) => e.file),
           category: form.category || undefined,
           location: form.location.trim() || undefined,
@@ -220,6 +221,14 @@ export default function CreateNewProjectPage() {
             onChange={(v) => setForm((f) => ({ ...f, overview: v }))}
             placeholder="Short description that appears on cards and the project overview."
             rows={3}
+          />
+          <StringListField
+            label="Key Highlights"
+            value={form.essentials}
+            onChange={(v) => setForm((f) => ({ ...f, essentials: v }))}
+            placeholder="e.g. Completed ahead of schedule"
+            addLabel="Add highlight"
+            emptyMessage="No key highlights yet. Add bullet points shown on the project details page."
           />
         </Card>
 

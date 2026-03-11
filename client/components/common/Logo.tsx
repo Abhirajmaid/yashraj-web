@@ -3,34 +3,52 @@ import Image from "next/image";
 
 type LogoProps = {
   variant?: "light" | "dark";
-  compact?: boolean; // reduce height for mobile when scrolled
+  compact?: boolean; // icon-only for navbar on scroll and mobile nav
 };
 
-export function Logo({ variant = "light", compact = false }: LogoProps) {
-  const textClass =
-    variant === "light"
-      ? "text-white transition group-hover:text-white"
-      : "text-black transition group-hover:text-primary";
+const HORIZONTAL_LOGO_LIGHT = "/Horizontal Logo 1.png"; // dark bg / overlay
+const HORIZONTAL_LOGO_DARK = "/Horizontal Logo 4.png"; // light bg when scrolled
+const LOGO_ICON = "/icon 1.png";
 
-  // compact: smaller height on mobile; keep md size for desktop
-  const containerClass = `relative transition-all duration-300 ${compact ? "h-12 md:h-15 w-8" : "h-20 md:h-15 w-10"}`;
+export function Logo({ variant = "light", compact = false }: LogoProps) {
+  // Compact: show icon only (navbar on scroll + mobile header)
+  if (compact) {
+    return (
+      <Link
+        href="/"
+        className="group flex items-center"
+        aria-label="Yashraj Groups - Home"
+      >
+        <div className="relative h-12 w-12 shrink-0 md:h-14 md:w-14">
+          <Image
+            src={LOGO_ICON}
+            alt="Yashraj Groups"
+            fill
+            className="object-contain"
+            priority
+            sizes="40px"
+          />
+        </div>
+      </Link>
+    );
+  }
+
+  // Full horizontal logo: light variant on dark/overlay, dark variant on light background
+  const logoSrc =
+    variant === "light" ? HORIZONTAL_LOGO_LIGHT : HORIZONTAL_LOGO_DARK;
 
   return (
     <Link href="/" className="group flex items-center">
-      <div className={containerClass}>
+      <div className="relative h-12 w-40 md:h-20 md:w-62">
         <Image
-          src="/logo_main.png"
-          alt="Yashraj Infrastructure"
+          src={logoSrc}
+          alt="Yashraj Groups"
           fill
-          className="object-cover"
+          className="object-contain object-left"
           priority
+          sizes="(max-width: 768px) 160px, 192px"
         />
       </div>
-      <span
-        className={`hidden md:inline-block text-lg font-semibold tracking-wide ${textClass}`}
-      >
-        Yashraj Infrastructure
-      </span>
     </Link>
   );
 }

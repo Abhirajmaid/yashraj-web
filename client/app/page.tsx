@@ -7,7 +7,7 @@ import { PartnersSection } from "@/components/common/PartnersSection";
 import { ProjectsSection } from "@/components/home/ProjectsSection";
 import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { ServicesHighlightSection } from "@/components/home/ServicesHighlightSection";
-import { TestimonialsSection } from "@/components/home/TestimonialsSection";
+// import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { ShowcaseSection } from "@/components/home/ShowcaseSection";
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function Home() {
       <PartnersSection />
       {/* <ClientCaseStudiesSection /> */}
       <ProjectsSection />
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
       {/* <FeatureBlogsSection /> */}
       <FullWidthCTA />
       <Footer />

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { use, type FormEvent, useEffect, useState } from 'react';
 import { getProjectRecord, updateProjectRecord } from '@/lib/projectsRepository';
 import { ProjectRecord } from '@/types/project';
-import { Card, Field, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
+import { Card, Field, SelectField, TextAreaField, StringListField } from '@/components/admin/ProjectFormFields';
 
 const MAX_IMAGES = 10;
 
@@ -29,6 +29,7 @@ type ProjectForm = {
   location: string;
   category: string;
   overview: string;
+  essentials: string[];
 };
 
 /** An image that already exists in the saved project (URL). */
@@ -37,7 +38,7 @@ type ExistingImage = { kind: 'existing'; id: string; url: string };
 type NewImage = { kind: 'new'; id: string; file: File; preview: string };
 type ImageEntry = ExistingImage | NewImage;
 
-const emptyForm: ProjectForm = { name: '', location: '', category: '', overview: '' };
+const emptyForm: ProjectForm = { name: '', location: '', category: '', overview: '', essentials: [] };
 
 const makeId = () =>
   typeof crypto !== 'undefined' && 'randomUUID' in crypto
@@ -70,6 +71,7 @@ export default function EditProjectPage({ params }: PageProps) {
           location: record.location ?? '',
           category: record.category ?? '',
           overview: record.overview ?? '',
+          essentials: record.essentials ?? [],
         });
         setImages(
           record.images.map((url) => ({ kind: 'existing', id: makeId(), url }))
@@ -160,7 +162,7 @@ export default function EditProjectPage({ params }: PageProps) {
       const updated = await updateProjectRecord(project.id, {
         name: form.name.trim(),
         overview: form.overview.trim(),
-        essentials: [],
+        essentials: form.essentials.filter((s) => s.trim() !== ''),
         currentImages,
         newImageFiles: newImageFiles.length ? newImageFiles : undefined,
         category: form.category || undefined,
@@ -281,6 +283,14 @@ export default function EditProjectPage({ params }: PageProps) {
             rows={3}
             placeholder="Short description that appears on listing cards and project page."
           />
+          <StringListField
+            label="Key Highlights"
+            value={form.essentials}
+            onChange={(v) => setForm((f) => ({ ...f, essentials: v }))}
+            placeholder="e.g. Completed ahead of schedule"
+            addLabel="Add highlight"
+            emptyMessage="No key highlights yet. Add bullet points shown on the project details page."
+          />
         </Card>
 
         <Card
@@ -366,6 +376,7 @@ export default function EditProjectPage({ params }: PageProps) {
                 location: project.location ?? '',
                 category: project.category ?? '',
                 overview: project.overview ?? '',
+                essentials: project.essentials ?? [],
               });
               handleResetImages();
               setSuccessMessage(null);
