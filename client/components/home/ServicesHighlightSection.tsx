@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { resolveImageSrc } from "@/lib/getImageSrc";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import Button from "@/components/common/Button";
 import { getServicesForHomePage } from "@/data/services";
@@ -31,9 +30,10 @@ export function ServicesHighlightSection() {
               {/* Card as image background */}
               <div className="relative h-80 sm:h-96 md:h-[620px] w-full">
                 <Image
-                  src={resolveImageSrc(service.image)}
+                  src={service.image}
                   alt={service.imageAlt || service.title || "Service image"}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 

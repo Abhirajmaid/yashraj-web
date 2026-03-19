@@ -17,6 +17,8 @@ type CommonHeroSectionProps = {
   id?: string;
   backgroundImage: string;
   backgroundImageAlt: string;
+  /** When true, use backgroundImage as-is (e.g. /images/...) instead of resolving to yashraj_project_images. Use for images in public/images. */
+  useDirectImagePath?: boolean;
   title: string;
   description: string;
   buttons?: HeroButton[];
@@ -39,6 +41,7 @@ export function CommonHeroSection({
   id,
   backgroundImage,
   backgroundImageAlt,
+  useDirectImagePath = false,
   title,
   description,
   buttons = [],
@@ -51,6 +54,7 @@ export function CommonHeroSection({
   contentAlign = "center",
   flipHorizontal = false,
 }: CommonHeroSectionProps) {
+  const imageSrc = useDirectImagePath ? backgroundImage : resolveImageSrc(backgroundImage);
   const objectPositionClass =
     objectPosition === "top"
       ? "object-top"
@@ -68,7 +72,7 @@ export function CommonHeroSection({
       {/* Background Image */}
       <div className="absolute inset-0 h-full w-full z-0">
         <Image
-          src={resolveImageSrc(backgroundImage)}
+          src={imageSrc}
           alt={backgroundImageAlt}
           fill
           priority

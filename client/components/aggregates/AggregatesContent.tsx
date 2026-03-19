@@ -156,27 +156,30 @@ export function AggregatesContent() {
             <div className="grid gap-4">
               <div className="relative h-64 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="/images/sam3.jpg"
-                  alt="Hot mix plant"
+                  src="/images/biut1.webp"
+                  alt="Bitumen and road construction"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/sam5.jpg"
+                    src="/images/biut2.avif"
                     alt="Road construction"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/sam7.jpg"
+                    src="/images/biut3.jpg"
                     alt="Bitumen application"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
               </div>
@@ -304,27 +307,30 @@ export function AggregatesContent() {
             <div className="grid gap-4">
               <div className="relative h-64 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="/images/sam1.jpg"
-                  alt="RMC batching plant"
+                  src="/images/rmc1.webp"
+                  alt="RMC batching and delivery"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/sam4.png"
+                    src="/images/rmc2.jpg"
                     alt="RMC transit mixer"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/sam2.jpg"
-                    alt="RMC quality control"
+                    src="/images/rmc3.jpg"
+                    alt="RMC quality and delivery"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
               </div>
@@ -441,10 +447,11 @@ export function AggregatesContent() {
                 <div className="space-y-4">
                   <div className="relative h-64 w-full overflow-hidden rounded-xl">
                     <Image
-                      src="/images/sam7.jpg"
+                      src="/images/plant.jpg"
                       alt={`${plant.name} facility`}
                       fill
                       className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   </div>
                   <div className="rounded-lg border border-brand-gray-light/50 bg-brand-light/20 p-4">
