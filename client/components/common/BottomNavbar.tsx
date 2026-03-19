@@ -10,7 +10,7 @@ const navLinks = [
   { label: "Who we are", href: "/about-us", icon: "mdi:information" },
   { label: "What we Do", href: "/services", icon: "mdi:briefcase" },
   { label: "Projects", href: "/projects", icon: "mdi:folder-multiple" },
-  { label: "Products", href: "/aggregates", icon: "mdi:package-variant" },
+  { label: "Products", href: "/products", icon: "mdi:package-variant" },
 ];
 
 export function BottomNavbar() {

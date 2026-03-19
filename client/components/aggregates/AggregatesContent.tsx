@@ -55,9 +55,10 @@ export function AggregatesContent() {
                 Bitumen Mixes
               </h3>
               <p className="text-sm leading-relaxed text-brand-dark/70">
-                Quality-assured bitumen mixes for road construction,
-                resurfacing, and maintenance. Supplied to government and private
-                projects across Maharashtra.
+                From highways to local roads—our bitumen mixes deliver durable,
+                weather-resistant pavements for construction, resurfacing, and
+                maintenance. Trusted by government and private clients across
+                Maharashtra for quality and compliance.
               </p>
             </div>
             <div className="rounded-2xl border border-brand-gray-light/50 bg-white p-6 shadow-sm lg:p-8">
@@ -71,11 +72,47 @@ export function AggregatesContent() {
                 Ready-Mix Concrete (RMC)
               </h3>
               <p className="text-sm leading-relaxed text-brand-dark/70">
-                Quality-assured ready mix concrete from our plants. Precise mix
-                designs, consistent strength, and on-time delivery for
-                infrastructure and building projects.
+                Batched to your exact specifications—right mix design, guaranteed
+                strength, and reliable delivery. Built for foundations, structures,
+                and infrastructure where consistency and on-time supply matter.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Forte */}
+      <section className="relative bg-gradient-to-br from-white via-brand-light/5 to-transparent py-16 sm:py-20">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
+          <SectionHeader
+            eyebrow="OUR FORTE"
+            title="Road Infrastructure Expertise"
+            align="center"
+            eyebrowClassName="text-brand-primary"
+          />
+          <div className="mx-auto mt-12 max-w-3xl space-y-6">
+            <p className="text-base leading-relaxed text-brand-dark/80">
+              Yashraj Infrastructure specializes in the execution of road
+              infrastructure projects with strong expertise in asphalt road
+              construction, pavement rehabilitation, and concretisation of roads
+              (RCC pavement).
+            </p>
+            <p className="text-base leading-relaxed text-brand-dark/80">
+              Our teams undertake a wide range of roadway works including asphalt
+              pavements, rigid pavement construction, carriageway strengthening,
+              and urban road improvement projects, supported by experienced site
+              supervision and machinery-backed execution capability.
+            </p>
+            <p className="text-base leading-relaxed text-brand-dark/80">
+              Each project is executed with strong engineering supervision,
+              quality-controlled materials, and adherence to established roadway
+              construction standards to ensure durability and performance.
+            </p>
+            <p className="text-base leading-relaxed text-brand-dark/80">
+              Our forte lies in executing technically sound roadway
+              infrastructure with precision, reliability, and engineering
+              discipline.
+            </p>
           </div>
         </div>
       </section>
@@ -119,7 +156,7 @@ export function AggregatesContent() {
             <div className="grid gap-4">
               <div className="relative h-64 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="/images/types-bitumen-mixes-pavements-629x420.jpg"
+                  src="/images/sam3.jpg"
                   alt="Hot mix plant"
                   fill
                   className="object-cover"
@@ -128,7 +165,7 @@ export function AggregatesContent() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/road-construction-services.jpg"
+                    src="/images/sam5.jpg"
                     alt="Road construction"
                     fill
                     className="object-cover"
@@ -136,7 +173,7 @@ export function AggregatesContent() {
                 </div>
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/bitumen-concrete-road-construction-service-500x500.jpg"
+                    src="/images/sam7.jpg"
                     alt="Bitumen application"
                     fill
                     className="object-cover"
@@ -267,7 +304,7 @@ export function AggregatesContent() {
             <div className="grid gap-4">
               <div className="relative h-64 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="/images/ready-mix-concrete-500x500.jpg"
+                  src="/images/sam1.jpg"
                   alt="RMC batching plant"
                   fill
                   className="object-cover"
@@ -276,7 +313,7 @@ export function AggregatesContent() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/Featured-image-12.jpg"
+                    src="/images/sam4.png"
                     alt="RMC transit mixer"
                     fill
                     className="object-cover"
@@ -284,7 +321,7 @@ export function AggregatesContent() {
                 </div>
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/iStock-1330089238.png"
+                    src="/images/sam2.jpg"
                     alt="RMC quality control"
                     fill
                     className="object-cover"
@@ -404,7 +441,7 @@ export function AggregatesContent() {
                 <div className="space-y-4">
                   <div className="relative h-64 w-full overflow-hidden rounded-xl">
                     <Image
-                      src="/images/ready-mix-concrete-500x500.jpg"
+                      src="/images/sam7.jpg"
                       alt={`${plant.name} facility`}
                       fill
                       className="object-cover"

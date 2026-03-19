@@ -10,7 +10,7 @@ const footerColumns = [
       { label: "Who we are", href: "/about-us" },
       { label: "What we Do", href: "/services" },
       { label: "Projects", href: "/projects" },
-      { label: "Products", href: "/aggregates" },
+      { label: "Products", href: "/products" },
     ],
   },
   {
