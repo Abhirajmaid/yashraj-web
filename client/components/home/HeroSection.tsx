@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useMemo } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import Button from "@/components/common/Button";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
@@ -90,14 +91,30 @@ export function HeroSection() {
       aria-label="Hero"
       data-hero-root
     >
-      {/* Video background */}
+      {/* Mobile: static image background */}
       <div
-        className="absolute inset-0 w-full h-full pointer-events-none"
+        className="absolute inset-0 w-full h-full pointer-events-none md:hidden bg-black"
+        style={{ willChange: "transform" }}
+        aria-hidden
+      >
+        <Image
+          src="/iPhone 16 & 17 Pro - 1.png"
+          alt=""
+          fill
+          className="object-cover object-center"
+          priority
+          sizes="100vw"
+        />
+      </div>
+
+      {/* Desktop: video background */}
+      <div
+        className="absolute inset-0 w-full h-full pointer-events-none hidden md:block"
         style={{ willChange: "transform" }}
       >
         <video
           ref={videoRef}
-          src="/upscaled-video.mp4"
+          src="/Untitled design (1).mp4"
           autoPlay
           muted
           loop

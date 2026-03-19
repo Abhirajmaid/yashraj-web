@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { listenToProjects } from '@/lib/projectsRepository';
@@ -43,10 +44,7 @@ export default function AdminProjectsPage() {
     });
   }, [projects, searchTerm]);
 
-  const getThumb = (row: ProjectRecord) => {
-    const url = row.featureImages?.primary ?? row.gallery?.[0] ?? null;
-    return url || null;
-  };
+  const getThumb = (row: ProjectRecord) => row.images?.[0] ?? null;
 
   return (
     <div className="space-y-6">
@@ -133,7 +131,7 @@ export default function AdminProjectsPage() {
               ) : (
                 filteredRows.map((row) => {
                   const thumb = getThumb(row);
-                  const imgCount = (row.gallery?.length ?? 0) + (row.featureImages ? 3 : 0);
+                  const imgCount = row.images?.length ?? 0;
                   return (
                     <tr
                       key={row.id}
@@ -142,10 +140,12 @@ export default function AdminProjectsPage() {
                       <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
                         <div className="relative h-16 w-16 overflow-hidden rounded-lg bg-gray-100">
                           {thumb ? (
-                            <img
+                            <Image
                               src={thumb}
                               alt={row.name}
-                              className="h-full w-full object-cover"
+                              fill
+                              className="object-cover"
+                              sizes="64px"
                             />
                           ) : (
                             <div className="flex h-full w-full items-center justify-center text-xs text-gray-400">

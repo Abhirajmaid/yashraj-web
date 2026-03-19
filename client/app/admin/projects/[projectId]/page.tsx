@@ -81,15 +81,15 @@ export default function ProjectDetailPage({ params }: PageProps) {
 
       <section className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md">
         <div className="relative h-72 w-full bg-gray-100">
-          {project.featureImages.primary ? (
+          {project.images?.[0] ? (
             <img
-              src={project.featureImages.primary}
+              src={project.images[0]}
               alt={project.name}
               className="h-full w-full object-cover object-center"
             />
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-gray-400">
-              Primary hero image not uploaded yet.
+              No hero image yet.
             </div>
           )}
           <span
@@ -192,16 +192,21 @@ export default function ProjectDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {project.gallery?.length > 0 ? (
+      {project.images && project.images.length > 1 ? (
         <section className="space-y-4">
-          <h2 className="text-lg font-semibold text-gray-900">Gallery</h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            {project.gallery.map((imageUrl) => (
+          <h2 className="text-lg font-semibold text-gray-900">All Images ({project.images.length})</h2>
+          <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {project.images.map((imageUrl, idx) => (
               <div
                 key={imageUrl}
-                className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow"
+                className={`overflow-hidden rounded-lg border bg-white shadow ${idx === 0 ? 'border-brand-primary' : 'border-gray-200'}`}
               >
-                <img src={imageUrl} alt="" className="h-40 w-full object-cover" />
+                <img src={imageUrl} alt={`Image ${idx + 1}`} className="h-40 w-full object-cover" />
+                {idx === 0 ? (
+                  <p className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-brand-primary">
+                    Primary
+                  </p>
+                ) : null}
               </div>
             ))}
           </div>

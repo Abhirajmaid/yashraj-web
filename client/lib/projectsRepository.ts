@@ -26,7 +26,6 @@ import {
 import { uploadImageToCloudinary } from '@/lib/cloudinary';
 
 export const PROJECTS_COLLECTION = 'projects';
-const MAX_GALLERY_IMAGES = 4;
 
 const projectsCollection = collection(db, PROJECTS_COLLECTION);
 
@@ -34,6 +33,8 @@ type FirestoreProjectData = {
   name?: string;
   overview?: string;
   essentials?: string[];
+  images?: string[];
+  // Legacy fields – kept for reading old documents
   featureImages?: Partial<FeatureImageMap>;
   gallery?: string[];
   status?: ProjectStatus;
@@ -74,102 +75,41 @@ function randomId() {
 
 export async function createProjectRecord(payload: CreateProjectPayload): Promise<ProjectRecord> {
   console.log('[createProjectRecord] Starting project creation...', { projectName: payload.name });
-  
+
   try {
     const projectSlug = slugify(payload.name || randomId());
-    console.log('[createProjectRecord] Generated project slug:', projectSlug);
 
-    const featureFiles = payload.featureFiles ?? {};
-    let featureUploads: Array<[keyof FeatureImageMap, string]> = [];
-    if (Object.keys(featureFiles).length) {
-      try {
-        console.log('[createProjectRecord] Uploading feature images...', { count: Object.keys(featureFiles).length });
-        featureUploads = await Promise.all(
-          (Object.entries(featureFiles) as [keyof FeatureImageMap, File | undefined][])
-            .filter((entry): entry is [keyof FeatureImageMap, File] => Boolean(entry[1]))
-            .map(async ([key, file]) => {
-              console.log(`[createProjectRecord] Uploading feature image: ${key}`, { fileName: file.name, size: file.size });
-              const uploadResult = await uploadImageToCloudinary(file, {
-                folder: `projects/${projectSlug}/feature`,
-              });
-              console.log(`[createProjectRecord] Feature image uploaded: ${key}`, { url: uploadResult.secureUrl });
-              return [key, uploadResult.secureUrl] as const;
-            })
-        );
-        console.log('[createProjectRecord] Feature image upload complete', { successCount: featureUploads.length });
-      } catch (error) {
-        console.error('[createProjectRecord] Error uploading feature images:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        throw new Error(`Failed to upload feature images: ${errorMessage}`);
-      }
-    } else {
-      console.log('[createProjectRecord] Skipping feature image uploads (none provided)');
-    }
+    const imageFiles = payload.imageFiles ?? [];
+    let images: string[] = [];
 
-    const galleryFiles = payload.galleryFiles ?? [];
-    let galleryUploads: string[] = [];
-    if (galleryFiles.length) {
+    if (imageFiles.length) {
       try {
-        console.log('[createProjectRecord] Uploading gallery images...', { count: galleryFiles.length });
-        galleryUploads = await Promise.all(
-          galleryFiles.map(async (file, index) => {
-            console.log(`[createProjectRecord] Uploading gallery image ${index + 1}`, { fileName: file.name, size: file.size });
-            const uploadResult = await uploadImageToCloudinary(file, {
-              folder: `projects/${projectSlug}/gallery`,
-            });
-            console.log(`[createProjectRecord] Gallery image ${index + 1} uploaded`, { url: uploadResult.secureUrl });
-            return uploadResult.secureUrl;
+        console.log('[createProjectRecord] Uploading images...', { count: imageFiles.length });
+        images = await Promise.all(
+          imageFiles.map(async (file, index) => {
+            const folder = index === 0 ? `projects/${projectSlug}/primary` : `projects/${projectSlug}/gallery`;
+            const result = await uploadImageToCloudinary(file, { folder });
+            console.log(`[createProjectRecord] Image ${index + 1} uploaded`);
+            return result.secureUrl;
           })
         );
-        console.log('[createProjectRecord] All gallery images uploaded successfully');
       } catch (error) {
-        console.error('[createProjectRecord] Error uploading gallery images:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        throw new Error(`Failed to upload gallery images: ${errorMessage}`);
+        const msg = error instanceof Error ? error.message : 'Unknown error';
+        throw new Error(`Failed to upload images: ${msg}`);
       }
-    } else {
-      console.log('[createProjectRecord] Skipping gallery upload (no images provided)');
-    }
-
-    let featureImages = featureUploads.reduce<FeatureImageMap>(
-      (acc, [key, url]) => ({ ...acc, [key]: url }),
-      {
-        primary: '',
-        lifestyle: '',
-        city: '',
-      }
-    );
-
-    // If lifestyle / city images weren't uploaded explicitly, fall back to the
-    // first two gallery images so the project detail page has rich visuals.
-    if (!featureImages.lifestyle && galleryUploads[0]) {
-      featureImages = { ...featureImages, lifestyle: galleryUploads[0] };
-    }
-    if (!featureImages.city && galleryUploads[1]) {
-      featureImages = { ...featureImages, city: galleryUploads[1] };
     }
 
     const nowIso = new Date().toISOString();
-
-    // Save project document to Firestore
-    let docRef;
     const overviewValue = payload.overview?.trim() ?? '';
     const essentialsValue = payload.essentials ?? [];
 
+    let docRef;
     try {
-      console.log('[createProjectRecord] Saving project to Firestore...', {
-        name: payload.name,
-        overview: overviewValue,
-        essentialsCount: essentialsValue.length,
-        galleryCount: galleryUploads.length,
-      });
-      
       const docData: Record<string, unknown> = {
         name: payload.name,
         overview: overviewValue,
         essentials: essentialsValue,
-        featureImages,
-        gallery: galleryUploads,
+        images,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
@@ -183,25 +123,21 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
       if (payload.progress != null && typeof payload.progress === 'number' && !Number.isNaN(payload.progress)) docData.progress = payload.progress;
 
       docRef = await addDoc(projectsCollection, docData);
-      
-      console.log('[createProjectRecord] Project saved to Firestore successfully!', { documentId: docRef.id });
+      console.log('[createProjectRecord] Saved to Firestore', { id: docRef.id });
     } catch (error) {
-      console.error('[createProjectRecord] Error saving to Firestore:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      // Check for permission errors
-      if (errorMessage.includes('permission') || errorMessage.includes('Permission')) {
-        throw new Error(`Firestore permission denied: ${errorMessage}. Please update Firestore security rules to allow writes to the 'projects' collection.`);
+      const msg = error instanceof Error ? error.message : 'Unknown error';
+      if (msg.includes('permission') || msg.includes('Permission')) {
+        throw new Error(`Firestore permission denied: ${msg}`);
       }
-      throw new Error(`Failed to save project to Firestore: ${errorMessage}`);
+      throw new Error(`Failed to save project to Firestore: ${msg}`);
     }
 
-    const projectRecord: ProjectRecord = {
+    return {
       id: docRef.id,
       name: payload.name,
       overview: overviewValue,
       essentials: essentialsValue,
-      featureImages,
-      gallery: galleryUploads,
+      images,
       createdAt: nowIso,
       updatedAt: nowIso,
       industries: [],
@@ -214,15 +150,9 @@ export async function createProjectRecord(payload: CreateProjectPayload): Promis
       financing: payload.financing?.trim() || undefined,
       progress: payload.progress != null && typeof payload.progress === 'number' && !Number.isNaN(payload.progress) ? payload.progress : null,
     };
-
-    console.log('[createProjectRecord] Project record created successfully!', { projectId: projectRecord.id });
-    return projectRecord;
   } catch (error) {
-    // Re-throw with better context
     console.error('[createProjectRecord] Fatal error:', error);
-    if (error instanceof Error) {
-      throw error;
-    }
+    if (error instanceof Error) throw error;
     throw new Error(`Failed to create project record: ${String(error)}`);
   }
 }
@@ -234,78 +164,36 @@ export async function updateProjectRecord(
   console.log('[updateProjectRecord] Updating project...', { projectId });
 
   const docRef = doc(db, PROJECTS_COLLECTION, projectId);
-  let featureImages: FeatureImageMap = { ...payload.currentFeatureImages };
 
-  const featureEntries = Object.entries(payload.featureFiles ?? {}).filter(
-    (entry): entry is [keyof FeatureImageMap, File] => Boolean(entry[1])
-  );
+  let images = payload.currentImages ?? [];
 
-  if (featureEntries.length) {
+  if (payload.newImageFiles?.length) {
     try {
-      console.log('[updateProjectRecord] Uploading updated feature images...', { count: featureEntries.length });
-      const uploads = await Promise.all(
-        featureEntries.map(async ([key, file]) => {
-          const uploadResult = await uploadImageToCloudinary(file, {
-            folder: `projects/${projectId}/feature`,
-          });
-          return [key, uploadResult.secureUrl] as const;
-        })
-      );
-      featureImages = uploads.reduce<FeatureImageMap>(
-        (acc, [key, url]) => ({ ...acc, [key]: url }),
-        featureImages
-      );
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown error';
-      throw new Error(`Failed to update feature images: ${message}`);
-    }
-  }
-
-  let galleryImages = payload.currentGallery ?? [];
-  if (payload.galleryFiles?.length) {
-    try {
-      console.log('[updateProjectRecord] Uploading new gallery images...', {
-        count: payload.galleryFiles.length,
-      });
-      const uploadedImages = await Promise.all(
-        payload.galleryFiles.map(async (file, index) => {
-          const uploadResult = await uploadImageToCloudinary(file, {
+      console.log('[updateProjectRecord] Uploading new images...', { count: payload.newImageFiles.length });
+      const uploaded = await Promise.all(
+        payload.newImageFiles.map(async (file, index) => {
+          const result = await uploadImageToCloudinary(file, {
             folder: `projects/${projectId}/gallery`,
           });
-          console.log('[updateProjectRecord] Gallery image uploaded', { index: index + 1 });
-          return uploadResult.secureUrl;
+          console.log(`[updateProjectRecord] New image ${index + 1} uploaded`);
+          return result.secureUrl;
         })
       );
-      const combinedGallery = [...galleryImages, ...uploadedImages];
-      if (combinedGallery.length > MAX_GALLERY_IMAGES) {
-        throw new Error(`A project can have at most ${MAX_GALLERY_IMAGES} gallery images.`);
-      }
-      galleryImages = combinedGallery;
+      images = [...images, ...uploaded];
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown error';
-      throw new Error(`Failed to update gallery images: ${message}`);
+      const msg = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Failed to upload new images: ${msg}`);
     }
   }
 
   const updateData: Record<string, unknown> = {
+    images,
     updatedAt: serverTimestamp(),
   };
 
-  if (typeof payload.name === 'string') {
-    updateData.name = payload.name.trim();
-  }
-
-  if (typeof payload.overview === 'string') {
-    updateData.overview = payload.overview.trim();
-  }
-
-  if (payload.essentials) {
-    updateData.essentials = payload.essentials;
-  }
-
-  updateData.featureImages = featureImages;
-  updateData.gallery = galleryImages;
-
+  if (typeof payload.name === 'string') updateData.name = payload.name.trim();
+  if (typeof payload.overview === 'string') updateData.overview = payload.overview.trim();
+  if (payload.essentials) updateData.essentials = payload.essentials;
   if (payload.category !== undefined) updateData.category = payload.category || null;
   if (payload.location !== undefined) updateData.location = payload.location?.trim() || null;
   if (payload.launchWindow !== undefined) updateData.launchWindow = payload.launchWindow?.trim() || null;
@@ -332,23 +220,16 @@ export async function getProjectRecord(
   projectId: string | string[]
 ): Promise<ProjectRecord | null> {
   const id = Array.isArray(projectId) ? projectId[0] : projectId;
-  if (!id) {
-    return null;
-  }
+  if (!id) return null;
 
   const docRef = doc(db, PROJECTS_COLLECTION, id);
   const snapshot = await getDoc(docRef);
-  if (!snapshot.exists()) {
-    return null;
-  }
+  if (!snapshot.exists()) return null;
   return deserializeProjectDoc(snapshot);
 }
 
 function convertTimestampToIso(timestamp?: { seconds: number; nanoseconds: number }) {
-  if (!timestamp) {
-    return null;
-  }
-
+  if (!timestamp) return null;
   const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1e6);
   return date.toISOString();
 }
@@ -358,17 +239,32 @@ export function deserializeProjectDoc(
 ): ProjectRecord {
   const data = snapshot.data() as FirestoreProjectData | undefined;
 
+  // Build the flat images array: use new `images` field if present,
+  // otherwise derive from legacy featureImages + gallery for backward compat.
+  let images: string[] = [];
+  if (data?.images && Array.isArray(data.images) && data.images.length > 0) {
+    images = data.images;
+  } else {
+    // Legacy document – reconstruct a deduplicated flat list
+    const seen = new Set<string>();
+    const add = (url?: string) => {
+      if (url && url.trim() !== '' && !seen.has(url)) {
+        seen.add(url);
+        images.push(url);
+      }
+    };
+    add(data?.featureImages?.primary);
+    add(data?.featureImages?.lifestyle);
+    add(data?.featureImages?.city);
+    (data?.gallery ?? []).forEach(add);
+  }
+
   return {
     id: snapshot.id,
     name: data?.name ?? '',
     overview: data?.overview ?? '',
     essentials: data?.essentials ?? [],
-    featureImages: {
-      primary: data?.featureImages?.primary ?? '',
-      lifestyle: data?.featureImages?.lifestyle ?? '',
-      city: data?.featureImages?.city ?? '',
-    },
-    gallery: data?.gallery ?? [],
+    images,
     status: data?.status,
     location: data?.location,
     category: data?.category,
@@ -405,28 +301,22 @@ export function listenToProjects(
       },
       (firebaseError) => {
         const errorMessage = firebaseError instanceof Error ? firebaseError.message : String(firebaseError);
-        
-        // Provide more helpful error messages
         let userFriendlyMessage = errorMessage;
         if (errorMessage.includes('permission') || errorMessage.includes('Permission')) {
-          userFriendlyMessage = `Firestore permission denied: ${errorMessage}. Please update Firestore security rules to allow reads from the 'projects' collection.`;
+          userFriendlyMessage = `Firestore permission denied: ${errorMessage}. Please update Firestore security rules.`;
         } else if (errorMessage.includes('index') || errorMessage.includes('Index')) {
-          userFriendlyMessage = `Firestore index required: ${errorMessage}. Please create a composite index for 'projects' collection on 'createdAt' field in descending order.`;
+          userFriendlyMessage = `Firestore index required: ${errorMessage}. Please create a composite index on 'createdAt'.`;
         }
-        
         onError(
           firebaseError instanceof Error
             ? new Error(userFriendlyMessage)
-            : new Error(userFriendlyMessage || 'Failed to load projects from Firebase.')
+            : new Error(userFriendlyMessage || 'Failed to load projects.')
         );
       }
     );
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    onError(new Error(`Failed to set up projects listener: ${errorMessage}`));
-    // Return a no-op unsubscribe function
+    const msg = error instanceof Error ? error.message : String(error);
+    onError(new Error(`Failed to set up projects listener: ${msg}`));
     return () => {};
   }
 }
-
-

@@ -74,7 +74,7 @@ export function StickyHeader() {
           }`}
         />
 
-        <div className="relative z-10 px-4 py-3.5 flex items-center justify-between">
+        <div className={`relative z-10 px-4 flex items-center justify-between ${mobileScrolled ? "py-2.5" : "py-3.5"}`}>
           <div className={mobileScrolled ? "" : "drop-shadow-lg"}>
             <Logo
               compact={mobileScrolled}
@@ -120,12 +120,12 @@ export function StickyHeader() {
 
         <div
           className={`mx-auto max-w-7xl relative z-10 transition-all duration-300 ${
-            isHeroOverlay ? "px-6 pt-6 pb-4" : "px-6 py-4"
+            isHeroOverlay ? "px-6 pt-6 pb-4" : "px-6 py-2.5"
           }`}
         >
           <nav className="flex items-center justify-between">
-            {/* Logo */}
-            <Logo variant={isScrolled ? "dark" : "light"} />
+            {/* Logo - full logo when over hero, icon when scrolled */}
+            <Logo variant={isScrolled ? "dark" : "light"} compact={isScrolled} />
 
             {/* Desktop Navigation */}
             <div

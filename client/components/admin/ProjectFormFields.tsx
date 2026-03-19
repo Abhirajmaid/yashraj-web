@@ -192,6 +192,74 @@ export function ImageUploadField({
   );
 }
 
+type StringListFieldProps = {
+  label: string;
+  value: string[];
+  onChange: (value: string[]) => void;
+  placeholder?: string;
+  addLabel?: string;
+  emptyMessage?: string;
+};
+
+export function StringListField({
+  label,
+  value,
+  onChange,
+  placeholder = "Enter item…",
+  addLabel = "Add item",
+  emptyMessage = "No items yet.",
+}: StringListFieldProps) {
+  const updateAt = (index: number, text: string) => {
+    const next = [...value];
+    next[index] = text;
+    onChange(next);
+  };
+  const removeAt = (index: number) => {
+    onChange(value.filter((_, i) => i !== index));
+  };
+  const append = () => onChange([...value, ""]);
+
+  return (
+    <div className="block space-y-2 text-sm text-gray-700">
+      <span className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</span>
+      <div className="space-y-2">
+        {value.length === 0 ? (
+          <p className="rounded-md border border-dashed border-gray-300 bg-gray-50 px-4 py-3 text-xs text-gray-500">
+            {emptyMessage}
+          </p>
+        ) : (
+          value.map((item, index) => (
+            <div key={index} className="flex gap-2">
+              <input
+                type="text"
+                value={item}
+                onChange={(e) => updateAt(index, e.target.value)}
+                placeholder={placeholder}
+                className="flex-1 rounded-md border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
+              />
+              <button
+                type="button"
+                onClick={() => removeAt(index)}
+                className="shrink-0 rounded-md border border-gray-300 px-3 py-2 text-xs font-medium text-gray-600 transition hover:bg-gray-50 hover:text-red-600"
+                aria-label="Remove"
+              >
+                Remove
+              </button>
+            </div>
+          ))
+        )}
+        <button
+          type="button"
+          onClick={append}
+          className="rounded-md border border-dashed border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-600 transition hover:border-brand-primary hover:text-brand-primary"
+        >
+          {addLabel}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 type CardProps = {
   title: string;
   description: string;

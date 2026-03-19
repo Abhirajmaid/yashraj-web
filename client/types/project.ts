@@ -1,5 +1,6 @@
 export type ProjectStatus = 'draft' | 'active' | 'completed';
 
+/** @deprecated Use `images` array on ProjectRecord instead */
 export type FeatureImageMap = {
   primary: string;
   lifestyle: string;
@@ -8,11 +9,11 @@ export type FeatureImageMap = {
 
 export type ProjectRecord = {
   id: string;
-  name: string; // Project title
-  overview: string; // Single line overview description
-  featureImages: FeatureImageMap; // primary (hero), lifestyle (sub1), city (sub2)
-  essentials: string[]; // Array of 3 bullet points
-  gallery: string[]; // Gallery images for View Gallery button
+  name: string;
+  overview: string;
+  /** All project images. images[0] is treated as the primary/hero image. */
+  images: string[];
+  essentials: string[];
   createdAt?: string | null;
   updatedAt?: string | null;
   status?: ProjectStatus;
@@ -31,16 +32,20 @@ export type ProjectRecord = {
   consultants?: string;
   financing?: string;
   progress?: number | null;
+  /** @deprecated Kept for backward-compat reading of old Firestore docs */
+  featureImages?: Partial<FeatureImageMap>;
+  /** @deprecated Kept for backward-compat reading of old Firestore docs */
+  gallery?: string[];
 };
 
 export type ProjectEssentials = string[];
 
 export type CreateProjectPayload = {
-  name: string; // Project title
-  overview?: string; // Single line overview description
-  essentials?: string[]; // Key bullet points (optional)
-  featureFiles?: Partial<Record<'primary' | 'lifestyle' | 'city', File>>; // Hero image + 2 sub images
-  galleryFiles?: File[]; // Gallery images (optional, max 4 for 5 total with primary)
+  name: string;
+  overview?: string;
+  essentials?: string[];
+  /** All image files to upload. imageFiles[0] will be the primary/hero image. */
+  imageFiles?: File[];
   category?: string;
   location?: string;
   launchWindow?: string;
@@ -55,10 +60,10 @@ export type UpdateProjectPayload = {
   name?: string;
   overview?: string;
   essentials?: string[];
-  featureFiles?: Partial<Record<'primary' | 'lifestyle' | 'city', File>>;
-  galleryFiles?: File[];
-  currentFeatureImages: FeatureImageMap;
-  currentGallery: string[];
+  /** New image files to append to the existing images */
+  newImageFiles?: File[];
+  /** Current images array (after any UI removals / reordering). images[0] = primary. */
+  currentImages: string[];
   category?: string;
   location?: string;
   launchWindow?: string;
@@ -68,6 +73,3 @@ export type UpdateProjectPayload = {
   financing?: string;
   progress?: number | null;
 };
-
-
-

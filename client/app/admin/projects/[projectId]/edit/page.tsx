@@ -5,12 +5,11 @@ import { useRouter } from 'next/navigation';
 import { use, type FormEvent, useEffect, useState } from 'react';
 import { getProjectRecord, updateProjectRecord } from '@/lib/projectsRepository';
 import { ProjectRecord } from '@/types/project';
-import { Card, Field, ImageUploadField, SelectField, TextAreaField } from '@/components/admin/ProjectFormFields';
+import { Card, Field, SelectField, TextAreaField, StringListField } from '@/components/admin/ProjectFormFields';
 
-const MAX_GALLERY_IMAGES = 4; // 1 primary + 4 gallery = 5 total
+const MAX_IMAGES = 10;
 
 const CATEGORY_OPTIONS = [
-  { value: '', label: '—' },
   { value: 'Infrastructure', label: 'Infrastructure' },
   { value: 'Roads & Bridges', label: 'Roads & Bridges' },
   { value: 'Buildings & Industrial', label: 'Buildings & Industrial' },
@@ -30,25 +29,21 @@ type ProjectForm = {
   location: string;
   category: string;
   overview: string;
+  essentials: string[];
 };
 
-type GallerySlot = {
-  id: string;
-  preview: string;
-  file: File;
-};
+/** An image that already exists in the saved project (URL). */
+type ExistingImage = { kind: 'existing'; id: string; url: string };
+/** An image the user just picked from disk (not yet uploaded). */
+type NewImage = { kind: 'new'; id: string; file: File; preview: string };
+type ImageEntry = ExistingImage | NewImage;
 
-const emptyForm: ProjectForm = {
-  name: '',
-  location: '',
-  category: '',
-  overview: '',
-};
+const emptyForm: ProjectForm = { name: '', location: '', category: '', overview: '', essentials: [] };
 
-const makeLocalId = () =>
+const makeId = () =>
   typeof crypto !== 'undefined' && 'randomUUID' in crypto
-    ? crypto.randomUUID().slice(0, 6)
-    : Math.random().toString(36).slice(2, 8);
+    ? crypto.randomUUID().slice(0, 8)
+    : Math.random().toString(36).slice(2, 10);
 
 export default function EditProjectPage({ params }: PageProps) {
   const router = useRouter();
@@ -56,23 +51,11 @@ export default function EditProjectPage({ params }: PageProps) {
 
   const [project, setProject] = useState<ProjectRecord | null>(null);
   const [form, setForm] = useState<ProjectForm>(emptyForm);
+  const [images, setImages] = useState<ImageEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
-  const [featureImage, setFeatureImage] = useState<{ file: File | null; preview: string | null }>({
-    file: null,
-    preview: null,
-  });
-  const [galleryUploads, setGalleryUploads] = useState<GallerySlot[]>([]);
-
-  const clearGalleryUploads = () => {
-    setGalleryUploads((current) => {
-      current.forEach((slot) => URL.revokeObjectURL(slot.preview));
-      return [];
-    });
-  };
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -80,7 +63,6 @@ export default function EditProjectPage({ params }: PageProps) {
         const record = await getProjectRecord(projectId);
         if (!record) {
           setError('Project not found.');
-          setProject(null);
           return;
         }
         setProject(record);
@@ -89,90 +71,70 @@ export default function EditProjectPage({ params }: PageProps) {
           location: record.location ?? '',
           category: record.category ?? '',
           overview: record.overview ?? '',
+          essentials: record.essentials ?? [],
         });
+        setImages(
+          record.images.map((url) => ({ kind: 'existing', id: makeId(), url }))
+        );
         setError(null);
-      } catch (fetchError) {
-        const message =
-          fetchError instanceof Error ? fetchError.message : 'Failed to load project for editing.';
-        setError(message);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : 'Failed to load project.');
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchProject();
   }, [projectId]);
 
-  const handleFeatureImageChange = (file: File | null) => {
-    if (featureImage.preview) {
-      URL.revokeObjectURL(featureImage.preview);
-    }
-    if (!file) {
-      setFeatureImage({ file: null, preview: null });
-      return;
-    }
-    setFeatureImage({ file, preview: URL.createObjectURL(file) });
+  const revokeNew = (entries: ImageEntry[]) => {
+    entries.forEach((e) => {
+      if (e.kind === 'new') URL.revokeObjectURL(e.preview);
+    });
   };
 
-  const handleGalleryFilesChange = (files: FileList | null) => {
-    if (!files || files.length === 0) {
-      return;
-    }
+  const handleFilesAdd = (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    // Snapshot to a plain array immediately — FileList can become stale once
+    // the input is reset via e.currentTarget.value = '' in the onChange handler.
+    const fileArray = Array.from(files);
+    if (fileArray.length === 0) return;
 
-    setGalleryUploads((current) => {
-      const existingGalleryCount = project?.gallery.length ?? 0;
-      const remainingSlots = MAX_GALLERY_IMAGES - existingGalleryCount - current.length;
-      if (remainingSlots <= 0) {
-        setError(`You can keep up to ${MAX_GALLERY_IMAGES} gallery images.`);
-        return current;
-      }
-
-      const filesArray = Array.from(files).slice(0, remainingSlots);
-      if (filesArray.length < files.length) {
-        setError(`Only ${remainingSlots} more image${remainingSlots === 1 ? '' : 's'} can be added.`);
-      } else {
-        setError(null);
-      }
-
-      const nextSlots: GallerySlot[] = filesArray.map((file, index) => ({
-        id: `gallery-${current.length + index}-${makeLocalId()}`,
+    setImages((current) => {
+      const available = MAX_IMAGES - current.length;
+      if (available <= 0) return current;
+      const added: NewImage[] = fileArray.slice(0, available).map((file) => ({
+        kind: 'new',
+        id: makeId(),
         file,
         preview: URL.createObjectURL(file),
       }));
-      return [...current, ...nextSlots];
+      return [...current, ...added];
     });
   };
 
-  const handleRemoveFeatureImage = (key: 'primary' | 'lifestyle' | 'city') => {
-    // Clear any selected file preview and remove the current URL from project state
-    if (featureImage.preview) {
-      URL.revokeObjectURL(featureImage.preview);
-    }
-    setFeatureImage({ file: null, preview: null });
-    setProject((current) => {
-      if (!current) return current;
-      return {
-        ...current,
-        featureImages: { ...current.featureImages, [key]: '' },
-      };
+  const handleRemove = (id: string) => {
+    setImages((current) => {
+      const entry = current.find((e) => e.id === id);
+      if (entry?.kind === 'new') URL.revokeObjectURL(entry.preview);
+      return current.filter((e) => e.id !== id);
     });
   };
 
-  const handleRemoveGalleryImageAt = (index: number) => {
-    setProject((current) => {
-      if (!current) return current;
-      const nextGallery = [...current.gallery];
-      nextGallery.splice(index, 1);
-      return { ...current, gallery: nextGallery };
+  const handleSetPrimary = (id: string) => {
+    setImages((current) => {
+      const idx = current.findIndex((e) => e.id === id);
+      if (idx <= 0) return current;
+      const next = [...current];
+      const [item] = next.splice(idx, 1);
+      next.unshift(item);
+      return next;
     });
   };
- 
-  const handleRemoveGalleryUploadById = (id: string) => {
-    setGalleryUploads((current) => {
-      const slot = current.find((s) => s.id === id);
-      if (slot) URL.revokeObjectURL(slot.preview);
-      return current.filter((s) => s.id !== id);
-    });
+
+  const handleResetImages = () => {
+    if (!project) return;
+    setImages((current) => { revokeNew(current); return []; });
+    setImages(project.images.map((url) => ({ kind: 'existing', id: makeId(), url })));
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -188,33 +150,32 @@ export default function EditProjectPage({ params }: PageProps) {
     setSuccessMessage(null);
     setIsSaving(true);
 
-    const featureFiles: Partial<Record<'primary' | 'lifestyle' | 'city', File>> = {};
-    if (featureImage.file) {
-      featureFiles.primary = featureImage.file;
-    }
+    const currentImages = images
+      .filter((e): e is ExistingImage => e.kind === 'existing')
+      .map((e) => e.url);
 
-    const galleryFiles = galleryUploads.map((slot) => slot.file);
+    const newImageFiles = images
+      .filter((e): e is NewImage => e.kind === 'new')
+      .map((e) => e.file);
 
     try {
       const updated = await updateProjectRecord(project.id, {
         name: form.name.trim(),
         overview: form.overview.trim(),
-        essentials: [],
-        featureFiles: featureImage.file ? featureFiles : undefined,
-        galleryFiles: galleryFiles.length ? galleryFiles : undefined,
-        currentFeatureImages: project.featureImages,
-        currentGallery: project.gallery,
+        essentials: form.essentials.filter((s) => s.trim() !== ''),
+        currentImages,
+        newImageFiles: newImageFiles.length ? newImageFiles : undefined,
         category: form.category || undefined,
         location: form.location.trim() || undefined,
       });
 
       setProject(updated);
-      setFeatureImage({ file: null, preview: null });
-      clearGalleryUploads();
+      // Re-sync images from the freshly saved record
+      revokeNew(images);
+      setImages(updated.images.map((url) => ({ kind: 'existing', id: makeId(), url })));
       setSuccessMessage('Project updated successfully.');
-    } catch (saveError) {
-      const message = saveError instanceof Error ? saveError.message : 'Failed to update project.';
-      setError(message);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Failed to update project.');
     } finally {
       setIsSaving(false);
     }
@@ -227,9 +188,7 @@ export default function EditProjectPage({ params }: PageProps) {
   if (error && !project) {
     return (
       <div className="space-y-4 text-gray-900">
-        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </p>
+        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
         <Link
           href="/admin/projects"
           className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
@@ -240,9 +199,7 @@ export default function EditProjectPage({ params }: PageProps) {
     );
   }
 
-  if (!project) {
-    return null;
-  }
+  if (!project) return null;
 
   return (
     <div className="space-y-8 text-gray-900">
@@ -269,14 +226,10 @@ export default function EditProjectPage({ params }: PageProps) {
       </header>
 
       {error ? (
-        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </p>
+        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
       {successMessage ? (
-        <p className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
-          {successMessage}
-        </p>
+        <p className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">{successMessage}</p>
       ) : null}
 
       {successMessage ? (
@@ -284,21 +237,15 @@ export default function EditProjectPage({ params }: PageProps) {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="success-modal-title"
         >
           <div className="w-full max-w-md rounded-xl border border-green-200 bg-white p-6 shadow-lg">
-            <h2 id="success-modal-title" className="text-lg font-semibold text-green-800">
-              Success
-            </h2>
+            <h2 className="text-lg font-semibold text-green-800">Saved</h2>
             <p className="mt-2 text-sm text-gray-700">{successMessage}</p>
             <div className="mt-6 flex justify-end">
               <button
                 type="button"
-                onClick={() => {
-                  setSuccessMessage(null);
-                  router.push('/admin/projects');
-                }}
-                className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                onClick={() => { setSuccessMessage(null); router.push('/admin/projects'); }}
+                className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700"
               >
                 OK
               </button>
@@ -312,145 +259,111 @@ export default function EditProjectPage({ params }: PageProps) {
           <Field
             label="Project Name"
             value={form.name}
-            onChange={(value) => setForm((current) => ({ ...current, name: value }))}
+            onChange={(v) => setForm((f) => ({ ...f, name: v }))}
             placeholder="e.g. Airoli T-Junction Upgradation"
             required
           />
           <Field
             label="Project Location"
             value={form.location}
-            onChange={(value) => setForm((current) => ({ ...current, location: value }))}
+            onChange={(v) => setForm((f) => ({ ...f, location: v }))}
             placeholder="e.g. Surat Industrial Corridor"
           />
           <SelectField
             label="Category"
             value={form.category}
-            options={CATEGORY_OPTIONS.filter((o) => o.value !== '')}
+            options={CATEGORY_OPTIONS}
             placeholder="—"
-            onChange={(value) => setForm((current) => ({ ...current, category: value }))}
+            onChange={(v) => setForm((f) => ({ ...f, category: v }))}
           />
           <TextAreaField
             label="Overview / Description"
             value={form.overview}
-            onChange={(value) => setForm((current) => ({ ...current, overview: value }))}
+            onChange={(v) => setForm((f) => ({ ...f, overview: v }))}
             rows={3}
             placeholder="Short description that appears on listing cards and project page."
+          />
+          <StringListField
+            label="Key Highlights"
+            value={form.essentials}
+            onChange={(v) => setForm((f) => ({ ...f, essentials: v }))}
+            placeholder="e.g. Completed ahead of schedule"
+            addLabel="Add highlight"
+            emptyMessage="No key highlights yet. Add bullet points shown on the project details page."
           />
         </Card>
 
         <Card
           title="Images"
-          description={`Up to 5 images (1 primary + up to ${MAX_GALLERY_IMAGES} gallery). Leave blank to keep existing.`}
+          description={`All project images. The first image is the primary/hero. Click "Set as primary" to change which one leads. Up to ${MAX_IMAGES} images total.`}
         >
-          <div className="space-y-6">
-            <section className="space-y-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Primary feature image</p>
-              {project.featureImages.primary ? (
-                <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 text-xs text-gray-600">
-                  Current image shown below. Upload a new one to replace it.
-                </div>
-              ) : null}
-              <ImageUploadField
-                label="Replace primary image"
-                preview={featureImage.preview ?? project.featureImages.primary ?? null}
-                fileName={featureImage.file?.name ?? (project.featureImages.primary ? 'Current image' : null)}
-                onChange={handleFeatureImageChange}
-                onRemove={() => handleRemoveFeatureImage('primary')}
+          <div className="space-y-4">
+            <label className="block">
+              <span className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                Add more images {images.length > 0 ? `(${images.length} / ${MAX_IMAGES})` : ''}
+              </span>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                disabled={images.length >= MAX_IMAGES}
+                onChange={(e) => { handleFilesAdd(e.target.files); e.currentTarget.value = ''; }}
+                className="mt-1 w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 file:mr-4 file:rounded-md file:border-0 file:bg-brand-primary file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary disabled:opacity-50"
               />
-            </section>
+            </label>
 
-            <section className="space-y-3">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Project gallery</p>
-                  <p className="text-sm text-gray-600">
-                    Uploading new files will add to the current gallery (up to {MAX_GALLERY_IMAGES} total).
-                  </p>
-                </div>
-              </div>
-              <label className="block space-y-2 text-sm text-gray-700">
-                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Upload gallery (max {MAX_GALLERY_IMAGES})</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={(event) => {
-                    handleGalleryFilesChange(event.target.files);
-                    event.currentTarget.value = '';
-                  }}
-                  className="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 file:mr-4 file:rounded-md file:border-0 file:bg-brand-primary file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
-                />
-              </label>
-
-              {/* Combined thumbnail grid: feature images, existing gallery, and newly selected uploads */}
-              <div className="grid gap-4 md:grid-cols-3">
-                {/* Feature images (primary / lifestyle / city) */}
-                {(['primary', 'lifestyle', 'city'] as const).map((key) => {
-                  const previewUrl =
-                    featureImage.preview && key === 'primary'
-                      ? featureImage.preview
-                      : project.featureImages?.[key] ?? '';
-                  return previewUrl ? (
-                    <div key={`feature-${key}`} className="relative space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3 text-center">
-                      <img src={previewUrl} alt={`${key} feature`} className="h-28 w-full rounded-md object-cover" />
-                      <div className="mt-2 flex items-center justify-between gap-2">
-                        <p className="truncate text-xs text-gray-600">{key}</p>
+            {images.length > 0 ? (
+              <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {images.map((entry, idx) => {
+                  const src = entry.kind === 'existing' ? entry.url : entry.preview;
+                  const label = entry.kind === 'new' ? entry.file.name : null;
+                  return (
+                    <div
+                      key={entry.id}
+                      className={`relative overflow-hidden rounded-xl border-2 bg-gray-50 ${
+                        idx === 0 ? 'border-brand-primary' : 'border-gray-200'
+                      }`}
+                    >
+                      <img src={src} alt={label ?? `Image ${idx + 1}`} className="h-36 w-full object-cover" />
+                      {idx === 0 ? (
+                        <span className="absolute left-2 top-2 rounded-full bg-brand-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow">
+                          Primary
+                        </span>
+                      ) : null}
+                      {entry.kind === 'new' ? (
+                        <span className="absolute right-2 top-2 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow">
+                          New
+                        </span>
+                      ) : null}
+                      <div className="flex items-center justify-between gap-1 px-2 py-2">
+                        {idx !== 0 ? (
+                          <button
+                            type="button"
+                            onClick={() => handleSetPrimary(entry.id)}
+                            className="text-xs font-semibold text-brand-primary hover:underline"
+                          >
+                            Set as primary
+                          </button>
+                        ) : (
+                          <span className="text-xs text-gray-400">Hero image</span>
+                        )}
                         <button
                           type="button"
-                          onClick={() => handleRemoveFeatureImage(key)}
+                          onClick={() => handleRemove(entry.id)}
                           className="text-xs font-semibold text-red-600 hover:text-red-700"
                         >
                           Remove
                         </button>
                       </div>
                     </div>
-                  ) : null;
+                  );
                 })}
-
-                {/* Existing gallery images */}
-                {project.gallery.map((url, idx) => (
-                  <div key={`gallery-${url}-${idx}`} className="relative space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3 text-center">
-                    <img src={url} alt={`gallery-${idx}`} className="h-28 w-full rounded-md object-cover" />
-                    <div className="mt-2 flex items-center justify-between gap-2">
-                      <p className="truncate text-xs text-gray-600">Current image</p>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveGalleryImageAt(idx)}
-                        className="text-xs font-semibold text-red-600 hover:text-red-700"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                ))}
-
-                {/* Newly selected uploads previews */}
-                {galleryUploads.map((slot) => (
-                  <div key={slot.id} className="space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3 text-center">
-                    <img src={slot.preview} alt={slot.file.name} className="h-28 w-full rounded-md object-cover" />
-                    <div className="mt-2 flex items-center justify-between gap-2">
-                      <p className="truncate text-xs text-gray-600">{slot.file.name}</p>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveGalleryUploadById(slot.id)}
-                        className="text-xs font-semibold text-red-600 hover:text-red-700"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                ))}
-
-                {/* If nothing to show */}
-                {project.featureImages?.primary === '' &&
-                project.featureImages?.lifestyle === '' &&
-                project.featureImages?.city === '' &&
-                project.gallery.length === 0 &&
-                galleryUploads.length === 0 ? (
-                  <div className="text-xs text-gray-600">Current gallery is empty.</div>
-                ) : null}
               </div>
-            </section>
+            ) : (
+              <div className="flex h-28 items-center justify-center rounded-xl border border-dashed border-gray-300 text-sm text-gray-400">
+                No images — add some above.
+              </div>
+            )}
           </div>
         </Card>
 
@@ -463,9 +376,9 @@ export default function EditProjectPage({ params }: PageProps) {
                 location: project.location ?? '',
                 category: project.category ?? '',
                 overview: project.overview ?? '',
+                essentials: project.essentials ?? [],
               });
-              handleFeatureImageChange(null);
-              clearGalleryUploads();
+              handleResetImages();
               setSuccessMessage(null);
               setError(null);
             }}
@@ -485,5 +398,3 @@ export default function EditProjectPage({ params }: PageProps) {
     </div>
   );
 }
-
-
