@@ -71,7 +71,8 @@ export default function ContactPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="contact"
-        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 15.56.55 (2).jpeg"
+        backgroundImage="/images/contact1.jpg"
+        useDirectImagePath
         backgroundImageAlt="Contact hero background"
         title="Contact Us"
         flipHorizontal={true}

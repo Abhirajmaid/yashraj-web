@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "Contact Us - Yashraj Infrastructure",
     description:
       "Get in touch with Yashraj Infrastructure for your construction and infrastructure projects. Let's discuss your next project.",
-    images: ["/images/projecthero2.jpg"],
+    images: ["/images/contact.jpg"],
   },
 };
 

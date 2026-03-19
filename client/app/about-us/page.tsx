@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "About Us - Yashraj Infrastructure",
     description:
       "Based in Navi Mumbai, we deliver infrastructure across Maharashtra. Family-led, rooted in quality and long-term value creation.",
-    images: ["/images/about1.jpg"],
+    images: ["/images/whowe.jpg"],
   },
 };
 
@@ -29,7 +29,7 @@ export default function AboutUsPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="about"
-        backgroundImage="/images/who.jpg"
+        backgroundImage="/images/whowe.jpg"
         useDirectImagePath
         backgroundImageAlt="Infrastructure and construction"
         title="About Us"
