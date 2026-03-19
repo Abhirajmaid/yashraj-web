@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Our Services - Yashraj Infrastructure",
     description:
       "Construction & Execution, Operation & Maintenance, and Buildings & Industrial. Quality infrastructure across Maharashtra.",
-    images: ["/images/projecthero2.jpg"],
+    images: ["/images/what we do1.jpg"],
   },
 };
 
@@ -24,8 +24,9 @@ export default function ServicesPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="services"
-        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 14.44.03.jpeg"
-        backgroundImageAlt="Services hero background"
+        backgroundImage="/images/what we do1.jpg"
+        useDirectImagePath
+        backgroundImageAlt="What we do hero background"
         title="Services"
         flipHorizontal={true}
         description="Construction & Execution, Operation & Maintenance, and Buildings & Industrial."

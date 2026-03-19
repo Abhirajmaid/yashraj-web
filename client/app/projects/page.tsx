@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Our Projects - Yashraj Infrastructure",
     description:
       "Discover our portfolio of iconic infrastructure projects, each crafted with engineering excellence and bold design vision.",
-    images: ["/images/projecthero2.jpg"],
+    images: ["/images/project1.jpg"],
   },
 };
 
@@ -23,7 +23,8 @@ export default function ProjectsPage() {
     <main className="bg-white">
       <CommonHeroSection
         id="projects"
-        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 14.44.03 (1).jpeg"
+        backgroundImage="/images/project1.jpg"
+        useDirectImagePath
         backgroundImageAlt="Projects hero background"
         title="Our Projects"
         description="Discover our portfolio of iconic infrastructure projects."

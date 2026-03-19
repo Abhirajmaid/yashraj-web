@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: "Products - Bitumen Mixes & RMC | Yashraj Infrastructure",
     description:
       "Bitumen mixes and Ready-Mix Concrete. Quality-assured materials for infrastructure and construction.",
-    images: ["/images/projecthero2.jpg"],
+    images: ["/images/products1.jpg"],
   },
 };
 
@@ -22,7 +22,7 @@ export default function ProductsPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="products"
-        backgroundImage="/images/products.webp"
+        backgroundImage="/images/produc.jpg"
         backgroundImageAlt="Products – Bitumen Mixes and Ready-Mix Concrete"
         useDirectImagePath
         title="Products"
