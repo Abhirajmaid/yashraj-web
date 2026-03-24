@@ -42,7 +42,7 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: {
     default:
-      "Yashraj Infrastructure - A Yashraj Group Company | Building Beyond Horizons",
+      "Yashraj Infrastructure - A Yashraj Group Venchors | Building Beyond Horizons",
     template: "%s | Yashraj Infrastructure",
   },
   description:
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://yashrajinfrastructure.com",
-    siteName: "Yashraj Infrastructure - A Yashraj Group Company",
+    siteName: "Yashraj Infrastructure - A Yashraj Group Venchors",
     title: "Yashraj Infrastructure | Building Beyond Horizons",
     description:
       "Trusted government partner in Navi Mumbai. Infrastructure projects across Maharashtra. Construction, O&M, bitumen mixes, and ready-mix concrete.",

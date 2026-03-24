@@ -17,7 +17,7 @@ export function ServicesHighlightSection() {
             align="center"
             eyebrowClassName="text-primary"
             titleClassName="text-brand-dark"
-            descriptionClassName="text-brand-dark/70 max-w-2xl mx-auto"
+            descriptionClassName="text-brand-dark/70 max-w-3xl mx-auto"
           />
         </div>
 
@@ -53,7 +53,7 @@ export function ServicesHighlightSection() {
                   </p>
                   <div className="mt-4 flex w-full justify-center sm:mt-5 sm:justify-start">
                     <Button
-                      link="/contact"
+                      link={service.link ?? "/projects"}
                       type="primary"
                       size="md"
                       className="bg-primary text-white rounded-full shadow-md"

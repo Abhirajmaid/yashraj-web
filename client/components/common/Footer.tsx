@@ -29,7 +29,6 @@ const footerColumns = [
 const bottomLinks = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms of Service", href: "/terms" },
-  { label: "Cookies", href: "/cookies" },
 ];
 
 const socialLinks = [
@@ -52,8 +51,8 @@ export function Footer() {
           <div className="space-y-6">
             <Logo variant="light" />
             <p className="max-w-sm text-sm leading-relaxed text-white/80">
-              Yashraj Infrastructure – A Yashraj Group company. Contributing to
-              India's development story. Trusted government partner in Navi
+              Yashraj Infrastructure – A Yashraj Group Venchors. Contributing to
+              India&apos;s development story. Trusted government partner in Navi
               Mumbai delivering infrastructure projects across Maharashtra since
               2008.
             </p>
@@ -112,7 +111,7 @@ export function Footer() {
           <div className="space-y-1">
             <p className="text-xs text-white/60">
               © {new Date().getFullYear()} Yashraj Infrastructure – A Yashraj
-              Group Company. All rights reserved.
+              Group Venchors. All rights reserved.
             </p>
           </div>
           <nav className="flex flex-wrap items-center gap-6">

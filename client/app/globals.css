@@ -97,7 +97,7 @@
 
   /* Button Components */
   .btn-primary {
-    @apply flex items-center justify-between pl-4 py-1 pr-1 text-base font-normal text-white bg-brand-primary rounded-full shadow-sm transition-all duration-300 hover:bg-brand-primary/90 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
+    @apply inline-flex items-center justify-between pl-4 py-1 pr-1 text-base font-normal text-white bg-brand-primary rounded-full shadow-sm transition-all duration-300 hover:bg-brand-primary/90 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
     gap: 0.5rem;
   }
 
@@ -108,7 +108,7 @@
   }
 
   .btn-secondary {
-    @apply flex items-center justify-between pl-4 py-1 pr-1 text-base font-normal text-brand-dark bg-white rounded-full shadow-sm transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer border border-brand-gray-light;
+    @apply inline-flex items-center justify-between pl-4 py-1 pr-1 text-base font-normal text-brand-dark bg-white rounded-full shadow-sm transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer border border-brand-gray-light;
     gap: 0.5rem;
   }
 

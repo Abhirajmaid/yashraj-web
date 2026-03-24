@@ -1,11 +1,27 @@
 "use client";
 import Image from "next/image";
 
-const partnerImages = Array.from({ length: 8 }).map((_, index) => ({
-  src: "/logo.png",
-  alt: `Partner logo ${index + 1}`,
-  id: `partner-logo-${index}`,
-}));
+const partnerImages = [
+  { src: "/logo/apmc.png", alt: "APMC logo", id: "apmc" },
+  { src: "/logo/autade%20group.png", alt: "Autade Group logo", id: "autade-group" },
+  { src: "/logo/barc.png", alt: "BARC logo", id: "barc" },
+  { src: "/logo/cidco.png", alt: "CIDCO logo", id: "cidco" },
+  { src: "/logo/jkumar.png", alt: "J Kumar logo", id: "jkumar" },
+  { src: "/logo/kdmc.png", alt: "KDMC logo", id: "kdmc" },
+  { src: "/logo/mcgm.png", alt: "MCGM logo", id: "mcgm" },
+  { src: "/logo/MIDCLOGO.webp", alt: "MIDC logo", id: "midc" },
+  { src: "/logo/mmrda.webp", alt: "MMRDA logo", id: "mmrda" },
+  { src: "/logo/msrdc.jpg", alt: "MSRDC logo", id: "msrdc" },
+  { src: "/logo/nmmc.png", alt: "NMMC logo", id: "nmmc" },
+  { src: "/logo/paradise%20group.png", alt: "Paradise Group logo", id: "paradise-group" },
+  { src: "/logo/pmc.webp", alt: "PMC logo", id: "pmc" },
+  { src: "/logo/pwd.png", alt: "PWD logo", id: "pwd" },
+  { src: "/logo/satyaminfra.png", alt: "Satyam Infra logo", id: "satyaminfra" },
+  { src: "/logo/t%26t.jpg", alt: "T&T logo", id: "t-and-t" },
+  { src: "/logo/tmc.webp", alt: "TMC logo", id: "tmc" },
+];
+
+const enlargedLogoIds = new Set(["pwd", "satyaminfra"]);
 
 export function PartnersSection() {
   // Duplicate logos for seamless infinite scroll
@@ -72,7 +88,11 @@ export function PartnersSection() {
                     alt={partner.alt}
                     width={120}
                     height={60}
-                    className="max-h-16 w-auto object-contain opacity-85 transition group-hover:opacity-100"
+                    className={`w-auto object-contain opacity-85 transition group-hover:opacity-100 ${
+                      enlargedLogoIds.has(partner.id)
+                        ? "max-h-24 scale-125"
+                        : "max-h-16"
+                    }`}
                   />
                 </div>
               </div>
@@ -94,7 +114,11 @@ export function PartnersSection() {
                     alt={partner.alt}
                     width={120}
                     height={60}
-                    className="max-h-16 w-auto object-contain opacity-85 transition group-hover:opacity-100"
+                    className={`w-auto object-contain opacity-85 transition group-hover:opacity-100 ${
+                      enlargedLogoIds.has(partner.id)
+                        ? "max-h-24 scale-125"
+                        : "max-h-16"
+                    }`}
                   />
                 </div>
               </div>

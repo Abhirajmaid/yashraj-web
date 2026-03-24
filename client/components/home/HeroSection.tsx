@@ -4,14 +4,11 @@ import { useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import Button from "@/components/common/Button";
-import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 const TITLE = "Yashraj Infrastructure";
 const SUBTITLE = "Trusted Partner, Quality Infrastructure.";
 
 export function HeroSection() {
-  const { openModal } = useEnquiryModal();
-
   const rootRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -150,9 +147,9 @@ export function HeroSection() {
             {SUBTITLE}
           </p>
 
-          <div ref={ctaRef} className="mt-5 sm:mt-8">
-            <Button onClick={openModal} type="primary" size="md">
-              Get a Quote
+          <div ref={ctaRef} className="mt-5 sm:mt-10">
+            <Button link="/contact" type="primary" size="md">
+              Connect with us
             </Button>
           </div>
         </div>
@@ -164,26 +161,7 @@ export function HeroSection() {
         style={{ zIndex: 9 }}
         aria-hidden="true"
       >
-        <div className="w-full max-w-full overflow-hidden">
-          <div className="marquee-track">
-            <div className="marquee-group">
-              <span className="marquee-text">
-                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
-              </span>
-              <span className="marquee-text">
-                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
-              </span>
-            </div>
-            <div className="marquee-group" aria-hidden="true">
-              <span className="marquee-text">
-                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
-              </span>
-              <span className="marquee-text">
-                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
-              </span>
-            </div>
-          </div>
-        </div>
+       
       </div>
 
       <style jsx>{`

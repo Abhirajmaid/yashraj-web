@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CommonHeroSection } from "@/components/common/CommonHeroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { ProjectPageSection } from "@/components/projects/ProjectPageSection";
+import { RoadInfrastructureExpertiseSection } from "@/components/projects/RoadInfrastructureExpertiseSection";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { Footer } from "@/components/common/Footer";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     title: "Our Projects - Yashraj Infrastructure",
     description:
       "Discover our portfolio of iconic infrastructure projects, each crafted with engineering excellence and bold design vision.",
-    images: ["/images/project1.jpg"],
+    images: ["/images/projects1.jpg"],
   },
 };
 
@@ -23,7 +24,7 @@ export default function ProjectsPage() {
     <main className="bg-white">
       <CommonHeroSection
         id="projects"
-        backgroundImage="/images/project1.jpg"
+        backgroundImage="/images/projects1.jpg"
         useDirectImagePath
         backgroundImageAlt="Projects hero background"
         title="Our Projects"
@@ -45,6 +46,7 @@ export default function ProjectsPage() {
         flipHorizontal={true}
       />
       <ConnectMarquee />
+      <RoadInfrastructureExpertiseSection />
       <ProjectPageSection />
       <div className="bg-white">
         <div className="pt-16">
