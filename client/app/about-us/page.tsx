@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { CommonHeroSection } from "@/components/common/CommonHeroSection";
-import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { Footer } from "@/components/common/Footer";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { PurposeSection } from "@/components/about-us/PurposeSection";
 import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { StorySection } from "@/components/about-us/StorySection";
+import { RoadInfrastructureExpertiseSection } from "@/components/projects/RoadInfrastructureExpertiseSection";
 import {
   purposePillars,
   storyHighlights,
@@ -65,6 +65,8 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
+
+      <RoadInfrastructureExpertiseSection />
 
       <PurposeSection
         eyebrow="OUR PURPOSE"

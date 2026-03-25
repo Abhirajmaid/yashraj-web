@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { CommonHeroSection } from "@/components/common/CommonHeroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { ProjectPageSection } from "@/components/projects/ProjectPageSection";
-import { RoadInfrastructureExpertiseSection } from "@/components/projects/RoadInfrastructureExpertiseSection";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { Footer } from "@/components/common/Footer";
@@ -46,7 +45,6 @@ export default function ProjectsPage() {
         flipHorizontal={true}
       />
       <ConnectMarquee />
-      <RoadInfrastructureExpertiseSection />
       <ProjectPageSection />
       <div className="bg-white">
         <div className="pt-16">

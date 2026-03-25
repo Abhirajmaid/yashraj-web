@@ -3,15 +3,15 @@ import { SectionHeader } from "@/components/common/SectionHeader";
 const missionVision = [
   {
     number: "01",
-    title: "Vision",
-    description:
-      "To create durable, high-quality infrastructure that strengthens public trust, enhances cities, and positions Yashraj Infrastructure among India's most respected contracting companies.",
-  },
-  {
-    number: "02",
     title: "Mission",
     description:
       "To deliver superior infrastructure solutions through disciplined execution, uncompromising quality standards, and ethical business practices, ensuring timely, safe, and sustainable development for our clients and communities.",
+  },
+  {
+    number: "02",
+    title: "Vision",
+    description:
+      "To create durable, high-quality infrastructure that strengthens public trust, enhances cities, and positions Yashraj Infrastructure among India's most respected contracting companies.",
   },
 ];
 

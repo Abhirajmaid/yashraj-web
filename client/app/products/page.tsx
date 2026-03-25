@@ -26,7 +26,7 @@ export default function ProductsPage() {
         backgroundImageAlt="Products – Bitumen Mixes and Ready-Mix Concrete"
         useDirectImagePath
         title="Products"
-        flipHorizontal={true}
+        flipHorizontal={false}
         description="Bitumen mixes and Ready-Mix Concrete (RMC). Quality-assured materials from our plants—delivering strength, durability, and consistency for your infrastructure and construction projects."
         showGradientOverlay={true}
         scrollIndicatorText="Scroll to explore"
