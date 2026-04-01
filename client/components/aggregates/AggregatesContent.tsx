@@ -166,7 +166,7 @@ export function AggregatesContent() {
             {bitumenProducts.map((product) => (
               <div
                 key={product.id}
-                className="group overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="group flex h-full flex-col overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
                 {product.image && (
                   <div className="relative h-48 w-full overflow-hidden">
@@ -178,53 +178,57 @@ export function AggregatesContent() {
                     />
                   </div>
                 )}
-                <div className="p-6">
-                  <h3 className="mb-3 text-xl font-semibold text-brand-dark">
-                    {product.name}
-                  </h3>
-                  <p className="mb-4 text-sm leading-relaxed text-brand-dark/70">
-                    {product.description}
-                  </p>
-                  {product.features && product.features.length > 0 && (
-                    <div className="mb-4 space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
-                        Key Features:
-                      </p>
-                      <ul className="space-y-1">
-                        {product.features.map((feature, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-2 text-xs text-brand-dark/70"
-                          >
-                            <Icon
-                              icon="solar:check-circle-bold"
-                              className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
-                              width={20}
-                              height={20}
-                            />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {product.applications && product.applications.length > 0 && (
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
-                        Applications:
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {product.applications.map((app, idx) => (
-                          <span
-                            key={idx}
-                            className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-xs font-medium text-brand-primary"
-                          >
-                            {app}
-                          </span>
-                        ))}
+                <div className="flex h-full flex-col justify-between p-6">
+                  <div>
+                    <h3 className="mb-3 text-xl font-semibold text-brand-dark">
+                      {product.name}
+                    </h3>
+                    <p className="mb-4 text-sm leading-relaxed text-brand-dark/70">
+                      {product.description}
+                    </p>
+                  </div>
+                  <div>
+                    {product.features && product.features.length > 0 && (
+                      <div className="mb-4 space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                          Key Features:
+                        </p>
+                        <ul className="space-y-1">
+                          {product.features.map((feature, idx) => (
+                            <li
+                              key={idx}
+                              className="flex items-start gap-2 text-xs text-brand-dark/70"
+                            >
+                              <Icon
+                                icon="solar:check-circle-bold"
+                                className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
+                                width={20}
+                                height={20}
+                              />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {product.applications && product.applications.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                          Applications:
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {product.applications.map((app, idx) => (
+                            <span
+                              key={idx}
+                              className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-xs font-medium text-brand-primary"
+                            >
+                              {app}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -537,7 +541,7 @@ export function AggregatesContent() {
             {rmcProducts.map((product) => (
               <div
                 key={product.id}
-                className="group overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="group flex h-full flex-col overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="relative h-48 w-full overflow-hidden">
                   <Image
@@ -547,53 +551,57 @@ export function AggregatesContent() {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="mb-3 text-xl font-semibold text-brand-dark">
-                    {product.name}
-                  </h3>
-                  <p className="mb-4 text-sm leading-relaxed text-brand-dark/70">
-                    {product.description}
-                  </p>
-                  {product.features && product.features.length > 0 && (
-                    <div className="mb-4 space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
-                        Key Features:
-                      </p>
-                      <ul className="space-y-1">
-                        {product.features.map((feature, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-2 text-xs text-brand-dark/70"
-                          >
-                            <Icon
-                              icon="solar:check-circle-bold"
-                              className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
-                              width={20}
-                              height={20}
-                            />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {product.applications && product.applications.length > 0 && (
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
-                        Applications:
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {product.applications.map((app, idx) => (
-                          <span
-                            key={idx}
-                            className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-xs font-medium text-brand-primary"
-                          >
-                            {app}
-                          </span>
-                        ))}
+                <div className="flex h-full flex-col justify-between p-6">
+                  <div>
+                    <h3 className="mb-3 text-xl font-semibold text-brand-dark">
+                      {product.name}
+                    </h3>
+                    <p className="mb-4 text-sm leading-relaxed text-brand-dark/70">
+                      {product.description}
+                    </p>
+                  </div>
+                  <div>
+                    {product.features && product.features.length > 0 && (
+                      <div className="mb-4 space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                          Key Features:
+                        </p>
+                        <ul className="space-y-1">
+                          {product.features.map((feature, idx) => (
+                            <li
+                              key={idx}
+                              className="flex items-start gap-2 text-xs text-brand-dark/70"
+                            >
+                              <Icon
+                                icon="solar:check-circle-bold"
+                                className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
+                                width={20}
+                                height={20}
+                              />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {product.applications && product.applications.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                          Applications:
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {product.applications.map((app, idx) => (
+                            <span
+                              key={idx}
+                              className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-xs font-medium text-brand-primary"
+                            >
+                              {app}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

@@ -26,8 +26,8 @@ export default function ProjectsPage() {
         backgroundImage="/images/projects1.jpg"
         useDirectImagePath
         backgroundImageAlt="Projects hero background"
-        title="Our Projects"
-        description="Discover our portfolio of iconic infrastructure projects."
+        title="Projects"
+        description="Our projects"
         buttons={[
           {
             text: "Start Your Project",

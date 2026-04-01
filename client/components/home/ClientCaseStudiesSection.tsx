@@ -1,6 +1,6 @@
 "use client";
 import { SectionHeader } from "@/components/common/SectionHeader";
-import { ClientCaseStudyCard } from "./ClientCaseStudyCard";
+import { CaseStudyCard } from "./ClientCaseStudyCard";
 
 const caseStudies = [
   {
@@ -49,9 +49,17 @@ export function ClientCaseStudiesSection() {
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 ">
           {caseStudies.map((caseStudy, index) => (
-            <ClientCaseStudyCard key={index} {...caseStudy} />
+            <CaseStudyCard
+              key={index}
+              title={caseStudy.clientName}
+              subtitle={caseStudy.projectTitle}
+              challenge={caseStudy.challenge}
+              solution={caseStudy.solution}
+              results={caseStudy.results}
+              location={caseStudy.projectLocation}
+            />
           ))}
         </div>
       </div>

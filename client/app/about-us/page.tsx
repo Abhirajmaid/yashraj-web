@@ -32,8 +32,8 @@ export default function AboutUsPage() {
         backgroundImage="/images/whowe.jpg"
         useDirectImagePath
         backgroundImageAlt="Infrastructure and construction"
-        title="About Us"
-        description=""
+        title="Who We Are"
+        description="About us"
         buttons={[
           {
             text: "Our services",

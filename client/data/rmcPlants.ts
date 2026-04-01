@@ -237,7 +237,7 @@ export const bitumenProducts: BitumenProduct[] = [
     id: "bm-dbm-bc",
     name: "BM / DBM / BC (Bituminous Layers)",
     description:
-      "Bituminous base and surface layers including Bituminous Macadam (BM), Dense Bituminous Macadam (DBM), and Bituminous Concrete (BC) formulated for pavement strength and durability.",
+      "Engineered BM, DBM, and BC layers designed for reliable pavement structure in base and wearing courses. Built for long-term strength, smoother rides, and consistent site performance.",
     image: "/images/biut1.webp",
     imageAlt: "Bitumen layers being laid on road",
     features: ["Designed for heavy traffic", "High durability", "MoRTH compliant"],
@@ -247,7 +247,7 @@ export const bitumenProducts: BitumenProduct[] = [
     id: "prime-tack",
     name: "Prime Coat & Tack Coat",
     description:
-      "Surface treatment binders used for bonding layers and priming surfaces prior to bituminous overlay works.",
+      "Specialized prime and tack coat binders that prepare surfaces and create strong interlayer adhesion before overlays. They improve bonding quality, reduce separation, and support durable roads.",
     image: "/images/biut2.avif",
     imageAlt: "Road construction and priming works",
     features: ["Improves interlayer bonding", "Reduces slippage", "Easy application"],
@@ -257,7 +257,7 @@ export const bitumenProducts: BitumenProduct[] = [
     id: "pmb-grades",
     name: "Performance-Grade Modified Binders (PMB)",
     description:
-      "Modified bitumen binders such as PMB 40 and PMB 70 used to enhance pavement performance, resistance to deformation, and longevity.",
+      "Performance-grade binders such as PMB 40 and PMB 70 developed for better stability under varying temperatures and loads. They improve rut resistance, flexibility, and pavement service life.",
     image: "/images/biut3.jpg",
     imageAlt: "Performance grade modified binders",
     features: ["Improved temperature susceptibility", "Enhanced rut resistance", "Longer service life"],

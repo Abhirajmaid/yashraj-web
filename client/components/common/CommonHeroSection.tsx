@@ -15,6 +15,7 @@ export type HeroButton = {
 
 type CommonHeroSectionProps = {
   id?: string;
+  eyebrow?: string;
   backgroundImage: string;
   backgroundImageAlt: string;
   /** When true, use backgroundImage as-is (e.g. /images/...) instead of resolving to yashraj_project_images. Use for images in public/images. */
@@ -39,6 +40,7 @@ type CommonHeroSectionProps = {
 
 export function CommonHeroSection({
   id,
+  eyebrow,
   backgroundImage,
   backgroundImageAlt,
   useDirectImagePath = false,
@@ -130,6 +132,11 @@ export function CommonHeroSection({
                   : ""
               }`}
             >
+              {eyebrow && (
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+                  {eyebrow}
+                </p>
+              )}
               {/* Main Headline */}
               <h1 className="text-5xl lg:text-6xl xl:text-8xl font-medium text-white leading-[1.1] mb-6">
                 {title}
