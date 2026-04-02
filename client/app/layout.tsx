@@ -9,6 +9,7 @@ import {
 import "./globals.css";
 import { StickyHeader } from "@/components/common/StickyHeader";
 import { BottomNavbar } from "@/components/common/BottomNavbar";
+import { WhatsappCTA } from "@/components/common/WhatsappCTA";
 import { EnquiryModalProvider } from "@/contexts/EnquiryModalContext";
 
 const geistSans = Geist({
@@ -42,7 +43,7 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: {
     default:
-      "Yashraj Infrastructure - A Yashraj Group Venchors | Building Beyond Horizons",
+      "Yashraj Infrastructure - A Yashraj Group Ventures | Building Beyond Horizons",
     template: "%s | Yashraj Infrastructure",
   },
   description:
@@ -80,7 +81,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://yashrajinfrastructure.com",
-    siteName: "Yashraj Infrastructure - A Yashraj Group Venchors",
+    siteName: "Yashraj Infrastructure - A Yashraj Group Ventures",
     title: "Yashraj Infrastructure | Building Beyond Horizons",
     description:
       "Trusted government partner in Navi Mumbai. Infrastructure projects across Maharashtra. Construction, O&M, bitumen mixes, and ready-mix concrete.",
@@ -119,6 +120,7 @@ export default function RootLayout({
         <EnquiryModalProvider>
           <StickyHeader />
           {children}
+          <WhatsappCTA />
           <BottomNavbar />
         </EnquiryModalProvider>
       </body>

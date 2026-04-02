@@ -1,4 +1,4 @@
-import { FAQEntry } from "@/data/faq";
+import type { FAQEntry } from "@/data/faqData";
 
 export const blogsFaqItems: FAQEntry[] = [
   {

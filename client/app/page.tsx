@@ -10,11 +10,12 @@ import { ServicesHighlightSection } from "@/components/home/ServicesHighlightSec
 import { ClientCaseStudiesSection } from "@/components/home/ClientCaseStudiesSection";
 // import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { ShowcaseSection } from "@/components/home/ShowcaseSection";
+import { WhyOurWorkStandsOutSection } from "@/components/home/WhyOurWorkStandsOutSection";
 
 export const metadata: Metadata = {
   title: "Home",
   description:
-    "Yashraj Infrastructure – A Yashraj Group Venchors. Building Beyond Horizons. Trusted government partner in Navi Mumbai delivering infrastructure across Maharashtra since 2008. We provide construction, operation & maintenance, building works, and manufacture bitumen mixes and ready-mix concrete.",
+    "Yashraj Infrastructure – A Yashraj Group Ventures. Building Beyond Horizons. Trusted government partner in Navi Mumbai delivering infrastructure across Maharashtra since 2008. We provide construction, operation & maintenance, building works, and manufacture bitumen mixes and ready-mix concrete.",
   openGraph: {
     title: "Yashraj Infrastructure | Building Beyond Horizons",
     description:
@@ -30,6 +31,7 @@ export default function Home() {
       <ShowcaseSection />
       <ConnectMarquee />
       <MissionVisionSection />
+      <WhyOurWorkStandsOutSection />
       <ServicesHighlightSection />
       <PartnersSection />
       <ClientCaseStudiesSection />

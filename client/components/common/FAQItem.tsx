@@ -1,11 +1,14 @@
+import type { FAQEntry } from "@/data/faqData";
+
 type FAQItemProps = {
-  question: string;
-  answer: string;
+  item: FAQEntry;
   isOpen: boolean;
   onToggle: () => void;
 };
 
-export function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
+export function FAQItem({ item, isOpen, onToggle }: FAQItemProps) {
+  const { question, answer, bulletPoints } = item;
+
   return (
     <div className="border-b border-[#0E0E0E]/10 pb-4 sm:pb-6 pt-4 sm:pt-6 first:pt-0 last:border-b-0">
       <button
@@ -19,9 +22,16 @@ export function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
         </span>
       </button>
       {isOpen ? (
-        <p className="mt-3 sm:mt-4 max-w-3xl text-sm leading-relaxed text-[#0E0E0E]/70">
-          {answer}
-        </p>
+        <div className="mt-3 sm:mt-4 max-w-3xl text-sm leading-relaxed text-[#0E0E0E]/70 space-y-3">
+          {answer ? <p>{answer}</p> : null}
+          {bulletPoints?.length ? (
+            <ul className="list-disc space-y-1.5 pl-5">
+              {bulletPoints.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
       ) : null}
     </div>
   );

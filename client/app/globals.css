@@ -255,6 +255,21 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  @keyframes whatsapp-cta-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-whatsapp-cta-in {
+    animation: whatsapp-cta-in 0.55s ease-out forwards;
+  }
+
   /* Partners marquee animations - opposite directions */
   @keyframes partners-marquee-left {
     0% {

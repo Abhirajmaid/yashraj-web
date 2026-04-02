@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { FAQItem } from "./FAQItem";
 import { SectionHeader } from "./SectionHeader";
-import { faqItems } from "@/data/faq";
+import { faqItems } from "@/data/faqData";
 
 export function FAQSection() {
   const [openIndex, setOpenIndex] = useState(0);
@@ -29,8 +29,7 @@ export function FAQSection() {
           {faqItems.map((item, index) => (
             <FAQItem
               key={item.question}
-              question={item.question}
-              answer={item.answer}
+              item={item}
               isOpen={openIndex === index}
               onToggle={() =>
                 setOpenIndex((current) => (current === index ? -1 : index))
