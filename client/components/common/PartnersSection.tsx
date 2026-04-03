@@ -2,21 +2,96 @@
 import Image from "next/image";
 
 const partnerImages = [
-  { src: "/logo/apmc.png", alt: "APMC logo", name: "APMC", id: "apmc" },
-  { src: "/logo/autade%20group.png", alt: "Autade Group logo", name: "Autade Group", id: "autade-group" },
-  { src: "/logo/barc.png", alt: "BARC logo", name: "BARC", id: "barc" },
-  { src: "/logo/cidco.png", alt: "CIDCO logo", name: "CIDCO", id: "cidco" },
-  { src: "/logo/jkumar.png", alt: "J Kumar logo", name: "J Kumar", id: "jkumar" },
-  { src: "/logo/kdmc.png", alt: "KDMC logo", name: "KDMC", id: "kdmc" },
-  { src: "/logo/mcgm.png", alt: "MCGM logo", name: "MCGM", id: "mcgm" },
-  { src: "/logo/MIDCLOGO.webp", alt: "MIDC logo", name: "MIDC", id: "midc" },
-  { src: "/logo/mmrda.webp", alt: "MMRDA logo", name: "MMRDA", id: "mmrda" },
-  { src: "/logo/msrdc.jpg", alt: "MSRDC logo", name: "MSRDC", id: "msrdc" },
-  { src: "/logo/nmmc.png", alt: "NMMC logo", name: "NMMC", id: "nmmc" },
-  { src: "/logo/pmc.webp", alt: "PMC logo", name: "PMC", id: "pmc" },
-  { src: "/logo/pwd.png", alt: "PWD logo", name: "PWD", id: "pwd" },
-  { src: "/logo/t%26t.jpg", alt: "T&T logo", name: "T&T", id: "t-and-t" },
-  { src: "/logo/tmc.webp", alt: "TMC logo", name: "TMC", id: "tmc" },
+  {
+    src: "/logo/apmc 1.png",
+    alt: "Agricultural Produce Market Committee logo",
+    name: "Agricultural Produce Market Committee",
+    id: "apmc",
+  },
+  {
+    src: "/logo/ag.png",
+    alt: "Autade Constructions / Autade Infraprojects logo",
+    name: "Autade Constructions / Autade Infraprojects",
+    id: "autade-group",
+  },
+  {
+    src: "/logo/barc.png",
+    alt: "Bhabha Atomic Research Centre logo",
+    name: "Bhabha Atomic Research Centre",
+    id: "barc",
+  },
+  {
+    src: "/logo/cidco.png",
+    alt: "City and Industrial Development Corporation logo",
+    name: "City and Industrial Development Corporation",
+    id: "cidco",
+  },
+  {
+    src: "/logo/jkumar.png",
+    alt: "J. Kumar Infraprojects Ltd logo",
+    name: "J. Kumar Infraprojects Ltd",
+    id: "jkumar",
+  },
+  {
+    src: "/logo/kdmc.png",
+    alt: "Kalyan-Dombivli Municipal Corporation logo",
+    name: "Kalyan-Dombivli Municipal Corporation",
+    id: "kdmc",
+  },
+  {
+    src: "/logo/mcgm.png",
+    alt: "Municipal Corporation of Greater Mumbai (BMC) logo",
+    name: "Municipal Corporation of Greater Mumbai (BMC)",
+    id: "mcgm",
+  },
+  {
+    src: "/logo/MIDCLOGO.webp",
+    alt: "Maharashtra Industrial Development Corporation logo",
+    name: "Maharashtra Industrial Development Corporation",
+    id: "midc",
+  },
+  {
+    src: "/logo/mmrda 1.jpeg",
+    alt: "Mumbai Metropolitan Region Development Authority logo",
+    name: "Mumbai Metropolitan Region Development Authority",
+    id: "mmrda",
+  },
+  {
+    src: "/logo/msrdc.jpg",
+    alt: "Maharashtra State Road Development Corporation logo",
+    name: "Maharashtra State Road Development Corporation",
+    id: "msrdc",
+  },
+  {
+    src: "/logo/nmmc.png",
+    alt: "Navi Mumbai Municipal Corporation logo",
+    name: "Navi Mumbai Municipal Corporation",
+    id: "nmmc",
+  },
+  {
+    src: "/logo/pmc.webp",
+    alt: "Pune Municipal Corporation logo",
+    name: "Pune Municipal Corporation",
+    id: "pmc",
+  },
+  {
+    src: "/logo/pwd.png",
+    alt: "Public Works Department logo",
+    name: "Public Works Department",
+    id: "pwd",
+  },
+  {
+    src: "/logo/t%26t.jpg",
+    alt: "T & T Infra Limited logo",
+    name: "T & T Infra Limited",
+    id: "t-and-t",
+  },
+  {
+    src: "/logo/tmc.webp",
+    alt: "Thane Municipal Corporation logo",
+    name: "Thane Municipal Corporation",
+    id: "tmc",
+  },
 ];
 
 const enlargedLogoIds = new Set(["pwd", "satyaminfra"]);
@@ -80,20 +155,20 @@ export function PartnersSection() {
                 key={`${partner.id}-left-${index}`}
                 className="flex shrink-0 flex-col items-center gap-3"
               >
-                <div className="group flex h-36 w-44 items-center justify-center rounded-2xl border border-brand-gray-light/50 bg-white px-4 shadow-sm transition hover:border-brand-primary/30 hover:shadow-md">
+                <div className="group flex h-48 w-56 items-center justify-center rounded-2xl border border-brand-gray-light/50 bg-white px-5 shadow-sm transition hover:border-brand-primary/30 hover:shadow-md">
                   <Image
                     src={partner.src}
                     alt={partner.alt}
-                    width={160}
-                    height={90}
+                    width={220}
+                    height={124}
                     className={`w-auto object-contain opacity-85 transition group-hover:opacity-100 ${
                       enlargedLogoIds.has(partner.id)
-                        ? "max-h-24 scale-125"
-                        : "max-h-20"
+                        ? "max-h-36 scale-125"
+                        : "max-h-32"
                     }`}
                   />
                 </div>
-                <p className="max-w-44 text-center text-sm font-medium text-brand-dark/80">{partner.name}</p>
+                <p className="max-w-56 text-center text-sm font-medium text-brand-dark/80">{partner.name}</p>
               </div>
             ))}
           </div>

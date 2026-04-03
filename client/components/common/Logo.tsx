@@ -6,7 +6,7 @@ type LogoProps = {
   compact?: boolean; // icon-only for navbar on scroll and mobile nav
 };
 
-const HORIZONTAL_LOGO_LIGHT = "/Horizontal Logo 1.png"; // dark bg / overlay
+const HORIZONTAL_LOGO_LIGHT = "/images/yash.png"; // dark bg / overlay (navbar initial, footer)
 const HORIZONTAL_LOGO_DARK = "/Horizontal Logo 4.png"; // light bg when scrolled
 const LOGO_ICON = "/icon 1.png";
 

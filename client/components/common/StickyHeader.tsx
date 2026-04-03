@@ -123,17 +123,30 @@ export function StickyHeader() {
             isHeroOverlay ? "px-6 pt-6 pb-4" : "px-6 py-2.5"
           }`}
         >
-          <nav className="flex items-center justify-between">
+          <nav className="relative flex items-center justify-between">
             {/* Logo - full logo when over hero, icon when scrolled */}
-            <Logo variant={isScrolled ? "dark" : "light"} compact={isScrolled} />
-
-            {/* Desktop Navigation */}
-            <div
-              className="hidden lg:flex items-center space-x-8 relative z-10"
-              style={{ pointerEvents: "auto" }}
-            >
-              <Navigation variant={isScrolled ? "dark" : "light"} />
+            <div className={isHeroOverlay ? "relative z-10 shrink-0" : ""}>
+              <Logo variant={isScrolled ? "dark" : "light"} compact={isScrolled} />
             </div>
+
+            {/* Desktop Navigation: true viewport-row center on initial hero; inline when scrolled */}
+            {isHeroOverlay ? (
+              <div className="pointer-events-none absolute inset-0 hidden items-center justify-center lg:flex">
+                <div
+                  className="pointer-events-auto relative z-10 flex items-center"
+                  style={{ pointerEvents: "auto" }}
+                >
+                  <Navigation variant="light" />
+                </div>
+              </div>
+            ) : (
+              <div
+                className="hidden items-center space-x-8 lg:flex relative z-10"
+                style={{ pointerEvents: "auto" }}
+              >
+                <Navigation variant={isScrolled ? "dark" : "light"} />
+              </div>
+            )}
 
             {/* Contact Button */}
             <Button
@@ -141,7 +154,7 @@ export function StickyHeader() {
               link="/contact"
               type={isScrolled ? "primary" : "secondary"}
               size="sm"
-              className="uppercase tracking-[0.12em]"
+              className={`uppercase tracking-[0.12em] ${isHeroOverlay ? "relative z-10 shrink-0" : ""}`}
             >
               Contact
             </Button>
