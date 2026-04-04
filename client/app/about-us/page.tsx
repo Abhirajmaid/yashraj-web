@@ -32,8 +32,9 @@ export default function AboutUsPage() {
         backgroundImage="/images/whowe.jpg"
         useDirectImagePath
         backgroundImageAlt="Infrastructure and construction"
+        eyebrow="About us"
         title="Who We Are"
-        description="About us"
+        description="At Yashraj Infrastructure, we turn vision into lasting impact—delivering high-quality infrastructure across Maharashtra with precision, durability, and innovation."
         buttons={[
           {
             text: "Our services",

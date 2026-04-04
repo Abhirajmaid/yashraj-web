@@ -10,8 +10,8 @@ type ServicesSectionProps = {
 
 export function ServicesSection({
   services,
-  eyebrow = "WHAT WE DO",
-  title = "Our Services",
+  eyebrow = "Our services",
+  title = "What We Do",
   description = "Construction & execution, operation & maintenance, and buildings & industrial—delivered with precision, reliability, and quality across Maharashtra.",
 }: ServicesSectionProps) {
   const featured = services.slice(0, 3);

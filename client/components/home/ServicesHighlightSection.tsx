@@ -11,7 +11,7 @@ export function ServicesHighlightSection() {
       <div className="relative z-10 mx-auto max-w-[90%] md:max-w-[80%] px-2 py-16 sm:py-20 lg:px-10 xl:px-14">
         <div className="mb-12 sm:mb-16">
           <SectionHeader
-            eyebrow="OUR SERVICES"
+            eyebrow="Our services"
             title="What We Do"
             description="Construction & execution, operation & maintenance, and buildings & industrial—delivered with precision, reliability, and quality."
             align="center"
