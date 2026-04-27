@@ -24,7 +24,7 @@ export default function ServicesPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="services"
-        backgroundImage="/images/services.webp"
+        backgroundImage="/images/whoo.jpg"
         useDirectImagePath
         backgroundImageAlt="What we do hero background"
         eyebrow="Our services"

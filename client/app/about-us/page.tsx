@@ -6,6 +6,7 @@ import { PurposeSection } from "@/components/about-us/PurposeSection";
 import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { StorySection } from "@/components/about-us/StorySection";
 import { RoadInfrastructureExpertiseSection } from "@/components/projects/RoadInfrastructureExpertiseSection";
+import { CsrSection } from "@/components/common/CsrSection";
 import {
   purposePillars,
   storyHighlights,
@@ -29,7 +30,7 @@ export default function AboutUsPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="about"
-        backgroundImage="/images/whowe.jpg"
+        backgroundImage="/images/wee.jpg"
         useDirectImagePath
         backgroundImageAlt="Infrastructure and construction"
         eyebrow="About us"
@@ -68,6 +69,8 @@ export default function AboutUsPage() {
       </section>
 
       <RoadInfrastructureExpertiseSection />
+
+      <CsrSection />
 
       <PurposeSection
         eyebrow="OUR PURPOSE"

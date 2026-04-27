@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { listenToProjects } from '@/lib/projectsRepository';
-import { FolderKanban, Plus } from 'lucide-react';
+import { listenToCareerApplications } from '@/lib/careerRepository';
+import { FolderKanban, Plus, BriefcaseBusiness } from 'lucide-react';
 
 // Re-export Card pieces for Plantozone-style layout (if no shared ui/card, define locally)
 function StatCard({
@@ -46,10 +47,19 @@ function StatCard({
 
 export default function AdminDashboardPage() {
   const [projectCount, setProjectCount] = useState(0);
+  const [careerCount, setCareerCount] = useState(0);
 
   useEffect(() => {
     const unsubscribe = listenToProjects(
       (records) => setProjectCount(records.length),
+      () => {}
+    );
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = listenToCareerApplications(
+      (records) => setCareerCount(records.length),
       () => {}
     );
     return () => unsubscribe();
@@ -71,6 +81,15 @@ export default function AdminDashboardPage() {
           barColor="bg-brand-primary"
           iconBg="bg-brand-primary/10"
           iconColor="text-brand-primary"
+        />
+        <StatCard
+          label="Career Applications"
+          value={careerCount}
+          sub="received"
+          icon={BriefcaseBusiness}
+          barColor="bg-brand-accent"
+          iconBg="bg-brand-accent/10"
+          iconColor="text-brand-accent"
         />
       </div>
 
@@ -97,6 +116,15 @@ export default function AdminDashboardPage() {
               <div className="flex items-center gap-3">
                 <Plus className="h-5 w-5 text-brand-accent" />
                 <span className="font-medium">Create New Project</span>
+              </div>
+            </Link>
+            <Link
+              href="/admin/careers"
+              className="block rounded-lg p-3 transition-colors hover:bg-gray-50"
+            >
+              <div className="flex items-center gap-3">
+                <BriefcaseBusiness className="h-5 w-5 text-brand-primary" />
+                <span className="font-medium">View Career Applications</span>
               </div>
             </Link>
           </div>

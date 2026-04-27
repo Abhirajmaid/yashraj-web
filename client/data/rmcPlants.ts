@@ -20,21 +20,28 @@ export type RMCPlant = {
 export const rmcPlants: RMCPlant[] = [
   {
     id: "plant-tanooja",
-    name: "Yashraj RMC Plant - Tanooja",
+    name: "Yashraj RMC Plant",
     location: "Tanooja",
     address: "Tanooja Industrial Area, Maharashtra",
-    capacity: "80 m³/hr",
+    capacity: "60 m³/hr",
     contact: {
       phone: "+91-22-1234-5678",
       email: "tanooja@yashrajrmc.com",
-      manager: "Rajesh Kumar",
     },
     coordinates: {
       lat: 19.0760,
       lng: 72.8777,
     },
-    operationalHours: "6:00 AM - 10:00 PM (Mon-Sat)",
     specialties: ["High-strength concrete", "Self-compacting concrete", "Fiber-reinforced concrete", "Standard concrete"],
+  },
+  {
+    id: "plant-valap-asphalt",
+    name: "Yashraj Asphalt Plant",
+    location: "Valap village, Taloja",
+    address: "Valap village, Taloja",
+    capacity: "120 m³/hr",
+    contact: {},
+    specialties: ["Asphalt production", "Road works support", "Reliable supply", "Consistent quality"],
   },
 ];
 
@@ -129,7 +136,7 @@ export const rmcProducts: RMCProduct[] = [
     id: "fiber-reinforced",
     name: "Fiber-Reinforced Concrete",
     description: "Concrete enhanced with synthetic or steel fibers to improve tensile strength, reduce cracking, and enhance durability. Perfect for industrial floors and pavements.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/fiber.png",
     imageAlt: "Fiber-Reinforced Concrete",
     features: ["Crack resistance", "Improved toughness", "Better impact resistance", "Enhanced durability"],
     applications: ["Industrial floors", "Pavements", "Airport runways", "Parking structures"],
@@ -138,7 +145,7 @@ export const rmcProducts: RMCProduct[] = [
     id: "lightweight",
     name: "Lightweight Concrete",
     description: "Lightweight concrete with reduced density while maintaining structural integrity. Ideal for reducing dead load in structures and improving thermal insulation.",
-    image: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/light.png",
     imageAlt: "Lightweight Concrete",
     features: ["Reduced weight", "Better insulation", "Easier handling", "Lower structural load"],
     applications: ["Roof slabs", "Precast panels", "Partition walls", "Insulation layers"],
@@ -248,7 +255,7 @@ export const bitumenProducts: BitumenProduct[] = [
     name: "Prime Coat & Tack Coat",
     description:
       "Specialized prime and tack coat binders that prepare surfaces and create strong interlayer adhesion before overlays. They improve bonding quality, reduce separation, and support durable roads.",
-    image: "/images/biut2.avif",
+    image: "/images/cot.png",
     imageAlt: "Road construction and priming works",
     features: ["Improves interlayer bonding", "Reduces slippage", "Easy application"],
     applications: ["Overlay preparation", "Layer bonding"],

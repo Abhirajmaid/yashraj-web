@@ -3,14 +3,14 @@ import { SectionHeader } from "@/components/common/SectionHeader";
 export function RoadInfrastructureExpertiseSection() {
   return (
     <section className="relative bg-gradient-to-br from-white via-brand-light/5 to-transparent py-16 sm:py-20">
-      <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
         <SectionHeader
           eyebrow="OUR FORTE"
           title="Road Infrastructure Expertise"
           align="center"
           eyebrowClassName="text-brand-primary"
         />
-        <div className="mx-auto mt-12 max-w-3xl space-y-6">
+        <div className="mt-12 space-y-6">
           <p className="text-base leading-relaxed text-brand-dark/80">
             Yashraj Infrastructure specializes in the execution of road
             infrastructure projects with strong expertise in asphalt road

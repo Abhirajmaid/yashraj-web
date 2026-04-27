@@ -11,6 +11,7 @@ import { ClientCaseStudiesSection } from "@/components/home/ClientCaseStudiesSec
 // import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { ShowcaseSection } from "@/components/home/ShowcaseSection";
 import { WhyOurWorkStandsOutSection } from "@/components/home/WhyOurWorkStandsOutSection";
+import { CsrSection } from "@/components/common/CsrSection";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -35,6 +36,7 @@ export default function Home() {
       <ServicesHighlightSection />
       <PartnersSection />
       <ClientCaseStudiesSection />
+      <CsrSection />
       <ProjectsSection />
       {/* <TestimonialsSection /> */}
       {/* <FeatureBlogsSection /> */}

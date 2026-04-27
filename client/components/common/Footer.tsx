@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Icon } from "@iconify/react";
+import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 const footerColumns = [
   {
@@ -22,6 +25,7 @@ const footerColumns = [
     links: [
       { label: "FAQs", href: "/contact#faq" },
       { label: "Contact", href: "/contact" },
+      { label: "Career", href: "/career" },
     ],
   },
 ];
@@ -32,13 +36,16 @@ const bottomLinks = [
 ];
 
 const socialLinks = [
-  { label: "LinkedIn", icon: "mdi:linkedin", href: "#" },
-  { label: "Facebook", icon: "mdi:facebook", href: "#" },
-  { label: "Instagram", icon: "mdi:instagram", href: "#" },
-  { label: "Twitter", icon: "mdi:twitter", href: "#" },
+  {
+    label: "LinkedIn",
+    icon: "mdi:linkedin",
+    href: "https://www.linkedin.com/company/yashraj-infrastructure0016/",
+  },
 ];
 
 export function Footer() {
+  const { openCareerModal } = useEnquiryModal();
+
   return (
     <footer className="relative isolate overflow-hidden bg-brand-dark text-white">
       {/* Background gradient overlay */}
@@ -67,6 +74,8 @@ export function Footer() {
                   <Link
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={social.label}
                     className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/5 transition-all hover:border-brand-primary hover:bg-brand-primary/20 hover:-translate-y-0.5"
                   >
@@ -92,12 +101,22 @@ export function Footer() {
                 <ul className="space-y-3 text-sm">
                   {column.links.map((link) => (
                     <li key={link.label}>
-                      <Link
-                        href={link.href}
-                        className="text-white/70 transition-all hover:text-brand-primary hover:translate-x-1 inline-block"
-                      >
-                        {link.label}
-                      </Link>
+                      {link.label === "Career" ? (
+                        <button
+                          type="button"
+                          onClick={openCareerModal}
+                          className="text-white/70 transition-all hover:text-brand-primary hover:translate-x-1 inline-block"
+                        >
+                          {link.label}
+                        </button>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="text-white/70 transition-all hover:text-brand-primary hover:translate-x-1 inline-block"
+                        >
+                          {link.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>

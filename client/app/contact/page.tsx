@@ -7,8 +7,16 @@ import { SectionHeader } from "@/components/common/SectionHeader";
 import { FAQSection } from "@/components/common/FAQSection";
 import { Footer } from "@/components/common/Footer";
 import Button from "@/components/common/Button";
+import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 export default function ContactPage() {
+  const { openCareerModal } = useEnquiryModal();
+  const officeLocationLabel =
+    "Yashraj Infrastructure, 505 Ambience Court, Sector 19D, Vashi, Navi Mumbai, Maharashtra";
+  const officeLocationQuery = encodeURIComponent(officeLocationLabel);
+  const officeMapsLink = `https://www.google.com/maps/search/?api=1&query=${officeLocationQuery}`;
+  const officeMapsEmbedLink = `https://maps.google.com/maps?hl=en&q=${officeLocationQuery}&z=17&ie=UTF8&iwloc=B&output=embed`;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -51,7 +59,7 @@ export default function ContactPage() {
       icon: "mdi:map-marker",
       title: "Office Address",
       content: "505, AMBIENCE COURT, SECTOR 19D, VASHI, NAVI MUMBAI",
-      link: "https://www.google.com/maps/search/505+AMBIENCE+COURT+SECTOR+19D+VASHI+NAVI+MUMBAI",
+      link: officeMapsLink,
     },
     {
       icon: "mdi:phone",
@@ -268,7 +276,7 @@ export default function ContactPage() {
             <div className="overflow-hidden rounded-2xl border border-brand-gray-light/50 shadow-sm">
               <iframe
                 title="Yashraj Infrastructure office location - 505, Ambience Court, Sector 19D, Vashi, Navi Mumbai"
-                src="https://www.google.com/maps?q=505+AMBIENCE+COURT+SECTOR+19D+VASHI+NAVI+MUMBAI&output=embed"
+                src={officeMapsEmbedLink}
                 width="100%"
                 height="400"
                 style={{ border: 0 }}
@@ -283,7 +291,32 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ Section */}
-      <div className="bg-white">
+      <section className="bg-brand-primary py-16 text-white">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
+          <div className="flex flex-col items-center text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+              Career
+            </p>
+            <h2 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
+              Be part of our career journey
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base text-white/90">
+              Join Yashraj Infrastructure and help us build high-impact projects
+              across Maharashtra.
+            </p>
+            <Button
+              onClick={openCareerModal}
+              type="secondary"
+              size="lg"
+              className="mt-8 rounded-full text-sm font-semibold shadow-[0_8px_24px_rgba(var(--color-primary-rgb),0.18)]"
+            >
+              Apply for Career
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <div id="faq" className="bg-white">
         <FAQSection />
       </div>
 

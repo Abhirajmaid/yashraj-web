@@ -3,20 +3,40 @@
 import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import Button from "./Button";
+import { createCareerApplication } from "@/lib/careerRepository";
 
 type EnquiryModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  modalType?: "contact" | "career";
 };
 
-export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    message: "",
-  });
+const initialContactForm = {
+  name: "",
+  email: "",
+  company: "",
+  phone: "",
+  message: "",
+};
+
+const initialCareerForm = {
+  fullName: "",
+  email: "",
+  phone: "",
+  position: "",
+  experience: "",
+  location: "",
+  resumeLink: "",
+  coverLetter: "",
+};
+
+export function EnquiryModal({
+  isOpen,
+  onClose,
+  modalType = "contact",
+}: EnquiryModalProps) {
+  const [contactFormData, setContactFormData] = useState(initialContactForm);
+  const [careerFormData, setCareerFormData] = useState(initialCareerForm);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
@@ -50,7 +70,11 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (modalType === "career") {
+      setCareerFormData((prev) => ({ ...prev, [name]: value }));
+      return;
+    }
+    setContactFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,11 +82,16 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
-    // Simulate form submission
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (modalType === "career") {
+        await createCareerApplication(careerFormData);
+        setCareerFormData(initialCareerForm);
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setContactFormData(initialContactForm);
+      }
+
       setSubmitStatus("success");
-      setFormData({ name: "", email: "", company: "", phone: "", message: "" });
       
       // Close modal after 2 seconds on success
       setTimeout(() => {
@@ -98,10 +127,12 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
         <div className="sticky top-0 flex items-center justify-between border-b border-brand-gray-light/50 bg-white px-6 py-4 sm:px-8 sm:py-5 rounded-t-2xl sm:rounded-t-3xl">
           <div>
             <h2 className="text-xl sm:text-2xl font-semibold text-brand-dark">
-              Get in Touch
+              {modalType === "career" ? "Apply for Career" : "Get in Touch"}
             </h2>
             <p className="text-sm text-brand-dark/70 mt-1">
-              Fill out the form below and we&apos;ll get back to you soon.
+              {modalType === "career"
+                ? "Fill out the career form below and our HR team will get back to you."
+                : "Fill out the form below and we&apos;ll get back to you soon."}
             </p>
           </div>
           <button
@@ -116,6 +147,128 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
         {/* Form Content */}
         <div className="p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            {modalType === "career" ? (
+              <>
+                <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Full Name <span className="text-red-500">*</span>
+                    </span>
+                    <input
+                      type="text"
+                      name="fullName"
+                      value={careerFormData.fullName}
+                      onChange={handleChange}
+                      required
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Email Address <span className="text-red-500">*</span>
+                    </span>
+                    <input
+                      type="email"
+                      name="email"
+                      value={careerFormData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
+                </div>
+
+                <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Phone Number <span className="text-red-500">*</span>
+                    </span>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={careerFormData.phone}
+                      onChange={handleChange}
+                      required
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Position Applied For <span className="text-red-500">*</span>
+                    </span>
+                    <input
+                      type="text"
+                      name="position"
+                      value={careerFormData.position}
+                      onChange={handleChange}
+                      required
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
+                </div>
+
+                <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Experience <span className="text-red-500">*</span>
+                    </span>
+                    <input
+                      type="text"
+                      name="experience"
+                      value={careerFormData.experience}
+                      onChange={handleChange}
+                      required
+                      placeholder="e.g. 3 years"
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium text-brand-dark">
+                      Current Location <span className="text-red-500">*</span>
+                    </span>
+                    <input
+                      type="text"
+                      name="location"
+                      value={careerFormData.location}
+                      onChange={handleChange}
+                      required
+                      className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                    />
+                  </label>
+                </div>
+
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-brand-dark">
+                    Resume Link <span className="text-red-500">*</span>
+                  </span>
+                  <input
+                    type="url"
+                    name="resumeLink"
+                    value={careerFormData.resumeLink}
+                    onChange={handleChange}
+                    required
+                    placeholder="Google Drive / Dropbox resume link"
+                    className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
+                  />
+                </label>
+
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-brand-dark">
+                    Cover Letter / Additional Details{" "}
+                    <span className="text-red-500">*</span>
+                  </span>
+                  <textarea
+                    name="coverLetter"
+                    value={careerFormData.coverLetter}
+                    onChange={handleChange}
+                    required
+                    rows={5}
+                    className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 resize-none"
+                  />
+                </label>
+              </>
+            ) : (
+              <>
             <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
               <label className="block space-y-2">
                 <span className="text-sm font-medium text-brand-dark">
@@ -124,7 +277,7 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                 <input
                   type="text"
                   name="name"
-                  value={formData.name}
+                  value={contactFormData.name}
                   onChange={handleChange}
                   required
                   placeholder="John Doe"
@@ -139,7 +292,7 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
+                  value={contactFormData.email}
                   onChange={handleChange}
                   required
                   placeholder="john@example.com"
@@ -156,7 +309,7 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                 <input
                   type="text"
                   name="company"
-                  value={formData.company}
+                  value={contactFormData.company}
                   onChange={handleChange}
                   placeholder="Company Inc."
                   className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
@@ -170,7 +323,7 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                 <input
                   type="tel"
                   name="phone"
-                  value={formData.phone}
+                  value={contactFormData.phone}
                   onChange={handleChange}
                   placeholder="+1 (555) 123-4567"
                   className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20"
@@ -184,7 +337,7 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
               </span>
               <textarea
                 name="message"
-                value={formData.message}
+                value={contactFormData.message}
                 onChange={handleChange}
                 required
                 rows={5}
@@ -192,11 +345,14 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                 className="w-full rounded-xl border border-brand-gray-light bg-white px-4 py-3 text-sm text-brand-dark outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 resize-none"
               />
             </label>
+              </>
+            )}
 
             {submitStatus === "success" && (
               <div className="rounded-xl bg-green-50 border border-green-200 p-3 sm:p-4 text-xs sm:text-sm text-green-800">
-                Thank you! Your message has been sent. We&apos;ll get back to
-                you soon.
+                {modalType === "career"
+                  ? "Application submitted successfully. Our HR team will contact you soon."
+                  : "Thank you! Your message has been sent. We&apos;ll get back to you soon."}
               </div>
             )}
 
@@ -222,7 +378,13 @@ export function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                 disabled={isSubmitting}
                 className="flex-1 uppercase tracking-wide"
               >
-                {isSubmitting ? "Sending..." : "Send Message"}
+                {isSubmitting
+                  ? modalType === "career"
+                    ? "Submitting..."
+                    : "Sending..."
+                  : modalType === "career"
+                    ? "Submit Application"
+                    : "Send Message"}
               </Button>
             </div>
           </form>
