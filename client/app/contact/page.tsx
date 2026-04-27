@@ -79,16 +79,16 @@ export default function ContactPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="contact"
-        backgroundImage="/images/contact1.jpg"
+        backgroundImage="/images/connect.jpg"
         useDirectImagePath
         backgroundImageAlt="Contact hero background"
         title="Contact Us"
-        flipHorizontal={true}
+        flipHorizontal={false}
         description="Get in touch with Yashraj Infrastructure."
-        showGradientOverlay={false}
+        showGradientOverlay={true}
         scrollIndicatorText="Scroll to contact form"
         backgroundColor="bg-brand-dark"
-        objectPosition="top"
+        objectPosition="center"
         maxContentWidth="max-w-4xl"
       />
 
@@ -298,7 +298,7 @@ export default function ContactPage() {
               Career
             </p>
             <h2 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-              Be part of our career journey
+              Be part of our journey
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base text-white/90">
               Join Yashraj Infrastructure and help us build high-impact projects

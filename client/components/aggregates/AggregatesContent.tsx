@@ -390,7 +390,7 @@ export function AggregatesContent() {
       </section>
 
       {/* Concrete Grades Section */}
-      <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
+      <section className="relative bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="CONCRETE GRADES"
@@ -442,7 +442,7 @@ export function AggregatesContent() {
       </section>
 
       {/* Our Plant in Tanooja Section */}
-      <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
+      <section className="relative bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="OUR PLANT"
@@ -451,7 +451,7 @@ export function AggregatesContent() {
             align="center"
             eyebrowClassName="text-brand-primary"
           />
-          <div className="mt-12">
+          <div className="mt-12 flex flex-col gap-4">
             {rmcPlants.map((plant) => (
               <div
                 key={plant.id}

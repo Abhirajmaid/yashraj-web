@@ -66,12 +66,23 @@ export function StickyHeader() {
         style={{ pointerEvents: "auto" }}
       >
         {/* White Background on Scroll */}
+        {/* Safari/WebKit: do not combine opacity transitions with backdrop-filter on the same
+            layer — blur fails on macOS/iOS. Use visibility + solid-enough bg; blur via inline webkit. */}
         <div
-          className={`absolute inset-0 transition-all duration-500 ${
+          className={`absolute inset-0 border-b border-white/10 shadow-md transition-[visibility] duration-500 ${
             mobileScrolled
-              ? "opacity-100 bg-white/10 backdrop-blur-md border-b border-white/10 shadow-md"
-              : "opacity-0 bg-transparent pointer-events-none"
+              ? "visible bg-white/25"
+              : "invisible bg-transparent pointer-events-none"
           }`}
+          style={
+            mobileScrolled
+              ? {
+                  WebkitBackdropFilter: "blur(16px)",
+                  backdropFilter: "blur(16px)",
+                  transform: "translate3d(0, 0, 0)",
+                }
+              : undefined
+          }
         />
 
         <div className={`relative z-10 px-4 flex items-center justify-between ${mobileScrolled ? "py-2.5" : "py-3.5"}`}>
@@ -102,15 +113,24 @@ export function StickyHeader() {
         {/* Initial background to prevent color flash - ensures header area is covered */}
         <div className="absolute inset-0 bg-transparent pointer-events-none" />
 
-        {/* Glass Morphism Background */}
+        {/* Glass background: WebKit needs explicit -webkit-backdrop-filter and must not share
+            an opacity transition on the same node (breaks blur on Safari/macOS). */}
         <div
-          className={`absolute inset-0 backdrop-blur-xl max-w-7xl mx-auto rounded-3xl transition-all duration-500 ${
+          className={`absolute inset-0 max-w-7xl mx-auto rounded-3xl border border-white/12 shadow-2xl shadow-black/12 transition-[visibility,transform] duration-500 ${
             isScrolled
-              ? "opacity-100 translate-y-0 bg-white/10 backdrop-blur-xl border border-white/12 shadow-2xl shadow-black/12"
-              : "opacity-0 -translate-y-2 bg-transparent pointer-events-none"
+              ? "visible translate-y-0 bg-white/25"
+              : "invisible -translate-y-2 pointer-events-none border-transparent shadow-none bg-transparent"
           }`}
+          style={
+            isScrolled
+              ? {
+                  WebkitBackdropFilter: "blur(24px)",
+                  backdropFilter: "blur(24px)",
+                  transform: "translate3d(0, 0, 0)",
+                }
+              : undefined
+          }
         >
-          {/* Glass effect overlay */}
           <div
             className={`absolute inset-0 rounded-3xl bg-linear-to-br from-white/20 to-white/6 transition-opacity duration-500 ${
               isScrolled ? "opacity-100" : "opacity-0"

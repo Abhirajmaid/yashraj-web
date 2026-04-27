@@ -27,7 +27,8 @@ export default function ProductsPage() {
         useDirectImagePath
         title="Products"
         flipHorizontal={false}
-        description="Our products"
+        eyebrow="Our Products"
+        description="We manufacture and supply Bitumen Mixes and Ready-Mix Concrete (RMC), offering complete solutions in the infrastructure sector."
         showGradientOverlay={true}
         scrollIndicatorText="Scroll to explore"
         backgroundColor="bg-brand-dark"

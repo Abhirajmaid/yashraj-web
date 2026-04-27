@@ -27,7 +27,8 @@ export default function ProjectsPage() {
         useDirectImagePath
         backgroundImageAlt="Projects hero background"
         title="Projects"
-        description="Our projects"
+        eyebrow="Our Projects"
+        description="Discover our portfolio of iconic infrastructure projects, from stunning bridges to contemporary urban landmarks, each crafted with engineering excellence and bold design vision. Explore Yashraj Infrastructure's completed construction projects."
         buttons={[
           {
             text: "Start Your Project",

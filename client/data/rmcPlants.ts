@@ -39,7 +39,7 @@ export const rmcPlants: RMCPlant[] = [
     name: "Yashraj Asphalt Plant",
     location: "Valap village, Taloja",
     address: "Valap village, Taloja",
-    capacity: "120 m³/hr",
+    capacity: "120 tonnes/hr",
     contact: {},
     specialties: ["Asphalt production", "Road works support", "Reliable supply", "Consistent quality"],
   },
