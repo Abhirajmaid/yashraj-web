@@ -528,6 +528,42 @@ export function AggregatesContent() {
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   </div>
+                  {plant.contact.phone || plant.contact.email ? (
+                    <div className="grid gap-4 rounded-xl border border-brand-gray-light/50 bg-white p-4 sm:grid-cols-2">
+                      {plant.contact.phone ? (
+                        <div className="flex items-start gap-3">
+                          <Icon
+                            icon="solar:phone-calling-bold"
+                            className="mt-0.5 shrink-0 text-lg text-brand-primary"
+                          />
+                          <div>
+                            <p className="text-sm font-medium text-brand-dark">
+                              Mobile
+                            </p>
+                            <p className="text-sm text-brand-dark/70">
+                              {plant.contact.phone}
+                            </p>
+                          </div>
+                        </div>
+                      ) : null}
+                      {plant.contact.email ? (
+                        <div className="flex items-start gap-3">
+                          <Icon
+                            icon="solar:letter-bold"
+                            className="mt-0.5 shrink-0 text-lg text-brand-primary"
+                          />
+                          <div>
+                            <p className="text-sm font-medium text-brand-dark">
+                              Email
+                            </p>
+                            <p className="text-sm break-all text-brand-dark/70">
+                              {plant.contact.email}
+                            </p>
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             ))}

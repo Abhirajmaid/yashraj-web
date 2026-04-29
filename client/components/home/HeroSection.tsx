@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import Button from "@/components/common/Button";
 
 const TITLE = "Yashraj Infrastructure";
-const SUBTITLE = "Trusted Partner, Quality Infrastructure.";
+const SUBTITLE = "Contributing to, India's Development";
 
 export function HeroSection() {
   const rootRef = useRef<HTMLElement | null>(null);

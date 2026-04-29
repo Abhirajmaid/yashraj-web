@@ -21,12 +21,12 @@ export const rmcPlants: RMCPlant[] = [
   {
     id: "plant-tanooja",
     name: "Yashraj RMC Plant",
-    location: "Tanooja",
-    address: "Tanooja Industrial Area, Maharashtra",
+    location: "Taloja",
+    address: "Taloja",
     capacity: "60 m³/hr",
     contact: {
-      phone: "+91-22-1234-5678",
-      email: "tanooja@yashrajrmc.com",
+      phone: "7208747186",
+      email: "Infrayashraj21@gmail.com",
     },
     coordinates: {
       lat: 19.0760,
@@ -38,9 +38,12 @@ export const rmcPlants: RMCPlant[] = [
     id: "plant-valap-asphalt",
     name: "Yashraj Asphalt Plant",
     location: "Valap village, Taloja",
-    address: "Valap village, Taloja",
+    address: "Taloja",
     capacity: "120 tonnes/hr",
-    contact: {},
+    contact: {
+      phone: "7208747186",
+      email: "Infrayashraj21@gmail.com",
+    },
     specialties: ["Asphalt production", "Road works support", "Reliable supply", "Consistent quality"],
   },
 ];
