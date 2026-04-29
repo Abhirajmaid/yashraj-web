@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SectionHeader } from "@/components/common/SectionHeader";
 
 const csrParagraphs = [
@@ -20,10 +21,31 @@ export function CsrSection() {
           descriptionClassName="text-brand-dark/70"
         />
 
-        <div className="mt-8 space-y-6 text-base leading-relaxed text-brand-dark/80">
+        <div className="mt-10 space-y-6 text-base leading-relaxed text-brand-dark/80">
           {csrParagraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
+        </div>
+
+        <div className="mt-10 grid gap-4 sm:gap-6 sm:grid-cols-2">
+          <figure className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-brand-gray-light/40 bg-brand-dark/5 shadow-sm">
+            <Image
+              src="/images/person.jpeg"
+              alt="Yashraj Infrastructure tree plantation CSR activity on the Mumbai–Pune Expressway"
+              fill
+              className="object-cover"
+              sizes="(min-width: 640px) 50vw, 100vw"
+            />
+          </figure>
+          <figure className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-brand-gray-light/40 bg-brand-dark/5 shadow-sm">
+            <Image
+              src="/images/person1.jpeg"
+              alt="Team members at a tree plantation initiative with saplings"
+              fill
+              className="object-cover"
+              sizes="(min-width: 640px) 50vw, 100vw"
+            />
+          </figure>
         </div>
       </div>
     </section>

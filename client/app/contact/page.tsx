@@ -76,7 +76,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <main className="bg-white text-[#031B4E]">
+    <main className="overflow-x-hidden bg-white text-[#031B4E]">
       <CommonHeroSection
         id="contact"
         backgroundImage="/images/connect.jpg"
@@ -93,7 +93,7 @@ export default function ContactPage() {
       />
 
       {/* Contact Form & Info Section */}
-      <section className="relative isolate overflow-hidden bg-white py-12 sm:py-16 lg:py-20">
+      <section className="relative isolate bg-white py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 xl:px-14">
           <div className="mb-8 sm:mb-10 lg:mb-12 text-center">
             <SectionHeader
@@ -104,7 +104,7 @@ export default function ContactPage() {
             />
           </div>
 
-          <div className="grid gap-8 sm:gap-10 lg:grid-cols-[1.2fr,1fr] lg:gap-16">
+          <div className="grid min-w-0 gap-8 sm:gap-10 lg:grid-cols-[1.2fr,1fr] lg:gap-16">
             {/* Contact Form */}
             <div
               className="rounded-2xl border border-brand-gray-light/50 bg-white p-4 sm:p-6 lg:p-10 shadow-sm"
@@ -214,8 +214,34 @@ export default function ContactPage() {
               </form>
             </div>
 
-            {/* Contact Information */}
-            <div className="space-y-4 sm:space-y-6">
+            {/* Career (above Contact Information only) + cards + map */}
+            <div className="min-w-0 space-y-4 sm:space-y-6">
+              <section
+                aria-label="Careers at Yashraj Infrastructure"
+                className="relative ml-[calc(50%-50dvw)] mr-[calc(50%-50dvw)] w-[100dvw] max-w-[100dvw] rounded-none bg-brand-primary py-12 text-white sm:py-14 lg:py-16"
+              >
+                <div className="mx-auto flex max-w-7xl flex-col items-center px-6 text-center sm:px-8 lg:px-10">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+                    Career
+                  </p>
+                  <h2 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
+                    Be part of our journey
+                  </h2>
+                  <p className="mx-auto mt-4 max-w-2xl text-base text-white/90">
+                    Join Yashraj Infrastructure and help us build high-impact
+                    projects across Maharashtra.
+                  </p>
+                  <Button
+                    onClick={openCareerModal}
+                    type="secondary"
+                    size="lg"
+                    className="mt-8 rounded-full text-sm font-semibold shadow-[0_8px_24px_rgba(var(--color-primary-rgb),0.18)]"
+                  >
+                    Apply for Career
+                  </Button>
+                </div>
+              </section>
+
               <div className="rounded-2xl border border-brand-gray-light/50 bg-linear-to-br from-brand-primary/5 to-transparent p-5 sm:p-6 lg:p-10">
                 <h3 className="mb-4 sm:mb-6 text-lg sm:text-xl font-semibold text-brand-dark">
                   Contact Information
@@ -265,53 +291,26 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Office location map */}
-          <div className="mt-10 lg:mt-14">
-            <h3 className="mb-4 text-lg font-semibold text-brand-dark sm:mb-6">
-              Our Location
-            </h3>
-            <div className="overflow-hidden rounded-2xl border border-brand-gray-light/50 shadow-sm">
-              <iframe
-                title="Yashraj Infrastructure office location - 505, Ambience Court, Sector 19D, Vashi, Navi Mumbai"
-                src={officeMapsEmbedLink}
-                width="100%"
-                height="400"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block w-full min-h-[280px] sm:min-h-[350px] lg:min-h-[400px]"
-              />
+              <div>
+                <h3 className="mb-4 text-lg font-semibold text-brand-dark sm:mb-6">
+                  Our Location
+                </h3>
+                <div className="overflow-hidden rounded-2xl border border-brand-gray-light/50 shadow-sm">
+                  <iframe
+                    title="Yashraj Infrastructure office location - 505, Ambience Court, Sector 19D, Vashi, Navi Mumbai"
+                    src={officeMapsEmbedLink}
+                    width="100%"
+                    height="400"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="block w-full min-h-[280px] sm:min-h-[350px] lg:min-h-[400px]"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="bg-brand-primary py-16 text-white">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 xl:px-14">
-          <div className="flex flex-col items-center text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
-              Career
-            </p>
-            <h2 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-              Be part of our journey
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-white/90">
-              Join Yashraj Infrastructure and help us build high-impact projects
-              across Maharashtra.
-            </p>
-            <Button
-              onClick={openCareerModal}
-              type="secondary"
-              size="lg"
-              className="mt-8 rounded-full text-sm font-semibold shadow-[0_8px_24px_rgba(var(--color-primary-rgb),0.18)]"
-            >
-              Apply for Career
-            </Button>
           </div>
         </div>
       </section>

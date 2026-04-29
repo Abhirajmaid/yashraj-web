@@ -64,6 +64,8 @@
     margin: 0;
     padding: 0;
     height: 100%;
+    /* Avoid horizontal scrollbar from full-bleed `100vw` sections (vw ignores classic scrollbar gutter). */
+    overflow-x: hidden;
   }
 
   body {

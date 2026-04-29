@@ -54,34 +54,29 @@ export type DeliveryLocation = {
 
 export const deliveryLocations: DeliveryLocation[] = [
   {
-    id: "mumbai",
-    name: "Mumbai & Navi Mumbai",
-    description: "Complete coverage across Mumbai Metropolitan Region",
-    radius: "50 km radius",
+    id: "navi-mumbai",
+    name: "Navi Mumbai",
+    description: "Ready-mix concrete delivery across Navi Mumbai",
   },
   {
-    id: "pune",
-    name: "Pune",
-    description: "Serving Pune city and surrounding industrial areas",
-    radius: "40 km radius",
+    id: "panvel",
+    name: "Panvel",
+    description: "Serving Panvel and surrounding construction corridors",
   },
   {
     id: "thane",
     name: "Thane",
-    description: "Thane district and nearby regions",
-    radius: "35 km radius",
+    description: "Thane district and nearby project sites",
   },
   {
-    id: "nashik",
-    name: "Nashik",
-    description: "Nashik city and industrial zones",
-    radius: "45 km radius",
+    id: "kalyan",
+    name: "Kalyan",
+    description: "Kalyan–Dombivli region and adjacent industrial belts",
   },
   {
-    id: "aurangabad",
-    name: "Aurangabad",
-    description: "Aurangabad and surrounding areas",
-    radius: "40 km radius",
+    id: "taloja",
+    name: "Taloja",
+    description: "Taloja MIDC and industrial catchment areas",
   },
 ];
 
