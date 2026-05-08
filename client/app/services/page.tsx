@@ -6,16 +6,25 @@ import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { Footer } from "@/components/common/Footer";
 import { FAQSection } from "@/components/common/FAQSection";
 import { services } from "@/data/services";
+import { DEFAULT_OG_IMAGE, SEO_KEYWORDS, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
     "Yashraj Infrastructure offers Construction & Execution, Operation & Maintenance, and Buildings & Industrial services. Highways, flyovers, STP, piling, civil works—delivered with precision and reliability across Maharashtra.",
+  keywords: SEO_KEYWORDS,
   openGraph: {
     title: "Our Services - Yashraj Infrastructure",
     description:
       "Construction & Execution, Operation & Maintenance, and Buildings & Industrial. Quality infrastructure across Maharashtra.",
-    images: ["/images/projecthero2.jpg"],
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  alternates: {
+    canonical: `${SITE_URL}/services`,
   },
 };
 

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { CommonHeroSection } from "@/components/common/CommonHeroSection";
-import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { Footer } from "@/components/common/Footer";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { PurposeSection } from "@/components/about-us/PurposeSection";
@@ -11,16 +10,25 @@ import {
   storyHighlights,
   aboutNarrative,
 } from "@/data/aboutUs";
+import { DEFAULT_OG_IMAGE, SEO_KEYWORDS, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
     "At Yashraj Infrastructure, we turn vision into lasting impact. Based in Navi Mumbai, we deliver high-quality infrastructure projects across Maharashtra—roads, bridges, flyovers, STP, piling, and industrial buildings—with precision, durability, and innovation.",
+  keywords: SEO_KEYWORDS,
   openGraph: {
     title: "About Us - Yashraj Infrastructure",
     description:
       "Based in Navi Mumbai, we deliver infrastructure across Maharashtra. Family-led, rooted in quality and long-term value creation.",
-    images: ["/images/about.jpg"],
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  alternates: {
+    canonical: `${SITE_URL}/about-us`,
   },
 };
 

@@ -5,16 +5,25 @@ import { ProjectPageSection } from "@/components/projects/ProjectPageSection";
 import { PartnersSection } from "@/components/common/PartnersSection";
 import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { Footer } from "@/components/common/Footer";
+import { DEFAULT_OG_IMAGE, SEO_KEYWORDS, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
     "Discover our portfolio of iconic infrastructure projects, from stunning bridges to contemporary urban landmarks, each crafted with engineering excellence and bold design vision. Explore Yashraj Infrastructure's completed construction projects.",
+  keywords: SEO_KEYWORDS,
   openGraph: {
     title: "Our Projects - Yashraj Infrastructure",
     description:
       "Discover our portfolio of iconic infrastructure projects, each crafted with engineering excellence and bold design vision.",
-    images: ["/images/projecthero2.jpg"],
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  alternates: {
+    canonical: `${SITE_URL}/projects`,
   },
 };
 
