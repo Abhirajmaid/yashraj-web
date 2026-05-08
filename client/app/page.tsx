@@ -8,6 +8,8 @@ import { ProjectsSection } from "@/components/home/ProjectsSection";
 import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { ServicesHighlightSection } from "@/components/home/ServicesHighlightSection";
 import { ClientCaseStudiesSection } from "@/components/home/ClientCaseStudiesSection";
+import { WhyOurWorkStandsOutSection } from "@/components/home/WhyOurWorkStandsOutSection";
+import { CsrSection } from "@/components/common/CsrSection";
 // import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { ShowcaseSection } from "@/components/home/ShowcaseSection";
 import { DEFAULT_OG_IMAGE, SEO_KEYWORDS, SITE_URL } from "@/lib/seo";

@@ -137,6 +137,14 @@ export function HeroSection() {
       <div className="relative z-10 flex items-center justify-center min-h-[85vh] md:min-h-screen px-4 sm:px-6 pb-24 md:pb-0">
         <div className="max-w-7xl w-full text-left pt-[4.5rem] sm:pt-0 md:pt-0">
           <p
+            className="text-brand-primary font-semibold uppercase tracking-[0.14em]"
+            style={{
+              fontSize: "clamp(0.78rem, 2.1vw, 1.2rem)",
+            }}
+          >
+            {TITLE}
+          </p>
+          <p
             ref={subRef}
             className="mt-4 sm:mt-6 text-white/90 max-w-2xl font-medium leading-tight sm:leading-snug md:leading-[60px]"
             style={{

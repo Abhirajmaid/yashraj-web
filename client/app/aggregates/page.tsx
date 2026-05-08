@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { CommonHeroSection } from "@/components/common/CommonHeroSection";
 import { ConnectMarquee } from "@/components/common/ConnectMarquee";
 import { AggregatesContent } from "@/components/aggregates/AggregatesContent";

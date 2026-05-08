@@ -77,9 +77,13 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      <RoadInfrastructureExpertiseSection />
-
-      <CsrSection />
+      {/* <CsrSection /> */}
+      <StorySection
+        eyebrow="OUR STORY"
+        title="Our Story"
+        description="From our founding in 2008 to today—a family-led enterprise built on hard work, ethical leadership, and technical strength."
+        highlights={storyHighlights}
+      />
 
       <PurposeSection
         eyebrow="OUR PURPOSE"
@@ -87,13 +91,7 @@ export default function AboutUsPage() {
         description="Focused on building infrastructure that lasts, we combine expertise, innovation, and commitment to serve communities across Maharashtra."
         pillars={purposePillars}
       />
-
-      <StorySection
-        eyebrow="OUR STORY"
-        title="Our Story"
-        description="From our founding in 2008 to today—a family-led enterprise built on hard work, ethical leadership, and technical strength."
-        highlights={storyHighlights}
-      />
+      <RoadInfrastructureExpertiseSection />
 
       <PartnersSection />
 
