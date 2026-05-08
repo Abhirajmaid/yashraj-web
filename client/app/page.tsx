@@ -15,7 +15,7 @@ import { ShowcaseSection } from "@/components/home/ShowcaseSection";
 import { DEFAULT_OG_IMAGE, SEO_KEYWORDS, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Yashraj Infrastructure",
   description:
     "Yashraj Infrastructure – A Yashraj Group company. Building Beyond Horizons. Trusted government partner in Navi Mumbai delivering infrastructure across Maharashtra since 2008. We provide construction, operation & maintenance, building works, and manufacture bitumen mixes and ready-mix concrete.",
   keywords: SEO_KEYWORDS,
