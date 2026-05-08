@@ -4,14 +4,11 @@ import { useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import Button from "@/components/common/Button";
-import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 const TITLE = "Yashraj Infrastructure";
-const SUBTITLE = "Trusted Partner, Quality Infrastructure.";
+const SUBTITLE = "Contributing to, India's Development";
 
 export function HeroSection() {
-  const { openModal } = useEnquiryModal();
-
   const rootRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -87,7 +84,7 @@ export function HeroSection() {
   return (
     <section
       ref={rootRef}
-      className="relative w-full h-[90vh] md:min-h-screen overflow-hidden bg-black"
+      className="relative w-full min-h-[100dvh] h-[90vh] md:h-auto md:min-h-screen overflow-hidden bg-black"
       aria-label="Hero"
       data-hero-root
     >
@@ -136,54 +133,35 @@ export function HeroSection() {
         aria-hidden
       />
 
-      {/* Content centered */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-6">
-        <div className="max-w-7xl w-full text-left">
+      {/* Content centered; on mobile leave room for bottom nav and marquee */}
+      <div className="relative z-10 flex items-center justify-center min-h-[85vh] md:min-h-screen px-4 sm:px-6 pb-24 md:pb-0">
+        <div className="max-w-7xl w-full text-left pt-[4.5rem] sm:pt-0 md:pt-0">
           <p
             ref={subRef}
-            className="mt-6 text-white/90 max-w-2xl font-medium leading-[40px] md:leading-[60px]"
+            className="mt-4 sm:mt-6 text-white/90 max-w-2xl font-medium leading-tight sm:leading-snug md:leading-[60px]"
             style={{
-              fontSize: "clamp(14px, 8vw, 60px)",
+              fontSize: "clamp(1.25rem, 6.5vw, 60px)",
               willChange: "transform, opacity",
             }}
           >
             {SUBTITLE}
           </p>
 
-          <div ref={ctaRef} className="mt-8">
-            <Button onClick={openModal} type="primary" size="md">
-              Get a Quote
+          <div ref={ctaRef} className="mt-5 sm:mt-10">
+            <Button link="/contact" type="primary" size="md">
+              Connect with us
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Large auto-scrolling horizontal marquee (cinematic, low-opacity) */}
+      {/* Large auto-scrolling horizontal marquee (cinematic, low-opacity); above bottom nav on mobile */}
       <div
-        className="absolute left-0 right-0 md:-bottom-3 bottom-2 pointer-events-none flex justify-center overflow-hidden"
+        className="absolute left-0 right-0 bottom-16 md:-bottom-3 pointer-events-none flex justify-center overflow-hidden"
         style={{ zIndex: 9 }}
         aria-hidden="true"
       >
-        <div className="w-full max-w-full overflow-hidden">
-          <div className="marquee-track">
-            <div className="marquee-group">
-              <span className="marquee-text">
-                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
-              </span>
-              <span className="marquee-text">
-                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
-              </span>
-            </div>
-            <div className="marquee-group" aria-hidden="true">
-              <span className="marquee-text">
-                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
-              </span>
-              <span className="marquee-text">
-                Infrastructure—Road Construction—Ready-Mix Concrete (RMC)
-              </span>
-            </div>
-          </div>
-        </div>
+       
       </div>
 
       <style jsx>{`
@@ -243,7 +221,8 @@ export function HeroSection() {
         }
         @media (max-width: 768px) {
           .marquee-text {
-            font-size: clamp(32px, 14vw, 160px);
+            font-size: clamp(20px, 10vw, 48px);
+            padding-right: 1rem;
           }
         }
       `}</style>

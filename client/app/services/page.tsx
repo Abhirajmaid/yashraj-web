@@ -33,11 +33,13 @@ export default function ServicesPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="services"
-        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 14.44.03.jpeg"
-        backgroundImageAlt="Services hero background"
-        title="Services"
-        flipHorizontal={true}
-        description="Construction & Execution, Operation & Maintenance, and Buildings & Industrial."
+        backgroundImage="/images/whoo.jpg"
+        useDirectImagePath
+        backgroundImageAlt="What we do hero background"
+        eyebrow="Our services"
+        title="What We Do"
+        flipHorizontal={false}
+        description="Construction & execution, operation & maintenance, and buildings & industrial—delivered with precision and reliability across Maharashtra."
         showGradientOverlay={true}
         scrollIndicatorText="Scroll to explore"
         backgroundColor="bg-brand-dark"

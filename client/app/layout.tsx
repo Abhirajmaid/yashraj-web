@@ -9,6 +9,7 @@ import {
 import "./globals.css";
 import { StickyHeader } from "@/components/common/StickyHeader";
 import { BottomNavbar } from "@/components/common/BottomNavbar";
+import { WhatsappCTA } from "@/components/common/WhatsappCTA";
 import { EnquiryModalProvider } from "@/contexts/EnquiryModalContext";
 import {
   DEFAULT_OG_IMAGE,
@@ -151,7 +152,9 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
         />
         <script
           type="application/ld+json"
@@ -164,6 +167,7 @@ export default function RootLayout({
         <EnquiryModalProvider>
           <StickyHeader />
           {children}
+          <WhatsappCTA />
           <BottomNavbar />
         </EnquiryModalProvider>
       </body>

@@ -27,27 +27,5 @@ export const metadata: Metadata = {
 };
 
 export default function AggregatesPage() {
-  return (
-    <main className="bg-white text-[#031B4E]">
-      <CommonHeroSection
-        id="products"
-        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 15.56.55 (2).jpeg"
-        backgroundImageAlt="Products – Bitumen Mixes and Ready-Mix Concrete"
-        title="Products"
-        flipHorizontal={true}
-        description="Bitumen mixes and Ready-Mix Concrete (RMC). Quality-assured materials from our plants—delivering strength, durability, and consistency for your infrastructure and construction projects."
-        showGradientOverlay={true}
-        scrollIndicatorText="Scroll to explore"
-        backgroundColor="bg-brand-dark"
-        objectPosition="top"
-        maxContentWidth="max-w-4xl"
-      />
-      <ConnectMarquee />
-      <AggregatesContent />
-      <div className="bg-white">
-        <FullWidthCTA />
-      </div>
-      <Footer />
-    </main>
-  );
+  redirect("/products");
 }

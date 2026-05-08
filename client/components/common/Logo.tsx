@@ -6,7 +6,7 @@ type LogoProps = {
   compact?: boolean; // icon-only for navbar on scroll and mobile nav
 };
 
-const HORIZONTAL_LOGO_LIGHT = "/Horizontal Logo 1.png"; // dark bg / overlay
+const HORIZONTAL_LOGO_LIGHT = "/images/logo.svg"; // dark bg / overlay (navbar initial, footer)
 const HORIZONTAL_LOGO_DARK = "/Horizontal Logo 4.png"; // light bg when scrolled
 const LOGO_ICON = "/icon 1.png";
 
@@ -17,12 +17,12 @@ export function Logo({ variant = "light", compact = false }: LogoProps) {
       <Link
         href="/"
         className="group flex items-center"
-        aria-label="Yashraj Groups - Home"
+        aria-label="Yashraj Infrastructure – Yashraj Group Ventures - Home"
       >
         <div className="relative h-12 w-12 shrink-0 md:h-14 md:w-14">
           <Image
             src={LOGO_ICON}
-            alt="Yashraj Groups"
+            alt="Yashraj Logo"
             fill
             className="object-contain"
             priority
@@ -42,7 +42,7 @@ export function Logo({ variant = "light", compact = false }: LogoProps) {
       <div className="relative h-12 w-40 md:h-20 md:w-62">
         <Image
           src={logoSrc}
-          alt="Yashraj Groups"
+          alt="Yashraj Logo"
           fill
           className="object-contain object-left"
           priority

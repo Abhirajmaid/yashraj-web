@@ -87,7 +87,7 @@ export function ServiceCard({
         {link && (
           <div className="mt-4">
             <Button
-              link="/contact"
+              link={link}
               type="primary"
               size="md"
               className="w-full sm:w-auto"

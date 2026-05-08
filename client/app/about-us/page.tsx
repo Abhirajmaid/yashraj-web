@@ -5,6 +5,8 @@ import { PartnersSection } from "@/components/common/PartnersSection";
 import { PurposeSection } from "@/components/about-us/PurposeSection";
 import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { StorySection } from "@/components/about-us/StorySection";
+import { RoadInfrastructureExpertiseSection } from "@/components/projects/RoadInfrastructureExpertiseSection";
+import { CsrSection } from "@/components/common/CsrSection";
 import {
   purposePillars,
   storyHighlights,
@@ -37,10 +39,12 @@ export default function AboutUsPage() {
     <main className="bg-white text-[#031B4E]">
       <CommonHeroSection
         id="about"
-        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 14.44.03.jpeg"
+        backgroundImage="/images/wee.jpg"
+        useDirectImagePath
         backgroundImageAlt="Infrastructure and construction"
-        title="About Us"
-        description=""
+        eyebrow="About us"
+        title="Who We Are"
+        description="At Yashraj Infrastructure, we turn vision into lasting impact—delivering high-quality infrastructure across Maharashtra with precision, durability, and innovation."
         buttons={[
           {
             text: "Our services",
@@ -72,6 +76,10 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
+
+      <RoadInfrastructureExpertiseSection />
+
+      <CsrSection />
 
       <PurposeSection
         eyebrow="OUR PURPOSE"

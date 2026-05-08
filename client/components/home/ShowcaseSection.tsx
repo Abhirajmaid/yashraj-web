@@ -4,10 +4,8 @@ import Button from "@/components/common/Button";
 import { StatsGrid } from "./StatsGrid";
 
 const stats = [
-  { id: "projects-complete", value: "50+", label: "Project complete" },
+  { id: "projects-complete", value: "200+", label: "Projects" },
   { id: "expert-teams", value: "100+", label: "Expert teams" },
-  { id: "project-value-1", value: "₹3.5M", label: "Project value" },
-  { id: "project-value-2", value: "₹3.5M", label: "Project value" },
 ];
 
 export function ShowcaseSection() {

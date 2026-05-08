@@ -52,12 +52,13 @@ export function AggregatesContent() {
                 </svg>
               </div>
               <h3 className="mb-2 text-xl font-semibold text-brand-dark">
-                Bitumen Mixes
+                Bitumen Mixes (Asphalt)
               </h3>
               <p className="text-sm leading-relaxed text-brand-dark/70">
-                Quality-assured bitumen mixes for road construction,
-                resurfacing, and maintenance. Supplied to government and private
-                projects across Maharashtra.
+                From highways to local roads—our bitumen mixes deliver durable,
+                weather-resistant pavements for construction, resurfacing, and
+                maintenance. Trusted by government and private clients across
+                Maharashtra for quality and compliance.
               </p>
             </div>
             <div className="rounded-2xl border border-brand-gray-light/50 bg-white p-6 shadow-sm lg:p-8">
@@ -71,9 +72,9 @@ export function AggregatesContent() {
                 Ready-Mix Concrete (RMC)
               </h3>
               <p className="text-sm leading-relaxed text-brand-dark/70">
-                Quality-assured ready mix concrete from our plants. Precise mix
-                designs, consistent strength, and on-time delivery for
-                infrastructure and building projects.
+                Batched to your exact specifications—right mix design, guaranteed
+                strength, and reliable delivery. Built for foundations, structures,
+                and infrastructure where consistency and on-time supply matter.
               </p>
             </div>
           </div>
@@ -119,27 +120,30 @@ export function AggregatesContent() {
             <div className="grid gap-4">
               <div className="relative h-64 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="/images/types-bitumen-mixes-pavements-629x420.jpg"
-                  alt="Hot mix plant"
+                  src="/images/biut1.webp"
+                  alt="Bitumen and road construction"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/road-construction-services.jpg"
+                    src="/images/biut2.avif"
                     alt="Road construction"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/bitumen-concrete-road-construction-service-500x500.jpg"
+                    src="/images/biut3.jpg"
                     alt="Bitumen application"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
               </div>
@@ -162,7 +166,7 @@ export function AggregatesContent() {
             {bitumenProducts.map((product) => (
               <div
                 key={product.id}
-                className="group overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="group flex h-full flex-col overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
                 {product.image && (
                   <div className="relative h-48 w-full overflow-hidden">
@@ -174,53 +178,57 @@ export function AggregatesContent() {
                     />
                   </div>
                 )}
-                <div className="p-6">
-                  <h3 className="mb-3 text-xl font-semibold text-brand-dark">
-                    {product.name}
-                  </h3>
-                  <p className="mb-4 text-sm leading-relaxed text-brand-dark/70">
-                    {product.description}
-                  </p>
-                  {product.features && product.features.length > 0 && (
-                    <div className="mb-4 space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
-                        Key Features:
-                      </p>
-                      <ul className="space-y-1">
-                        {product.features.map((feature, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-2 text-xs text-brand-dark/70"
-                          >
-                            <Icon
-                              icon="solar:check-circle-bold"
-                              className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
-                              width={20}
-                              height={20}
-                            />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {product.applications && product.applications.length > 0 && (
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
-                        Applications:
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {product.applications.map((app, idx) => (
-                          <span
-                            key={idx}
-                            className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-xs font-medium text-brand-primary"
-                          >
-                            {app}
-                          </span>
-                        ))}
+                <div className="flex h-full flex-col justify-between p-6">
+                  <div>
+                    <h3 className="mb-3 text-xl font-semibold text-brand-dark">
+                      {product.name}
+                    </h3>
+                    <p className="mb-4 text-sm leading-relaxed text-brand-dark/70">
+                      {product.description}
+                    </p>
+                  </div>
+                  <div>
+                    {product.features && product.features.length > 0 && (
+                      <div className="mb-4 space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                          Key Features:
+                        </p>
+                        <ul className="space-y-1">
+                          {product.features.map((feature, idx) => (
+                            <li
+                              key={idx}
+                              className="flex items-start gap-2 text-xs text-brand-dark/70"
+                            >
+                              <Icon
+                                icon="solar:check-circle-bold"
+                                className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
+                                width={20}
+                                height={20}
+                              />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {product.applications && product.applications.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                          Applications:
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {product.applications.map((app, idx) => (
+                            <span
+                              key={idx}
+                              className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-xs font-medium text-brand-primary"
+                            >
+                              {app}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -267,250 +275,34 @@ export function AggregatesContent() {
             <div className="grid gap-4">
               <div className="relative h-64 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="/images/ready-mix-concrete-500x500.jpg"
-                  alt="RMC batching plant"
+                  src="/images/rmc1.webp"
+                  alt="RMC batching and delivery"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/Featured-image-12.jpg"
+                    src="/images/rmc2.jpg"
                     alt="RMC transit mixer"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
                 <div className="relative h-48 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/iStock-1330089238.png"
-                    alt="RMC quality control"
+                    src="/images/rmc3.jpg"
+                    alt="RMC quality and delivery"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Our Plant in Tanooja Section */}
-      <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
-          <SectionHeader
-            eyebrow="OUR PLANT"
-            title="Yashraj RMC Plant - Tanooja"
-            description="Our state-of-the-art Ready Mix Concrete plant in Tanooja is equipped with advanced batching systems, quality control laboratories, and modern transit mixers to ensure consistent, high-quality concrete delivery."
-            align="center"
-            eyebrowClassName="text-brand-primary"
-          />
-          <div className="mt-12">
-            {rmcPlants.map((plant) => (
-              <div
-                key={plant.id}
-                className="grid gap-8 rounded-2xl border border-brand-gray-light/50 bg-white p-6 shadow-sm lg:grid-cols-2 lg:p-8"
-              >
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-2xl font-semibold text-brand-dark">
-                      {plant.name}
-                    </h3>
-                    <p className="mt-1 text-sm text-brand-gray">
-                      {plant.location}
-                    </p>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <Icon
-                        icon="solar:map-point-bold"
-                        className="mt-0.5 text-lg text-brand-primary"
-                      />
-                      <div>
-                        <p className="text-sm font-medium text-brand-dark">
-                          Address
-                        </p>
-                        <p className="text-sm text-brand-dark/70">
-                          {plant.address}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <Icon
-                        icon="solar:chart-2-bold"
-                        className="mt-0.5 shrink-0 text-lg text-brand-primary"
-                      />
-                      <div>
-                        <p className="text-sm font-medium text-brand-dark">
-                          Capacity
-                        </p>
-                        <p className="text-sm text-brand-dark/70">
-                          {plant.capacity}
-                        </p>
-                      </div>
-                    </div>
-                    {plant.operationalHours && (
-                      <div className="flex items-start gap-3">
-                        <Icon
-                          icon="solar:clock-circle-bold"
-                          className="mt-0.5 text-lg text-brand-primary"
-                        />
-                        <div>
-                          <p className="text-sm font-medium text-brand-dark">
-                            Operational Hours
-                          </p>
-                          <p className="text-sm text-brand-dark/70">
-                            {plant.operationalHours}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                    {plant.contact.manager && (
-                      <div className="flex items-start gap-3">
-                        <Icon
-                          icon="solar:user-bold"
-                          className="mt-0.5 text-lg text-brand-primary"
-                        />
-                        <div>
-                          <p className="text-sm font-medium text-brand-dark">
-                            Plant Manager
-                          </p>
-                          <p className="text-sm text-brand-dark/70">
-                            {plant.contact.manager}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  {plant.specialties && plant.specialties.length > 0 && (
-                    <div className="pt-2">
-                      <p className="mb-2 text-sm font-medium text-brand-dark">
-                        Specialties:
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {plant.specialties.map((specialty, idx) => (
-                          <span
-                            key={idx}
-                            className="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary"
-                          >
-                            {specialty}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="space-y-4">
-                  <div className="relative h-64 w-full overflow-hidden rounded-xl">
-                    <Image
-                      src="/images/ready-mix-concrete-500x500.jpg"
-                      alt={`${plant.name} facility`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="rounded-lg border border-brand-gray-light/50 bg-brand-light/20 p-4">
-                    <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-dark">
-                      Contact Information
-                    </h4>
-                    <div className="space-y-2">
-                      {plant.contact.phone && (
-                        <a
-                          href={`tel:${plant.contact.phone}`}
-                          className="flex items-center gap-2 text-sm text-brand-dark/70 transition hover:text-brand-primary"
-                        >
-                          <Icon icon="solar:phone-bold" className="text-base" />
-                          {plant.contact.phone}
-                        </a>
-                      )}
-                      {plant.contact.email && (
-                        <a
-                          href={`mailto:${plant.contact.email}`}
-                          className="flex items-center gap-2 text-sm text-brand-dark/70 transition hover:text-brand-primary"
-                        >
-                          <Icon
-                            icon="solar:letter-bold"
-                            className="text-base"
-                          />
-                          {plant.contact.email}
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  {plant.coordinates && (
-                    <div className="space-y-2">
-                      <div className="relative h-48 w-full overflow-hidden rounded-lg border border-brand-gray-light/50 bg-brand-light/20">
-                        <iframe
-                          src={`https://www.google.com/maps?q=${plant.coordinates.lat},${plant.coordinates.lng}&z=15&output=embed`}
-                          width="100%"
-                          height="100%"
-                          style={{ border: 0 }}
-                          allowFullScreen
-                          loading="lazy"
-                          referrerPolicy="no-referrer-when-downgrade"
-                          title={`Map: ${plant.name}`}
-                          className="absolute inset-0 h-full w-full"
-                        />
-                      </div>
-                      <a
-                        href={`https://www.google.com/maps?q=${plant.coordinates.lat},${plant.coordinates.lng}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 rounded-lg border border-brand-gray-light/50 bg-brand-light/20 py-2.5 text-sm font-medium text-brand-dark transition hover:bg-brand-light/30 hover:text-brand-primary"
-                      >
-                        <Icon
-                          icon="solar:map-point-bold"
-                          className="text-lg text-brand-primary"
-                        />
-                        View on Google Maps
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Delivery Locations Section */}
-      <section className="relative bg-gradient-to-tr from-white via-brand-light/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-6 lg:px-10 xl:px-14">
-          <SectionHeader
-            eyebrow="SERVICE AREAS"
-            title="Where We Deliver"
-            description="Our RMC plant in Tanooja serves a wide range of locations across Maharashtra, ensuring timely delivery and optimal coverage for your construction projects."
-            align="center"
-            eyebrowClassName="text-brand-primary"
-          />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {deliveryLocations.map((location) => (
-              <div
-                key={location.id}
-                className="group rounded-xl border border-brand-gray-light/50 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-              >
-                <div className="mb-3 flex items-center gap-3">
-                  <Icon
-                    icon="solar:map-point-bold"
-                    className="text-2xl text-brand-primary"
-                  />
-                  <h3 className="text-lg font-semibold text-brand-dark">
-                    {location.name}
-                  </h3>
-                </div>
-                {location.description && (
-                  <p className="mb-2 text-sm text-brand-dark/70">
-                    {location.description}
-                  </p>
-                )}
-                {location.radius && (
-                  <p className="text-xs font-medium text-brand-primary">
-                    {location.radius}
-                  </p>
-                )}
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -529,7 +321,7 @@ export function AggregatesContent() {
             {rmcProducts.map((product) => (
               <div
                 key={product.id}
-                className="group overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="group flex h-full flex-col overflow-hidden rounded-xl border border-brand-gray-light/50 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="relative h-48 w-full overflow-hidden">
                   <Image
@@ -539,85 +331,58 @@ export function AggregatesContent() {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="mb-3 text-xl font-semibold text-brand-dark">
-                    {product.name}
-                  </h3>
-                  <p className="mb-4 text-sm leading-relaxed text-brand-dark/70">
-                    {product.description}
-                  </p>
-                  {product.features && product.features.length > 0 && (
-                    <div className="mb-4 space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
-                        Key Features:
-                      </p>
-                      <ul className="space-y-1">
-                        {product.features.map((feature, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-2 text-xs text-brand-dark/70"
-                          >
-                            <Icon
-                              icon="solar:check-circle-bold"
-                              className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
-                              width={20}
-                              height={20}
-                            />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {product.applications && product.applications.length > 0 && (
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
-                        Applications:
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {product.applications.map((app, idx) => (
-                          <span
-                            key={idx}
-                            className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-xs font-medium text-brand-primary"
-                          >
-                            {app}
-                          </span>
-                        ))}
+                <div className="flex h-full flex-col justify-between p-6">
+                  <div>
+                    <h3 className="mb-3 text-xl font-semibold text-brand-dark">
+                      {product.name}
+                    </h3>
+                    <p className="mb-4 text-sm leading-relaxed text-brand-dark/70">
+                      {product.description}
+                    </p>
+                  </div>
+                  <div>
+                    {product.features && product.features.length > 0 && (
+                      <div className="mb-4 space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                          Key Features:
+                        </p>
+                        <ul className="space-y-1">
+                          {product.features.map((feature, idx) => (
+                            <li
+                              key={idx}
+                              className="flex items-start gap-2 text-xs text-brand-dark/70"
+                            >
+                              <Icon
+                                icon="solar:check-circle-bold"
+                                className="mt-0.5 h-5 w-5 shrink-0 text-brand-primary"
+                                width={20}
+                                height={20}
+                              />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {product.applications && product.applications.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-gray">
+                          Applications:
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {product.applications.map((app, idx) => (
+                            <span
+                              key={idx}
+                              className="rounded-full bg-brand-primary/10 px-2.5 py-1 text-xs font-medium text-brand-primary"
+                            >
+                              {app}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
-        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
-          <SectionHeader
-            eyebrow="WHY CHOOSE US"
-            title="Our RMC Advantages"
-            description="Comprehensive Ready Mix Concrete solutions backed by quality, reliability, and expertise."
-            align="center"
-            eyebrowClassName="text-brand-primary"
-          />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {rmcFeatures.map((feature, index) => (
-              <div
-                key={index}
-                className="group rounded-xl border border-brand-gray-light/50 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-              >
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
-                  <Icon icon={feature.icon} className="text-2xl" />
-                </div>
-                <h3 className="mb-2 text-lg font-semibold text-brand-dark">
-                  {feature.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-brand-dark/70">
-                  {feature.description}
-                </p>
               </div>
             ))}
           </div>
@@ -625,7 +390,7 @@ export function AggregatesContent() {
       </section>
 
       {/* Concrete Grades Section */}
-      <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
+      <section className="relative bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
           <SectionHeader
             eyebrow="CONCRETE GRADES"
@@ -675,6 +440,209 @@ export function AggregatesContent() {
           </div>
         </div>
       </section>
+
+      {/* Our Plant in Tanooja Section */}
+      <section className="relative bg-white py-16 sm:py-20">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
+          <SectionHeader
+            eyebrow="OUR PLANT"
+            title="Yashraj Plants"
+            description="Our advanced plants deliver reliable, high-quality construction materials with efficient production and dependable supply."
+            align="center"
+            eyebrowClassName="text-brand-primary"
+          />
+          <div className="mt-12 flex flex-col gap-4">
+            {rmcPlants.map((plant) => (
+              <div
+                key={plant.id}
+                className="grid gap-8 rounded-2xl border border-brand-gray-light/50 bg-white p-6 shadow-sm lg:grid-cols-2 lg:p-8"
+              >
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-2xl font-semibold text-brand-dark">
+                      {plant.name}
+                    </h3>
+                    <p className="mt-1 text-sm text-brand-gray">
+                      {plant.location}
+                    </p>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Icon
+                        icon="solar:map-point-bold"
+                        className="mt-0.5 text-lg text-brand-primary"
+                      />
+                      <div>
+                        <p className="text-sm font-medium text-brand-dark">
+                          Address
+                        </p>
+                        <p className="text-sm text-brand-dark/70">
+                          {plant.address}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Icon
+                        icon="solar:chart-2-bold"
+                        className="mt-0.5 shrink-0 text-lg text-brand-primary"
+                      />
+                      <div>
+                        <p className="text-sm font-medium text-brand-dark">
+                          Capacity
+                        </p>
+                        <p className="text-sm text-brand-dark/70">
+                          {plant.capacity}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  {plant.specialties && plant.specialties.length > 0 && (
+                    <div className="pt-2">
+                      <p className="mb-2 text-sm font-medium text-brand-dark">
+                        Specialties:
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {plant.specialties.map((specialty, idx) => (
+                          <span
+                            key={idx}
+                            className="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary"
+                          >
+                            {specialty}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-4">
+                  <div className="relative h-64 w-full overflow-hidden rounded-xl">
+                    <Image
+                      src={
+                        plant.id === "plant-valap-asphalt"
+                          ? "/images/asphalt.png"
+                          : "/images/rmccc.png"
+                      }
+                      alt={`${plant.name} facility`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                  {plant.contact.phone || plant.contact.email ? (
+                    <div className="grid gap-4 rounded-xl border border-brand-gray-light/50 bg-white p-4 sm:grid-cols-2">
+                      {plant.contact.phone ? (
+                        <div className="flex items-start gap-3">
+                          <Icon
+                            icon="solar:phone-calling-bold"
+                            className="mt-0.5 shrink-0 text-lg text-brand-primary"
+                          />
+                          <div>
+                            <p className="text-sm font-medium text-brand-dark">
+                              Mobile
+                            </p>
+                            <p className="text-sm text-brand-dark/70">
+                              {plant.contact.phone}
+                            </p>
+                          </div>
+                        </div>
+                      ) : null}
+                      {plant.contact.email ? (
+                        <div className="flex items-start gap-3">
+                          <Icon
+                            icon="solar:letter-bold"
+                            className="mt-0.5 shrink-0 text-lg text-brand-primary"
+                          />
+                          <div>
+                            <p className="text-sm font-medium text-brand-dark">
+                              Email
+                            </p>
+                            <p className="text-sm break-all text-brand-dark/70">
+                              {plant.contact.email}
+                            </p>
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Delivery Locations Section */}
+      <section className="relative bg-gradient-to-tr from-white via-brand-light/5 to-transparent py-16 sm:py-20">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-6 lg:px-10 xl:px-14">
+          <SectionHeader
+            eyebrow="SERVICE AREAS"
+            title="Where We Deliver"
+            description="Our RMC plant in Tanooja serves a wide range of locations across Maharashtra, ensuring timely delivery and optimal coverage for your construction projects."
+            align="center"
+            eyebrowClassName="text-brand-primary"
+          />
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {deliveryLocations.map((location) => (
+              <div
+                key={location.id}
+                className="group rounded-xl border border-brand-gray-light/50 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              >
+                <div className="mb-3 flex items-center gap-3">
+                  <Icon
+                    icon="solar:map-point-bold"
+                    className="text-2xl text-brand-primary"
+                  />
+                  <h3 className="text-lg font-semibold text-brand-dark">
+                    {location.name}
+                  </h3>
+                </div>
+                {location.description && (
+                  <p className="mb-2 text-sm text-brand-dark/70">
+                    {location.description}
+                  </p>
+                )}
+                {location.radius && (
+                  <p className="text-xs font-medium text-brand-primary">
+                    {location.radius}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="relative bg-gradient-to-br from-brand-light/20 via-brand-primary/5 to-transparent py-16 sm:py-20">
+        <div className="mx-auto max-w-[90%] md:max-w-[80%] px-2 lg:px-10 xl:px-14">
+          <SectionHeader
+            eyebrow="WHY CHOOSE US"
+            title="Our RMC Advantages"
+            description="Comprehensive Ready Mix Concrete solutions backed by quality, reliability, and expertise."
+            align="center"
+            eyebrowClassName="text-brand-primary"
+          />
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {rmcFeatures.map((feature, index) => (
+              <div
+                key={index}
+                className="group rounded-xl border border-brand-gray-light/50 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              >
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
+                  <Icon icon={feature.icon} className="text-2xl" />
+                </div>
+                <h3 className="mb-2 text-lg font-semibold text-brand-dark">
+                  {feature.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-brand-dark/70">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
     </>
   );
 }

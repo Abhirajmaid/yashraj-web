@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Icon } from "@iconify/react";
+import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
 
 const footerColumns = [
   {
@@ -10,7 +13,7 @@ const footerColumns = [
       { label: "Who we are", href: "/about-us" },
       { label: "What we Do", href: "/services" },
       { label: "Projects", href: "/projects" },
-      { label: "Products", href: "/aggregates" },
+      { label: "Products", href: "/products" },
     ],
   },
   {
@@ -22,6 +25,7 @@ const footerColumns = [
     links: [
       { label: "FAQs", href: "/contact#faq" },
       { label: "Contact", href: "/contact" },
+      { label: "Career", href: "/career" },
     ],
   },
 ];
@@ -29,17 +33,19 @@ const footerColumns = [
 const bottomLinks = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms of Service", href: "/terms" },
-  { label: "Cookies", href: "/cookies" },
 ];
 
 const socialLinks = [
-  { label: "LinkedIn", icon: "mdi:linkedin", href: "#" },
-  { label: "Facebook", icon: "mdi:facebook", href: "#" },
-  { label: "Instagram", icon: "mdi:instagram", href: "#" },
-  { label: "Twitter", icon: "mdi:twitter", href: "#" },
+  {
+    label: "LinkedIn",
+    icon: "mdi:linkedin",
+    href: "https://www.linkedin.com/company/yashraj-infrastructure0016/",
+  },
 ];
 
 export function Footer() {
+  const { openCareerModal } = useEnquiryModal();
+
   return (
     <footer className="relative isolate overflow-hidden bg-brand-dark text-white">
       {/* Background gradient overlay */}
@@ -52,8 +58,8 @@ export function Footer() {
           <div className="space-y-6">
             <Logo variant="light" />
             <p className="max-w-sm text-sm leading-relaxed text-white/80">
-              Yashraj Infrastructure – A Yashraj Group company. Contributing to
-              India's development story. Trusted government partner in Navi
+              Yashraj Infrastructure – A Yashraj Group Ventures. Contributing to
+              India&apos;s development story. Trusted government partner in Navi
               Mumbai delivering infrastructure projects across Maharashtra since
               2008.
             </p>
@@ -68,6 +74,8 @@ export function Footer() {
                   <Link
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={social.label}
                     className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/5 transition-all hover:border-brand-primary hover:bg-brand-primary/20 hover:-translate-y-0.5"
                   >
@@ -93,12 +101,22 @@ export function Footer() {
                 <ul className="space-y-3 text-sm">
                   {column.links.map((link) => (
                     <li key={link.label}>
-                      <Link
-                        href={link.href}
-                        className="text-white/70 transition-all hover:text-brand-primary hover:translate-x-1 inline-block"
-                      >
-                        {link.label}
-                      </Link>
+                      {link.label === "Career" ? (
+                        <button
+                          type="button"
+                          onClick={openCareerModal}
+                          className="text-white/70 transition-all hover:text-brand-primary hover:translate-x-1 inline-block"
+                        >
+                          {link.label}
+                        </button>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="text-white/70 transition-all hover:text-brand-primary hover:translate-x-1 inline-block"
+                        >
+                          {link.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -112,7 +130,7 @@ export function Footer() {
           <div className="space-y-1">
             <p className="text-xs text-white/60">
               © {new Date().getFullYear()} Yashraj Infrastructure – A Yashraj
-              Group Company. All rights reserved.
+              Group Ventures. All rights reserved.
             </p>
           </div>
           <nav className="flex flex-wrap items-center gap-6">

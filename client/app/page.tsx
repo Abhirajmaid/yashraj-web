@@ -7,6 +7,7 @@ import { PartnersSection } from "@/components/common/PartnersSection";
 import { ProjectsSection } from "@/components/home/ProjectsSection";
 import { FullWidthCTA } from "@/components/common/FullWidthCTA";
 import { ServicesHighlightSection } from "@/components/home/ServicesHighlightSection";
+import { ClientCaseStudiesSection } from "@/components/home/ClientCaseStudiesSection";
 // import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { ShowcaseSection } from "@/components/home/ShowcaseSection";
 import { DEFAULT_OG_IMAGE, SEO_KEYWORDS, SITE_URL } from "@/lib/seo";
@@ -38,9 +39,11 @@ export default function Home() {
       <ShowcaseSection />
       <ConnectMarquee />
       <MissionVisionSection />
+      <WhyOurWorkStandsOutSection />
       <ServicesHighlightSection />
       <PartnersSection />
-      {/* <ClientCaseStudiesSection /> */}
+      <ClientCaseStudiesSection />
+      <CsrSection />
       <ProjectsSection />
       {/* <TestimonialsSection /> */}
       {/* <FeatureBlogsSection /> */}

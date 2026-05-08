@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { resolveImageSrc } from "@/lib/getImageSrc";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import Button from "@/components/common/Button";
 import { getServicesForHomePage } from "@/data/services";
@@ -12,13 +11,13 @@ export function ServicesHighlightSection() {
       <div className="relative z-10 mx-auto max-w-[90%] md:max-w-[80%] px-2 py-16 sm:py-20 lg:px-10 xl:px-14">
         <div className="mb-12 sm:mb-16">
           <SectionHeader
-            eyebrow="OUR SERVICES"
+            eyebrow="Our services"
             title="What We Do"
             description="Construction & execution, operation & maintenance, and buildings & industrial—delivered with precision, reliability, and quality."
             align="center"
             eyebrowClassName="text-primary"
             titleClassName="text-brand-dark"
-            descriptionClassName="text-brand-dark/70 max-w-2xl mx-auto"
+            descriptionClassName="text-brand-dark/70 max-w-3xl mx-auto"
           />
         </div>
 
@@ -31,9 +30,10 @@ export function ServicesHighlightSection() {
               {/* Card as image background */}
               <div className="relative h-80 sm:h-96 md:h-[620px] w-full">
                 <Image
-                  src={resolveImageSrc(service.image)}
+                  src={service.image}
                   alt={service.imageAlt || service.title || "Service image"}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 
@@ -53,7 +53,7 @@ export function ServicesHighlightSection() {
                   </p>
                   <div className="mt-4 flex w-full justify-center sm:mt-5 sm:justify-start">
                     <Button
-                      link="/contact"
+                      link={service.link ?? "/projects"}
                       type="primary"
                       size="md"
                       className="bg-primary text-white rounded-full shadow-md"

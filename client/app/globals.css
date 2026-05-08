@@ -64,6 +64,8 @@
     margin: 0;
     padding: 0;
     height: 100%;
+    /* Avoid horizontal scrollbar from full-bleed `100vw` sections (vw ignores classic scrollbar gutter). */
+    overflow-x: hidden;
   }
 
   body {
@@ -97,7 +99,7 @@
 
   /* Button Components */
   .btn-primary {
-    @apply flex items-center justify-between pl-4 py-1 pr-1 text-base font-normal text-white bg-brand-primary rounded-full shadow-sm transition-all duration-300 hover:bg-brand-primary/90 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
+    @apply inline-flex items-center justify-between pl-4 py-1 pr-1 text-base font-normal text-white bg-brand-primary rounded-full shadow-sm transition-all duration-300 hover:bg-brand-primary/90 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
     gap: 0.5rem;
   }
 
@@ -108,7 +110,7 @@
   }
 
   .btn-secondary {
-    @apply flex items-center justify-between pl-4 py-1 pr-1 text-base font-normal text-brand-dark bg-white rounded-full shadow-sm transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer border border-brand-gray-light;
+    @apply inline-flex items-center justify-between pl-4 py-1 pr-1 text-base font-normal text-brand-dark bg-white rounded-full shadow-sm transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer border border-brand-gray-light;
     gap: 0.5rem;
   }
 
@@ -255,6 +257,21 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  @keyframes whatsapp-cta-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-whatsapp-cta-in {
+    animation: whatsapp-cta-in 0.55s ease-out forwards;
+  }
+
   /* Partners marquee animations - opposite directions */
   @keyframes partners-marquee-left {
     0% {
@@ -275,7 +292,7 @@
   }
 
   .animate-partners-marquee-left {
-    animation: partners-marquee-left 30s linear infinite;
+    animation: partners-marquee-left 55s linear infinite;
   }
 
   .animate-partners-marquee-right {

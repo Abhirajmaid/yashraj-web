@@ -32,10 +32,12 @@ export default function ProjectsPage() {
     <main className="bg-white">
       <CommonHeroSection
         id="projects"
-        backgroundImage="/yashraj_project_images/WhatsApp Image 2026-02-04 at 14.44.03 (1).jpeg"
+        backgroundImage="/images/projects1.jpg"
+        useDirectImagePath
         backgroundImageAlt="Projects hero background"
-        title="Our Projects"
-        description="Discover our portfolio of iconic infrastructure projects."
+        title="Projects"
+        eyebrow="Our Projects"
+        description="Discover our portfolio of iconic infrastructure projects, from stunning bridges to contemporary urban landmarks, each crafted with engineering excellence and bold design vision. Explore Yashraj Infrastructure's completed construction projects."
         buttons={[
           {
             text: "Start Your Project",

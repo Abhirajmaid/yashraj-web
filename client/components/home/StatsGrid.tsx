@@ -10,9 +10,11 @@ type StatsGridProps = {
 };
 
 export function StatsGrid({ stats, className }: StatsGridProps) {
+  const lgCols =
+    stats.length <= 2 ? "lg:grid-cols-2" : "lg:grid-cols-4";
   return (
     <dl
-      className={`grid w-full grid-cols-2 items-stretch gap-x-6 gap-y-6 text-neutral-900 sm:gap-x-8 sm:gap-y-8 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-10 ${
+      className={`grid w-full grid-cols-2 items-stretch gap-x-6 gap-y-6 text-neutral-900 sm:gap-x-8 sm:gap-y-8 ${lgCols} lg:gap-x-10 lg:gap-y-10 ${
         className ?? ""
       }`}
     >
