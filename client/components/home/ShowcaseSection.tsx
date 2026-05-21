@@ -32,9 +32,10 @@ export function ShowcaseSection() {
               inspires
             </h1>
             <p className="mt-2 text-center text-sm text-black/60 sm:mt-4 sm:text-base md:text-center">
-              Yashraj Infrastructure, based in Navi Mumbai, delivers innovative,
-              large-scale infrastructure projects across Maharashtra, supplying
-              complete solutions since 2008.
+              Yashraj Infrastructure, is the infrastructure and contracting
+              division of Yashraj Group based in Navi Mumbai, delivers
+              innovative, large-scale infrastructure projects across
+              Maharashtra, supplying complete solutions since 2008.
             </p>
             <div className="mt-4 flex justify-center sm:mt-6">
               <Button
@@ -49,7 +50,10 @@ export function ShowcaseSection() {
 
             {/* Stats: full width, equal columns, centered */}
             <div className="relative z-10 mx-auto mt-4 w-full max-w-7xl px-0 sm:mt-6 lg:px-10 xl:px-14">
-              <StatsGrid stats={stats} className="gap-y-4 sm:gap-y-6 lg:gap-y-8" />
+              <StatsGrid
+                stats={stats}
+                className="gap-y-4 sm:gap-y-6 lg:gap-y-8"
+              />
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { type FormEvent, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Logo } from '@/components/common/Logo';
 import { useAdminAuth } from '../layout';
 
 type AuthMode = 'signin' | 'signup';
@@ -74,10 +75,8 @@ export default function AdminAuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-brand-primary/5 via-white to-brand-secondary/30 p-4">
       <div className="w-full max-w-md overflow-hidden rounded-xl border-0 bg-white shadow-xl">
         <div className="space-y-1 p-6 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand-primary">
-            <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
+          <div className="mx-auto mb-4 flex justify-center">
+            <Logo variant="dark" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Yashraj Admin</h1>
           <p className="text-sm text-gray-500">

@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import Button from "@/components/common/Button";
 
 const TITLE = "Yashraj Infrastructure";
-const SUBTITLE = "Contributing to, India's Development";
+const SUBTITLE = `Contributing to India's Development`;
 
 export function HeroSection() {
   const rootRef = useRef<HTMLElement | null>(null);
@@ -168,9 +168,7 @@ export function HeroSection() {
         className="absolute left-0 right-0 bottom-16 md:-bottom-3 pointer-events-none flex justify-center overflow-hidden"
         style={{ zIndex: 9 }}
         aria-hidden="true"
-      >
-       
-      </div>
+      ></div>
 
       <style jsx>{`
         .marquee-track {
