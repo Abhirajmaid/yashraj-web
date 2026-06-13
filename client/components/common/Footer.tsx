@@ -1,11 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { Logo } from "./Logo";
 import { Icon } from "@iconify/react";
 import { useEnquiryModal } from "@/contexts/EnquiryModalContext";
+import { listenToSiteSettings } from "@/lib/siteSettingsRepository";
 
-const footerColumns = [
+type FooterLink = {
+  label: string;
+  href: string;
+  external?: boolean;
+};
+
+const footerColumns: Array<{ heading: string; links: FooterLink[] }> = [
   {
     heading: "Navigation",
     links: [
@@ -45,6 +53,23 @@ const socialLinks = [
 
 export function Footer() {
   const { openCareerModal } = useEnquiryModal();
+  const [portfolioLink, setPortfolioLink] = useState("");
+
+  useEffect(() => {
+    const unsubscribe = listenToSiteSettings(
+      (settings) => setPortfolioLink(settings.portfolioLink),
+      () => {}
+    );
+    return () => unsubscribe();
+  }, []);
+
+  const resourcesLinks = useMemo(() => {
+    const links: FooterLink[] = [...footerColumns[2].links];
+    if (portfolioLink) {
+      links.unshift({ label: "Portfolio", href: portfolioLink, external: true });
+    }
+    return links;
+  }, [portfolioLink]);
 
   return (
     <footer className="relative isolate overflow-hidden bg-brand-dark text-white">
@@ -99,7 +124,7 @@ export function Footer() {
                   {column.heading}
                 </p>
                 <ul className="space-y-3 text-sm">
-                  {column.links.map((link) => (
+                  {(column.heading === "Resources" ? resourcesLinks : column.links).map((link) => (
                     <li key={link.label}>
                       {link.label === "Career" ? (
                         <button
@@ -109,6 +134,15 @@ export function Footer() {
                         >
                           {link.label}
                         </button>
+                      ) : link.external ? (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white/70 transition-all hover:text-brand-primary hover:translate-x-1 inline-block"
+                        >
+                          {link.label}
+                        </a>
                       ) : (
                         <Link
                           href={link.href}

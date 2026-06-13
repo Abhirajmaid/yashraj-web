@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import Button from "@/components/common/Button";
+import { listenToSiteSettings } from "@/lib/siteSettingsRepository";
 
 const TITLE = "Yashraj Infrastructure";
 const SUBTITLE = `Contributing to India's Development`;
@@ -14,9 +15,18 @@ export function HeroSection() {
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const subRef = useRef<HTMLParagraphElement | null>(null);
   const ctaRef = useRef<HTMLDivElement | null>(null);
+  const [portfolioLink, setPortfolioLink] = useState("");
 
   const words = useMemo(() => TITLE.split(" "), []);
   const wordRefs = useRef<Array<HTMLSpanElement | null>>([]);
+
+  useEffect(() => {
+    const unsubscribe = listenToSiteSettings(
+      (settings) => setPortfolioLink(settings.portfolioLink),
+      () => {}
+    );
+    return () => unsubscribe();
+  }, []);
 
   // Intro loader removed — set final visual state immediately on mount
   useEffect(() => {
@@ -155,10 +165,21 @@ export function HeroSection() {
             {SUBTITLE}
           </p>
 
-          <div ref={ctaRef} className="mt-5 sm:mt-10">
+          <div ref={ctaRef} className="mt-5 sm:mt-10 flex flex-wrap gap-3 sm:gap-4">
             <Button link="/contact" type="primary" size="md">
               Connect with us
             </Button>
+            {portfolioLink && (
+              <Button
+                link={portfolioLink}
+                type="secondary"
+                size="md"
+                openInNewTab
+                icon="solar:folder-open-linear"
+              >
+                Portfolio
+              </Button>
+            )}
           </div>
         </div>
       </div>

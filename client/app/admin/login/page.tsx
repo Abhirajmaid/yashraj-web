@@ -2,6 +2,7 @@
 
 import { type FormEvent, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Eye, EyeOff } from 'lucide-react';
 import { Logo } from '@/components/common/Logo';
 import { useAdminAuth } from '../layout';
 
@@ -18,6 +19,8 @@ export default function AdminAuthPage() {
   });
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const isSignUp = mode === 'signup';
 
@@ -68,8 +71,13 @@ export default function AdminAuthPage() {
   const toggleMode = () => {
     setMode((c) => (c === 'signin' ? 'signup' : 'signin'));
     setFormError(null);
+    setShowPassword(false);
+    setShowConfirmPassword(false);
     setFormValues((c) => ({ ...c, password: '', confirmPassword: '' }));
   };
+
+  const inputClassName =
+    'flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary';
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-brand-primary/5 via-white to-brand-secondary/30 p-4">
@@ -103,32 +111,52 @@ export default function AdminAuthPage() {
               <label htmlFor="password" className="text-sm font-medium text-gray-700">
                 Password
               </label>
-              <input
-                id="password"
-                type="password"
-                required
-                value={formValues.password}
-                onChange={(e) => setFormValues((c) => ({ ...c, password: e.target.value }))}
-                placeholder="••••••••"
-                minLength={6}
-                className="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={formValues.password}
+                  onChange={(e) => setFormValues((c) => ({ ...c, password: e.target.value }))}
+                  placeholder="••••••••"
+                  minLength={6}
+                  className={inputClassName}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-gray-500 transition hover:text-gray-900"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
             {isSignUp && (
               <div className="space-y-2">
                 <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
                   Confirm password
                 </label>
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  required={isSignUp}
-                  value={formValues.confirmPassword}
-                  onChange={(e) => setFormValues((c) => ({ ...c, confirmPassword: e.target.value }))}
-                  placeholder="••••••••"
-                  minLength={6}
-                  className="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
-                />
+                <div className="relative">
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required={isSignUp}
+                    value={formValues.confirmPassword}
+                    onChange={(e) => setFormValues((c) => ({ ...c, confirmPassword: e.target.value }))}
+                    placeholder="••••••••"
+                    minLength={6}
+                    className={inputClassName}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-gray-500 transition hover:text-gray-900"
+                    aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
               </div>
             )}
             {formError && <p className="text-sm text-red-600">{formError}</p>}

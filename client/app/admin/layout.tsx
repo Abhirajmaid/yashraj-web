@@ -19,13 +19,14 @@ import {
   signOut as firebaseSignOut,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebaseClient';
-import { LayoutDashboard, FolderKanban, BriefcaseBusiness, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, BriefcaseBusiness, FolderOpen, LogOut, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
   { href: '/admin/careers', label: 'Career', icon: BriefcaseBusiness },
+  { href: '/admin/portfolio', label: 'Portfolio', icon: FolderOpen },
 ];
 
 type AdminAuthContextValue = {

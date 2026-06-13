@@ -3,8 +3,8 @@
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
 
-/** Digits only, country code included (+91 8208074747). Override via NEXT_PUBLIC_WHATSAPP_NUMBER. */
-const DEFAULT_WHATSAPP_E164 = "918208074747";
+/** Digits only, country code included (+91 7208747186). Override via NEXT_PUBLIC_WHATSAPP_NUMBER. */
+const DEFAULT_WHATSAPP_E164 = "917208747186";
 
 function getWhatsAppUrl(): string {
   const n =

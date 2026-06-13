@@ -30,7 +30,7 @@ export function CsrSection() {
         <div className="mt-10 grid gap-4 sm:gap-6 sm:grid-cols-2">
           <figure className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-brand-gray-light/40 bg-brand-dark/5 shadow-sm">
             <Image
-              src="/images/person.jpeg"
+              src="/images/person2.jpg"
               alt="Yashraj Infrastructure tree plantation CSR activity on the Mumbai–Pune Expressway"
               fill
               className="object-cover"

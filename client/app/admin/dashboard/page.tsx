@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { listenToProjects } from '@/lib/projectsRepository';
 import { listenToCareerApplications } from '@/lib/careerRepository';
-import { FolderKanban, Plus, BriefcaseBusiness } from 'lucide-react';
+import { FolderKanban, Plus, BriefcaseBusiness, FolderOpen } from 'lucide-react';
 
 // Re-export Card pieces for Plantozone-style layout (if no shared ui/card, define locally)
 function StatCard({
@@ -125,6 +125,15 @@ export default function AdminDashboardPage() {
               <div className="flex items-center gap-3">
                 <BriefcaseBusiness className="h-5 w-5 text-brand-primary" />
                 <span className="font-medium">View Career Applications</span>
+              </div>
+            </Link>
+            <Link
+              href="/admin/portfolio"
+              className="block rounded-lg p-3 transition-colors hover:bg-gray-50"
+            >
+              <div className="flex items-center gap-3">
+                <FolderOpen className="h-5 w-5 text-brand-primary" />
+                <span className="font-medium">Manage Portfolio Link</span>
               </div>
             </Link>
           </div>

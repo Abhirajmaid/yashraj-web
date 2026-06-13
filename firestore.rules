@@ -1,0 +1,23 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public project listings; admin can create/update/delete when signed in.
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // Career form submissions from the public site; admin can read/manage.
+    match /careerApplications/{applicationId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // Portfolio & brochure links — readable on the public site, editable in admin.
+    match /siteSettings/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+  }
+}

@@ -18,6 +18,7 @@ interface ButtonProps {
   icon?: string;
   hideArrow?: boolean;
   htmlType?: "button" | "submit" | "reset";
+  openInNewTab?: boolean;
   children?: React.ReactNode;
 }
 
@@ -32,6 +33,7 @@ export default function Button({
   icon,
   hideArrow = false,
   htmlType = "button",
+  openInNewTab = false,
   children,
   ...props
 }: ButtonProps) {
@@ -75,6 +77,8 @@ export default function Button({
         href={link}
         className={`${baseClass} ${sizeClass} ${className} ${disabledClass}`}
         onClick={onClick}
+        target={openInNewTab ? "_blank" : undefined}
+        rel={openInNewTab ? "noopener noreferrer" : undefined}
         {...props}
       >
         {buttonContent}
